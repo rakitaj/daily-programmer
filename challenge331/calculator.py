@@ -53,6 +53,15 @@ def divide(num1, num2):
         else:
             return "Non-integral answer"
 
+def exponent(base, power):
+    if power < 0:
+        return "Non-integral answer"
+    else:
+        total = 1
+        for i in range(0, power):
+            total = multiply(total, base)
+        return total
+
 import unittest
 class CalculatorTests(unittest.TestCase):
 
@@ -82,6 +91,16 @@ class CalculatorTests(unittest.TestCase):
         self.assertEqual(divide(75, -3), -25)
         self.assertEqual(divide(-75, 3), -25)
         self.assertEqual(divide(7, 3), "Non-integral answer")
+
+    def test_exponent(self):
+        self.assertEqual(exponent(5, 3), 125)
+        self.assertEqual(exponent(-5, 3), -125)
+        self.assertEqual(exponent(-8, 3), -512)
+        self.assertEqual(exponent(-1, 1), -1)
+        self.assertEqual(exponent(1, 1), 1)
+        self.assertEqual(exponent(0, 5), 0)
+        self.assertEqual(exponent(5, 0), 1)
+        self.assertEqual(exponent(10, -3), "Non-integral answer")
 
 if __name__ == "__main__":
     unittest.main()
