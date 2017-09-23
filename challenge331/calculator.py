@@ -62,6 +62,29 @@ def exponent(base, power):
             total = multiply(total, base)
         return total
 
+class WholeNumber:
+
+    def __init__(self, value):
+        if type(value) is int:
+            self.value = value
+        else:
+            raise TypeError(f"Argument has to be a whole number. Arg is {type(value)}.")
+
+    def __add__(self, other_whole_number):
+        return add(self.value, other_whole_number.value)
+
+    def __sub__(self, other_whole_number):
+        return subtract(self.value, other_whole_number.value)
+
+    def __mul__(self, other_whole_number):
+        return multiply(self.value, other_whole_number.value)
+
+    def __div__(self, other_whole_number):
+        return divide(self.value, other_whole_number.value)
+
+    def __pow__(self, other_whole_number):
+        return exponent(self.value, other_whole_number.value)
+
 import unittest
 class CalculatorTests(unittest.TestCase):
 
@@ -101,6 +124,17 @@ class CalculatorTests(unittest.TestCase):
         self.assertEqual(exponent(0, 5), 0)
         self.assertEqual(exponent(5, 0), 1)
         self.assertEqual(exponent(10, -3), "Non-integral answer")
+
+class WholeNumberTests(unittest.TestCase):
+
+    def test_operator_overloading(self):
+        num1 = WholeNumber(18)
+        num2 = WholeNumber(3)
+        self.assertEqual(num1 + num2, 21)
+        self.assertEqual(num1 - num2, 15)
+        self.assertEqual(num1 * num2, 54)
+        self.assertEqual(num1 / num2, 6)
+        self.assertEqual(num1 ** num2, 5832)
 
 if __name__ == "__main__":
     unittest.main()
