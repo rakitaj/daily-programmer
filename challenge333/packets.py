@@ -57,6 +57,8 @@ class Messages:
                 self.messages[p.message_id] = Message(p.message_id, p.packet_count)
                 self.messages[p.message_id].add_packet(p)
 
+    def get_all_messages(self):
+        return self.messages.values()
 
 if __name__ == "__main__":
     packets = list()
@@ -70,3 +72,6 @@ if __name__ == "__main__":
     messages = Messages()
     messages.recieve_packets(packets)
     messages.assemble()
+
+    for m in messages.get_all_messages():
+        print(m)
