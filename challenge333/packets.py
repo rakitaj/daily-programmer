@@ -1,4 +1,6 @@
 import re
+import unittest
+import sys
 
 class Packet:
 
@@ -40,7 +42,8 @@ class Messages:
         if packets == None:
             self.packets_stream = list()
         else:
-            self.packets_stream = list().extend(packets)
+            self.packets_stream = list()
+            self.packets_stream.extend(packets)
         self.messages = dict()
 
     def recieve_packets(self, incoming_packets):
@@ -58,20 +61,37 @@ class Messages:
                 self.messages[p.message_id].add_packet(p)
 
     def get_all_messages(self):
-        return self.messages.values()
+        for m in self.messages.values():
+            yield m
+
+    @staticmethod
+    def bootstrap_from_input_file(path):
+        packets = list()
+        pattern = re.compile("(\d+)\s*(\d+)\s*(\d+)\s*(.*)")
+        with open(path, "r") as f:
+            for line in f:
+                matches = re.match(pattern, line)
+                packet = Packet(matches.groups()[0], matches.groups()[1], matches.groups()[2], matches.groups()[3])
+                packets.append(packet)    
+        return Messages(packets)
+            
+class PacketAssemblerTests(unittest.TestCase):
+
+    def test_regex_parse_of_packet_text_representation(self):
+        pattern = re.compile("(\d+)\s*(\d+)\s*(\d+)\s*(.*)")
+        matches = re.match(pattern, "6220    1   10  Because he's the hero Gotham deserves, ")
+        packet = Packet(matches.groups()[0], matches.groups()[1], matches.groups()[2], matches.groups()[3])
+        self.assertEqual(packet.message_id, 6220)
+        self.assertEqual(packet.packet_id, 1)
+        self.assertEqual(packet.packet_count, 10)
+        self.assertEqual(packet.text, "Because he's the hero Gotham deserves, ")
 
 if __name__ == "__main__":
-    packets = list()
-    pattern = re.compile("(\d+)\s*(\d+)\s*(\d+)\s*(.*)")
-    with open("C:\\Users\\joraki\\src\\personal\\daily-programmer\\challenge333\\packets_input_1.txt", "r") as f:
-        for line in f:
-            matches = re.match(pattern, line)
-            packet = Packet(matches.groups()[0], matches.groups()[1], matches.groups()[2], matches.groups()[3])
-            packets.append(packet)
-    
-    messages = Messages()
-    messages.recieve_packets(packets)
-    messages.assemble()
-
-    for m in messages.get_all_messages():
-        print(m)
+    if len(sys.argv) == 2 and sys.argv[1].lower() == "runtests":
+        unittest.main(argv=["First"])
+    else:
+        messages = Messages.bootstrap_from_input_file("C:\\Users\\joraki\\src\\personal\\daily-programmer\\challenge333\\packets_challenge_input.txt")
+        messages.assemble()
+        for m in messages.get_all_messages():
+            print(m)
+        
