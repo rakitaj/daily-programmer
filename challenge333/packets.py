@@ -13,6 +13,13 @@ class Packet:
     def __str__(self):
         return f"Mid: {self.message_id} Pid: {self.packet_id} Count: {self.packet_count} Text: {self.text}"
 
+    @staticmethod
+    def create_from_text(text):
+        pattern = re.compile("(\d+)\s*(\d+)\s*(\d+)\s*(.*)")
+        matches = re.match(pattern, text)
+        packet = Packet(matches.groups()[0], matches.groups()[1], matches.groups()[2], matches.groups()[3])
+        return packet
+
 class Message:
 
     def __init__(self, message_id, count):
@@ -67,24 +74,23 @@ class Messages:
     @staticmethod
     def bootstrap_from_input_file(path):
         packets = list()
-        pattern = re.compile("(\d+)\s*(\d+)\s*(\d+)\s*(.*)")
         with open(path, "r") as f:
             for line in f:
-                matches = re.match(pattern, line)
-                packet = Packet(matches.groups()[0], matches.groups()[1], matches.groups()[2], matches.groups()[3])
+                packet = Packet.create_from_text(line)
                 packets.append(packet)    
         return Messages(packets)
             
 class PacketAssemblerTests(unittest.TestCase):
 
     def test_regex_parse_of_packet_text_representation(self):
-        pattern = re.compile("(\d+)\s*(\d+)\s*(\d+)\s*(.*)")
-        matches = re.match(pattern, "6220    1   10  Because he's the hero Gotham deserves, ")
-        packet = Packet(matches.groups()[0], matches.groups()[1], matches.groups()[2], matches.groups()[3])
-        self.assertEqual(packet.message_id, 6220)
-        self.assertEqual(packet.packet_id, 1)
-        self.assertEqual(packet.packet_count, 10)
-        self.assertEqual(packet.text, "Because he's the hero Gotham deserves, ")
+        packet = Packet.create_from_text("6220    1   10  Because he's the hero Gotham deserves, ")
+        self.packet_assert(packet, 6220, 1, 10, "")
+
+    def packet_assert(self, packet, expected_mid, expected_pid, expected_count, expected_text):
+        self.assertEqual(packet.message_id, expected_mid)
+        self.assertEqual(packet.packet_id, expected_pid)
+        self.assertEqual(packet.packet_count, expected_count)
+        self.assertEqual(packet.text, expected_text)
 
 if __name__ == "__main__":
     if len(sys.argv) == 2 and sys.argv[1].lower() == "runtests":
