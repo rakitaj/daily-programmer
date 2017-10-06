@@ -20,7 +20,8 @@ def build_summit_order(peaks, summits):
     else:
         last_summit = summits[len(summits) - 1]
         result = find_next_biggest_number(last_summit, peaks)
-        summits.append(result.number)
+        if result.number != None:
+            summits.append(result.number)
         return build_summit_order(peaks[result.index + 1:], summits)
     
 def find_next_biggest_number(current_number, numbers):
@@ -35,6 +36,8 @@ def find_next_biggest_number(current_number, numbers):
             smallest_diff_index = index
         else:
             pass
+    if smallest_diff_index == 0:
+        return NumberAndIndex(0, None)
     return NumberAndIndex(smallest_diff_index, numbers[smallest_diff_index])
 
 def find_max_diff(current_number, numbers):
