@@ -18,6 +18,10 @@
                 "WaitOnAbnormalExit",
                 "WaitOnNormalExit",
                 "RedirectOutput"
+            ],
+            "args": [
+                ".\\challenge332\\summit_input.json",
+                "sample"
             ]
         },
         {

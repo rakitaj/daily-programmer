@@ -14,6 +14,14 @@ def calculate_summit_order(peaks):
     peaks = peaks[1:]
     return build_summit_order(peaks, [first])
 
+def calculate_summit_order_dynamic(peaks):
+    summits = [[n] for n in peaks]
+    for j in range(1, len(peaks)):
+        for i in range(j):
+            if peaks[j] > peaks[i] and len(summits[j]) < len(summits[i]) + 1:
+                summits[j] = summits[i] + [peaks[j]]
+    return max(summits, key=len)
+
 def build_summit_order(peaks, summits):
     if len(peaks) == 0:
         return summits
@@ -76,7 +84,8 @@ if __name__ == "__main__":
         path = sys.argv[1]
         data_name = sys.argv[2]
         peaks = create_list_of_peaks_From_json(path, data_name)
-        result = calculate_summit_order(peaks)
+        #result = calculate_summit_order(peaks)
+        result = calculate_summit_order_dynamic(peaks)
         print(result)
     else:
         unittest.main(argv=None)
