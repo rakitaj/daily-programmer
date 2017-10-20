@@ -1,4 +1,5 @@
 {
     "python.linting.pylintEnabled": false,
-    "python.pythonPath": "c:/users/joraki/src/personal/daily-programmer/thevenv/scripts/python.exe"
+    "python.pythonPath": "c:/users/joraki/src/personal/daily-programmer/thevenv/scripts/python.exe",
+    "python.linting.mypyEnabled": true
 }
