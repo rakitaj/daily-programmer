@@ -1,8 +1,9 @@
 from enum import Enum, auto
-from typing import List
+from typing import List, Tuple
 import json
 import os
 import logging, sys
+import itertools
 logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
 
 class Suit(object):
@@ -26,6 +27,14 @@ class Card(object):
 
     def get_suit(self):
         return self.suit.value
+
+    def get_rank_number(self) -> int:
+        if self.get_rank() == "A":
+            return 1
+        elif self.get_rank() in ("J", "Q", "K"):
+            return 10
+        else:
+            return self.get_rank()
 
     def __str__(self):
         return f"{self.get_rank} of {self.get_suit()}"
@@ -75,6 +84,27 @@ class Hand(object):
                 return 5
             else:
                 return 4
+    
+    def fifteen(self) -> int:
+        points = 0
+        all_combinations = self.get_all_combinations()
+        for combo in all_combinations:
+            total = 0
+            for card in combo:
+                total += card.get_rank_number()
+            if total == 15:
+                points += 2
+        return points
+        
+    def get_all_combinations(self) -> List[Tuple[Card]]:
+        all_combinations : List[Tuple[Card]] = list()
+        all_cards = list()
+        all_cards.extend(self.cards)
+        all_cards.append(self.face_up_card)
+        for i in range(0, len(all_cards)):
+            combos = list(itertools.combinations(all_cards, 1))
+            all_combinations.extend(combos)
+        return all_combinations
 
     def get_score(self):
         pass
