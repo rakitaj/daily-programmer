@@ -136,5 +136,23 @@ class WholeNumberTests(unittest.TestCase):
         self.assertEqual(num1 / num2, 6)
         self.assertEqual(num1 ** num2, 5832)
 
+    def test_abs1(self):
+        self.assertEqual(abs(-1), 1)
+
+    def test_abs2(self):
+        self.assertEqual(abs(1), 1)
+
+    def test_divide1(self):
+        result = divide(100, 2)
+        self.assertEqual(result, 50)
+
+    def test_divide2(self):
+        result = divide(75, -3)
+        self.assertEqual(result, -25)
+        
+    def test_divide3(self):
+        result = divide(-75, 3)
+        self.assertEqual(result, -25)
+
 if __name__ == "__main__":
     unittest.main()
