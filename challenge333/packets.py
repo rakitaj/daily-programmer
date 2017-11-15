@@ -77,9 +77,9 @@ class Messages:
         with open(path, "r") as f:
             for line in f:
                 packet = Packet.create_from_text(line)
-                packets.append(packet)    
+                packets.append(packet)
         return Messages(packets)
-            
+
 class PacketAssemblerTests(unittest.TestCase):
 
     def test_regex_parse_of_packet_text_representation(self):
