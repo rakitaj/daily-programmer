@@ -1,5 +1,13 @@
 {
-    "python.linting.pylintEnabled": false,
+    "python.linting.pylintEnabled": true,
     "python.pythonPath": "c:/users/joraki/src/personal/daily-programmer/thevenv/scripts/python.exe",
-    "python.linting.mypyEnabled": true
+    "python.linting.mypyEnabled": true,
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        ".mypy_cache": true
+    }
 }
