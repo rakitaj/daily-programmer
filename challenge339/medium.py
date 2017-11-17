@@ -24,6 +24,12 @@ def rental_grid(potential_rental_times):
         grid[i] = [None for j in range(0, len(potential_rental_times))]
     return grid
 
+def populate_with_rentals(grid, times):
+    for i, time1 in enumerate(times):
+        for j, time2 in enumerate(times):
+            grid[i][j] = time1
+    return grid
+
 def pretty_print_grid(grid):
     for row in grid:
         print(row)
@@ -31,5 +37,6 @@ def pretty_print_grid(grid):
 if __name__ == "__main__":
     data = create_rental_tuples("medium_input.txt")
     grid = rental_grid(data)
+    grid = populate_with_rentals(grid, data)
     pretty_print_grid(grid)
     

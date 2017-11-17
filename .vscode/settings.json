@@ -1,6 +1,6 @@
 {
     "python.linting.pylintEnabled": true,
-    "python.pythonPath": "c:/users/joraki/src/personal/daily-programmer/thevenv/scripts/python.exe",
+    "python.pythonPath": "c:/users/joraki/src/daily-programmer/thevenv/scripts/python.exe",
     "python.linting.mypyEnabled": true,
     "files.exclude": {
         "**/.git": true,
