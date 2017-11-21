@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import List, Tuple, Sequence
 
 def create_rental_tuples(input_data_path) -> List[Tuple[int, int]]:
     """Use known input format to create list of wanted rental times."""
@@ -18,13 +18,13 @@ def create_rental_tuples(input_data_path) -> List[Tuple[int, int]]:
         rental_times.append((int(first[i]), int(second[i])))
     return rental_times
 
-def all_possibilities(times):
+def all_possibilities(times: Sequence[Tuple[int, int]]) -> List[List[Tuple[int, int]]]:
     grid = list()
     for time in times:
         grid.append(calculate_row(time, times))
     return grid
 
-def calculate_row(first_time, times):
+def calculate_row(first_time: Tuple[int, int], times: Sequence[Tuple[int, int]]) -> List[Tuple[int, int]]:
     rental_list = list()
     rental_list.append(first_time)
     for time in times:
