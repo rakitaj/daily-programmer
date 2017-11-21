@@ -18,25 +18,27 @@ def create_rental_tuples(input_data_path) -> List[Tuple[int, int]]:
         rental_times.append((int(first[i]), int(second[i])))
     return rental_times
 
-def rental_grid(potential_rental_times):
-    grid = [None for i in range(0, len(potential_rental_times))]
-    for i in range(0, len(grid)):
-        grid[i] = [None for j in range(0, len(potential_rental_times))]
+def all_possibilities(times):
+    grid = list()
+    for time in times:
+        grid.append(calculate_row(time, times))
     return grid
 
-def populate_with_rentals(grid, times):
-    for i, time1 in enumerate(times):
-        for j, time2 in enumerate(times):
-            grid[i][j] = time1
-    return grid
+def calculate_row(first_time, times):
+    rental_list = list()
+    rental_list.append(first_time)
+    for time in times:
+        if time[0] > rental_list[-1][1]:
+            rental_list.append(time)
+    return rental_list
 
 def pretty_print_grid(grid):
     for row in grid:
         print(row)
 
 if __name__ == "__main__":
-    data = create_rental_tuples("medium_input.txt")
-    grid = rental_grid(data)
-    grid = populate_with_rentals(grid, data)
+    rental_times = create_rental_tuples("medium_input.txt")
+    sorted_times = sorted(rental_times, key=lambda tup: tup[0])
+    grid = all_possibilities(sorted_times)
     pretty_print_grid(grid)
     
