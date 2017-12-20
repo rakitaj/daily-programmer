@@ -10,3 +10,4 @@ Daily programming challenges to keep me sharp.. or something like that
 - [[2017-10-11] Challenge #335 [Intermediate] Scoring a Cribbage Hand](https://www.reddit.com/r/dailyprogrammer/comments/75p1cs/20171011_challenge_335_intermediate_scoring_a/) - ./challenge335/cribbage.py
 - [[2017-11-08] Challenge #339 [Intermediate] A car renting problem](https://www.reddit.com/r/dailyprogrammer/comments/7btzrw/20171108_challenge_339_intermediate_a_car_renting/) - ./challenge339/medium.py
 - [[2017-11-13] Challenge #340 [Easy] First Recurring Character](https://www.reddit.com/r/dailyprogrammer/comments/7cnqtw/20171113_challenge_340_easy_first_recurring/) - ./challenge340/easy.py
+- [[2017-11-14] Challenge #340 [Intermediate] Walk in a Minefield](https://www.reddit.com/r/dailyprogrammer/comments/7d4yoe/20171114_challenge_340_intermediate_walk_in_a/) - ./challenge340/medium.py
