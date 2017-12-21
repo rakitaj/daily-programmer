@@ -32,9 +32,11 @@ def inverse_captcha(offset:int, input_number: int) -> int:
         next = number.get(offset)
         number.advance()
         if current == next:
-            sum += number.get()
+            sum += current
     return sum
 
 if __name__ == "__main__":
     challenge_input = common.number_from_text_file("day01_input.txt")
     print(inverse_captcha(1, challenge_input))
+    offset = int(len(str(challenge_input)) / 2)
+    print(inverse_captcha(offset, challenge_input))
