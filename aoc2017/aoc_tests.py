@@ -1,5 +1,6 @@
 import pytest
 import day01
+import day02
 
 @pytest.mark.parametrize("sample_input,expected", [
     (1122, 3), (1111, 4), (1234, 0), (91212129, 9)
@@ -13,4 +14,9 @@ def test_day01_part1(sample_input, expected):
 def test_day01_part2(sample_input, expected):
     amount = int(len(str(sample_input)) / 2)
     assert day01.inverse_captcha(amount, sample_input) == expected
+
+def test_day02_part1():
+    sample_data_1 = [(5, 1, 9, 5), (7, 5, 3), (2, 4, 6, 8)]
+    actual = day02.checksum(sample_data_1)
+    assert actual == 18
     
