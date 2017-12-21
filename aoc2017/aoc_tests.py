@@ -1,7 +1,27 @@
 import pytest
 import day01
 
-def test_day01_part1():
-    sample_inputs = [(1122, 3), (1111, 4), (1234, 0), (91212129, 9)]
-    for sample_input in sample_inputs:
-        assert day01.inverse_captcha(sample_input[0]) == sample_input[1]
+@pytest.mark.parametrize("sample_input,expected", [
+    (1122, 3), (1111, 4), (1234, 0), (91212129, 9)
+])
+def test_day01_part1(sample_input, expected):
+    assert day01.inverse_captcha(1, sample_input) == expected
+
+@pytest.mark.parametrize("sample_input,expected", [
+    (1212, 6), (1221, 0), (123425, 4), (123123, 12), (12131415, 4)
+])
+def test_day01_part2(sample_input, expected):
+    amount = int(len(str(sample_input)) / 2)
+    assert day01.inverse_captcha(amount, sample_input) == expected
+
+def test_bad_case():
+    sample_input = 123425
+    expected = 4
+    amount = int(len(str(sample_input)) / 2)
+    assert day01.inverse_captcha(amount, sample_input) == expected
+
+    # 1212 produces 6: the list contains 4 items, and all four digits match the digit 2 items ahead.
+    # 1221 produces 0, because every comparison is between a 1 and a 2.
+    # 123425 produces 4, because both 2s match each other, but no other digit has a match.
+    # 123123 produces 12.
+    # 12131415 produces 4.

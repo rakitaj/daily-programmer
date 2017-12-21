@@ -7,9 +7,6 @@ class IterableNumber(object):
         self.position = 0
         self.cycled = False
 
-    def current(self) -> int:
-        return int(self.value[self.position])
-
     def advance(self):
         if self.position + 1 == len(self.value):
             self.cycled = True
@@ -17,21 +14,27 @@ class IterableNumber(object):
         else:
             self.position += 1
 
+    def get(self, offset: int = 0):
+        if self.position + offset < len(self.value):
+            return int(self.value[self.position + offset])
+        else:
+            return int(self.value[self.position + offset - len(self.value)])
+
     def reset(self):
         self.position = 0
 
 
-def inverse_captcha(input_number: int) -> int:
+def inverse_captcha(offset:int, input_number: int) -> int:
     sum = 0
     number = IterableNumber(input_number)
     while number.cycled is False:
-        current = number.current()
+        current = number.get()
+        next = number.get(offset)
         number.advance()
-        next = number.current()
         if current == next:
-            sum += number.current()
+            sum += number.get()
     return sum
 
 if __name__ == "__main__":
     challenge_input = common.number_from_text_file("day01_input.txt")
-    print(inverse_captcha(challenge_input))
+    print(inverse_captcha(1, challenge_input))
