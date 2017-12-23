@@ -19,20 +19,6 @@ def create_rental_tuples(input_data_path) -> List[Tuple[int, int]]:
         rental_times.append((int(first[i]), int(second[i])))
     return rental_times
 
-def all_possibilities(times: Sequence[Tuple[int, int]]) -> List[List[Tuple[int, int]]]:
-    grid = list()
-    for time in times:
-        grid.append(calculate_row(time, times))
-    return grid
-
-def calculate_row(first_time: Tuple[int, int], times: Sequence[Tuple[int, int]]) -> List[Tuple[int, int]]:
-    rental_list = list()
-    rental_list.append(first_time)
-    for time in times:
-        if time[0] > rental_list[-1][1]:
-            rental_list.append(time)
-    return rental_list
-
 def by_earliest_end_date(rental_times: List[Tuple[int, int]]) -> Sequence[Tuple[int, int]]:
     result = list()
     while len(rental_times) != 0:
@@ -57,7 +43,6 @@ def pretty_print_grid(grid):
     for row in grid:
         print(row)
 
-
 class TimeSchedulingUnitTests(unittest.TestCase):
 
     def setUp(self):
@@ -75,10 +60,6 @@ class TimeSchedulingUnitTests(unittest.TestCase):
 
 if __name__ == "__main__":
     rental_times = create_rental_tuples("medium_input.txt")
-    #sorted_times = sorted(rental_times, key=lambda tup: tup[0])
-    #grid = all_possibilities(sorted_times)
-    #pretty_print_grid(grid)
-
     earliest_end_date_solution = by_earliest_end_date(rental_times)
     print(earliest_end_date_solution)
     #unittest.main()

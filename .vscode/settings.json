@@ -9,6 +9,8 @@
         "**/CVS": true,
         "**/.DS_Store": true,
         "**/.mypy_cache": true,
+        "**/__pycache__": true,
+        "**/.cache": true,
         "thevenv/": true
     }
 }
