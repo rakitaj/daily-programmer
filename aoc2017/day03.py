@@ -1,31 +1,36 @@
-class SpiralMemorySequence(object):
+from typing import List
 
-    def __init__(self, start_value:int = 0) -> None:
-        self.counter = start_value
-        self.num_repeated = False
-
-    def next(self):
-        current = self.counter
-        if current == 0:
-            self.counter += 1
-            self.num_repeated = True
-            return 0
-        elif self.num_repeated is False:
-            self.counter += 1
-            self.num_repeated = True
-            return current
+def generate_spiral_sequence(num_terms: int):
+    current, counter = 0, 0
+    number_repeated = False
+    while counter < num_terms:
+        if number_repeated is False:
+            current += 1
+            number_repeated = True
         else:
-            self.num_repeated = False
-            return current
+            number_repeated = False
+        counter += 1
+        yield current
 
 class SpiralMemory(object):
 
     def __init__(self, capacity: int):
         self.capacity = capacity
+        self.matrix: List[List[int]] = list(list())
         self.memory_matrix = self.create()
 
     def create(self):
-        pass
+        counter = 0
+        current_position = [0][0]
+        for i in generate_spiral_sequence(capacity):
+            if counter % 4 == 0:
+                self.matrix.append()
+            elif counter % 4 == 1:
+                pass
+            elif counter % 4 == 2:
+                pass
+            else:
+                pass
 
 def manhattan_path(x_pos: int, y_pos: int) -> int:
     return abs(x_pos) + abs(y_pos)

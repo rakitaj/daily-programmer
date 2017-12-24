@@ -26,9 +26,8 @@ def test_day02_part2():
     actual = day02.checksum(sample_data, day02.div_checksum)
     assert actual == 9
 
-def test_day03_spiral_memory_sequence():
-    actual_sequence = list()
-    sms = day03.SpiralMemorySequence()
-    for i in range(8):
-        actual_sequence.append(sms.next())
-    assert actual_sequence == [0, 1, 1, 2, 2, 3, 3, 4]
+def test_day03_generate_spiral_sequence():
+    result = list()
+    for i in day03.generate_spiral_sequence(8):
+        result.append(i)
+    assert result == [1, 1, 2, 2, 3, 3, 4, 4]
