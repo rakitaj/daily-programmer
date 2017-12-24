@@ -1,6 +1,7 @@
 import pytest
 import day01
 import day02
+import day03
 
 @pytest.mark.parametrize("sample_input,expected", [
     (1122, 3), (1111, 4), (1234, 0), (91212129, 9)
@@ -24,3 +25,10 @@ def test_day02_part2():
     sample_data = [(5, 9, 2, 8), (9, 4, 7, 3), (3, 8, 6, 5)]
     actual = day02.checksum(sample_data, day02.div_checksum)
     assert actual == 9
+
+def test_day03_spiral_memory_sequence():
+    actual_sequence = list()
+    sms = day03.SpiralMemorySequence()
+    for i in range(8):
+        actual_sequence.append(sms.next())
+    assert actual_sequence == [0, 1, 1, 2, 2, 3, 3, 4]
