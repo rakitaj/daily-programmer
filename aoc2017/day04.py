@@ -8,20 +8,17 @@ def valid_passphrases(passphrases: Sequence[str], validate: Callable[[str], bool
             count += 1
     return count
 
-def is_valid(passphrase: str) -> bool:
-    passphrase_words: Dict[str, int] = {}
-    for word in passphrase.split():
-        if word in passphrase_words:
-            return False
-        else:
-            passphrase_words[word] = 1
-    return True
+def basic_validation(passphrase: str) -> bool:
+    return validate_transformed_words(passphrase.split())
 
-def is_valid_no_anagrams(passphrase: str) -> bool:
-    passphrase_words: Dict[str, int] = {}
+def anagram_validation(passphrase: str) -> bool:
     words = passphrase.split()
     normalized_words = ["".join(sorted(word)) for word in words]
-    for word in normalized_words:
+    return validate_transformed_words(normalized_words)
+
+def validate_transformed_words(words: str) -> bool:
+    passphrase_words: Dict[str, int] = {}
+    for word in words:
         if word in passphrase_words:
             return False
         else:
@@ -30,5 +27,5 @@ def is_valid_no_anagrams(passphrase: str) -> bool:
  
 if __name__ == "__main__":
     challenge_input = common.lines_from_text_file("day04_input.txt")
-    print(f"Basic: {valid_passphrases(challenge_input, is_valid)}")
-    print(f"No anagrams: {valid_passphrases(challenge_input, is_valid_no_anagrams)}")
+    print(f"Basic: {valid_passphrases(challenge_input, basic_validation)}")
+    print(f"No anagrams: {valid_passphrases(challenge_input, anagram_validation)}")

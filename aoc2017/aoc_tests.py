@@ -39,7 +39,7 @@ def test_day03_generate_spiral_sequence():
     ("aa bb cc dd aaa", True)
 ])
 def test_day04_is_passphrase_valid(input, expected):
-    assert day04.is_valid(input) == expected
+    assert day04.basic_validation(input) == expected
 
 @pytest.mark.parametrize("input, expected", [
     ("abcde fghij", True),
@@ -49,4 +49,4 @@ def test_day04_is_passphrase_valid(input, expected):
     ("oiii ioii iioi iiio", False)
 ])
 def test_day04_is_passphrase_valid_with_no_anagrams(input, expected):
-    assert day04.is_valid_no_anagrams(input) == expected
+    assert day04.anagram_validation(input) == expected
