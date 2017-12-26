@@ -16,3 +16,7 @@ def rows_of_numbers_from_text_file(path: str) -> List[List[int]]:
             numbers = [int(n) for n in line.split()]
             result.append(numbers)
     return result
+
+def lines_from_text_file(path: str) -> List[str]:
+    with open(path, "r") as file:
+        return file.readlines()

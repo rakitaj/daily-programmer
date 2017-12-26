@@ -2,6 +2,7 @@ import pytest
 import day01
 import day02
 import day03
+import day04
 
 @pytest.mark.parametrize("sample_input,expected", [
     (1122, 3), (1111, 4), (1234, 0), (91212129, 9)
@@ -31,3 +32,21 @@ def test_day03_generate_spiral_sequence():
     for i in day03.generate_spiral_sequence(8):
         result.append(i)
     assert result == [1, 1, 2, 2, 3, 3, 4, 4]
+
+@pytest.mark.parametrize("input, expected", [
+    ("aa bb cc dd ee", True),
+    ("aa bb cc dd aa", False),
+    ("aa bb cc dd aaa", True)
+])
+def test_day04_is_passphrase_valid(input, expected):
+    assert day04.is_valid(input) == expected
+
+@pytest.mark.parametrize("input, expected", [
+    ("abcde fghij", True),
+    ("abcde xyz ecdab", False),
+    ("a ab abc abd abf abj", True),
+    ("iiii oiii ooii oooi oooo", True),
+    ("oiii ioii iioi iiio", False)
+])
+def test_day04_is_passphrase_valid_with_no_anagrams(input, expected):
+    assert day04.is_valid_no_anagrams(input) == expected
