@@ -16,7 +16,7 @@ def anagram_validation(passphrase: str) -> bool:
     normalized_words = ["".join(sorted(word)) for word in words]
     return validate_transformed_words(normalized_words)
 
-def validate_transformed_words(words: str) -> bool:
+def validate_transformed_words(words: Sequence[str]) -> bool:
     passphrase_words: Dict[str, int] = {}
     for word in words:
         if word in passphrase_words:

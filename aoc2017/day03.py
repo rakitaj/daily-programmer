@@ -14,7 +14,7 @@ def generate_spiral_sequence(num_terms: int):
 
 class SpiralMemory(object):
 
-    def __init__(self, capacity: int):
+    def __init__(self, capacity: int) -> None:
         self.capacity = capacity
         self.matrix: List[List[int]] = list(list())
         self.memory_matrix = self.create()

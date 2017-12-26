@@ -1,4 +1,4 @@
-from typing import List, Callable
+from typing import List, Callable, Sequence
 import common
 
 def escape(jump_instructions: List[int], jump_modify: Callable[[int], int]) -> int:
@@ -20,7 +20,7 @@ def part_two(number: int) -> int:
     else:
         return number + 1
 
-def inside_bounds(array: int, index: int) -> bool:
+def inside_bounds(array: Sequence[int], index: int) -> bool:
     if index >= 0 and index < len(array):
         return True
     else:
