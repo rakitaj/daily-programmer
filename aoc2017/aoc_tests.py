@@ -1,8 +1,7 @@
 import pytest
 import day01
 import day02
-import day03
-import day04
+import day03, day04, day05
 
 @pytest.mark.parametrize("sample_input,expected", [
     (1122, 3), (1111, 4), (1234, 0), (91212129, 9)
@@ -50,3 +49,11 @@ def test_day04_is_passphrase_valid(input, expected):
 ])
 def test_day04_is_passphrase_valid_with_no_anagrams(input, expected):
     assert day04.anagram_validation(input) == expected
+
+def test_day05_part1():
+    sample_input = [0, 3, 0, 1, -3]
+    assert day05.escape(sample_input, day05.part_one) == 5
+
+def test_day05_part2():
+    sample_input = [0, 3, 0, 1, -3]
+    assert day05.escape(sample_input, day05.part_two) == 10

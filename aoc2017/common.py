@@ -20,3 +20,9 @@ def rows_of_numbers_from_text_file(path: str) -> List[List[int]]:
 def lines_from_text_file(path: str) -> List[str]:
     with open(path, "r") as file:
         return file.readlines()
+
+def numbers_from_text_file(path: str) -> List[int]:
+    with open(path, "r") as file:
+        string_numbers = file.read().split()
+        numbers = [int(number.strip()) for number in string_numbers]
+        return numbers
