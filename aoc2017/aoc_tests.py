@@ -1,7 +1,5 @@
 import pytest
-import day01
-import day02
-import day03, day04, day05
+import day01, day02, day03, day04, day05, day06
 
 @pytest.mark.parametrize("sample_input,expected", [
     (1122, 3), (1111, 4), (1234, 0), (91212129, 9)
@@ -57,3 +55,11 @@ def test_day05_part1():
 def test_day05_part2():
     sample_input = [0, 3, 0, 1, -3]
     assert day05.escape(sample_input, day05.part_two) == 10
+
+def test_day06_part1():
+    sample_input = [0, 2, 7, 0]
+    assert day06.memory_cycles(sample_input).count == 5
+
+def test_day06_part2():
+    sample_input = [0, 2, 7, 0]
+    assert day06.memory_cycles(sample_input).previous_dupe == 4
