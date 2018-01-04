@@ -10,8 +10,8 @@ class Cycle(object):
     def __str__(self):
         return f"Total count: {self.count}\nFrom previous duplicate: {self.previous_dupe}"
 
-def memory_cycles(memory_banks: Sequence[int]) -> Cycle:
-    memory_banks = tuple(memory_banks)
+def memory_cycles(memory: Sequence[int]) -> Cycle:
+    memory_banks: Tuple[int, ...] = tuple(memory)
     previous_states: Dict[Tuple[int, ...], int] = {}
     counter = 0
     while memory_banks not in previous_states:
@@ -20,7 +20,7 @@ def memory_cycles(memory_banks: Sequence[int]) -> Cycle:
         counter += 1
     return Cycle(counter, counter - previous_states[memory_banks])
 
-def balance(memory_banks: Sequence[int]) -> Sequence[int]:
+def balance(memory_banks: Sequence[int]) -> Tuple[int, ...]:
     mut_memory_banks = list(memory_banks)
     index, max_value = max(enumerate(memory_banks), key=lambda p: p[1])
     mut_memory_banks[index] = 0
