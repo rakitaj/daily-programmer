@@ -1,5 +1,5 @@
 import pytest
-import day01, day02, day03, day04, day05, day06
+import day01, day02, day03, day04, day05, day06, day07
 
 @pytest.mark.parametrize("sample_input,expected", [
     (1122, 3), (1111, 4), (1234, 0), (91212129, 9)
@@ -63,3 +63,13 @@ def test_day06_part1():
 def test_day06_part2():
     sample_input = [0, 2, 7, 0]
     assert day06.memory_cycles(sample_input).previous_dupe == 4
+
+def test_day07_create_with_children():
+    text = "fwft (72) -> ktlj, cntj, xhth"
+    expected = day07.Node("fwft", 72, ("ktlj", "cntj", "xhth"))
+    assert day07.Node.create(text) == expected
+
+def test_day07_create_without_children():
+    text = "ktlj (57)"
+    expected = day07.Node("ktlj", 57)
+    assert day07.Node.create(text) == expected
