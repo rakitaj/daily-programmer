@@ -80,13 +80,14 @@ class Tree(object):
         self.root_node = value
 
     @staticmethod
-    def calculate_sub_weight(node: Node, accumulator: int) -> int:
-        accumulator += node.weight
+    def calculate_sub_weight(node: Node) -> int:
+        total = node.weight
         if node.child_nodes is None or len(node.child_nodes) == 0:
-            return accumulator
+            return total
         else:
             for child_node in node.child_nodes:
-                return Tree.calculate_sub_weight(child_node, accumulator)
+                total += Tree.calculate_sub_weight(child_node)
+            return total
 
     def print(self):
         print(self.root_node)

@@ -81,13 +81,13 @@ def test_day07_total_sub_weight():
         day07.Node("three", 4),
         day07.Node("four", 8))
     tree = day07.Tree(nodes)
-    assert day07.Tree.calculate_sub_weight(tree.root_node, 0) == 15
+    assert day07.Tree.calculate_sub_weight(tree.root_node) == 15
     
 def test_day07_total_sub_weight_one_node():
     nodes = [
         day07.Node("one", 123)]
     tree = day07.Tree(nodes)
-    assert day07.Tree.calculate_sub_weight(tree.root_node, 0) == 123
+    assert day07.Tree.calculate_sub_weight(tree.root_node) == 123
     
 
 def test_day07_total_sub_weight_one_node_one_child():
@@ -95,5 +95,18 @@ def test_day07_total_sub_weight_one_node_one_child():
         day07.Node("one", 1, ["two"]),
         day07.Node("two", 2))
     tree = day07.Tree(nodes)
-    assert day07.Tree.calculate_sub_weight(tree.root_node, 0) == 3
+    assert day07.Tree.calculate_sub_weight(tree.root_node) == 3
+    
+def test_day07_total_sub_weight_three_levels_deep():
+    nodes = [
+        day07.Node("one", 1, ["two", "three", "four"]),
+        day07.Node("two", 2),
+        day07.Node("three", 4),
+        day07.Node("four", 8, ["five", "six"]),
+        day07.Node("five", 16),
+        day07.Node("six", 32)]
+    tree = day07.Tree(nodes)
+    result = day07.Tree.calculate_sub_weight(tree.root_node)
+    assert result == 63
+
     
