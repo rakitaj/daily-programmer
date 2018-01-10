@@ -1,17 +1,17 @@
-from typing import Sequence, List
+from typing import Sequence, List, Tuple
 import re
 import common
 
 class Node(object):
 
-    def __init__(self, name: str, weight: int, children: Sequence[str] = None, parent: str = None) -> None:
+    def __init__(self, name: str, weight: int, children: List[str] = None) -> None:
         self.name = name
         self.weight = weight
-        if children is None:
-            self.children = None
-        else:
-            self.children = tuple(children)
-        self.parent = parent
+        self.children: List[str] = list()
+        if children is not None:
+            self.children.extend(children)
+        self.parent = None
+        self.child_nodes: List[Node] = list()
 
     @classmethod
     def create(cls, text: str) -> 'Node':
@@ -42,33 +42,57 @@ class Node(object):
             return False
 
     def __repr__(self):
-        return f"{self.name} ({self.weight}) -> {self.children}"
+        return f"{self.name} ({self.weight}) \n-> {self.child_nodes}"
 
 class Tree(object):
     """
-    Representa a tree of the weighted node objects from Day 07. 
+    Representa a tree of the weighted node objects from Day 07.
     """
 
-    def __init__(self, nodes):
+    def __init__(self, nodes: List[Node]) -> None:
         self.nodes = nodes
-        self.root = None
+        self.root_node: Node = None
         self.build_tree()
 
     def build_tree(self):
-        for n1 in self.nodes:
-            for n2 in self.nodes:
-                if n1.children != None and n2.name in n1.children:
-                    n2.parent = n1.name
         for node in self.nodes:
-            if node.parent == None:
-                self.root = node
+            for child_node_name in node.children:
+                matching_nodes = self.nodes_with_name(child_node_name)
+                node.child_nodes.extend(matching_nodes)
+                for matching_node in matching_nodes:
+                    matching_node.parent = node
+        self.find_root(self.set_root_node)
+
+    def nodes_with_name(self, name: str) -> List[Node]:
+        result: List[Node] = list()
+        for node in self.nodes:
+            if node.name == name:
+                result.append(node)
+        return result
+
+    def find_root(self, set_root_function) -> None:
+        for node in self.nodes:
+            if node.parent is None:
+                set_root_function(node)
                 break
 
+    def set_root_node(self, value: Node) -> None:
+        self.root_node = value
+
+    @staticmethod
+    def calculate_sub_weight(node: Node, accumulator: int) -> int:
+        accumulator += node.weight
+        if node.child_nodes is None or len(node.child_nodes) == 0:
+            return accumulator
+        else:
+            for child_node in node.child_nodes:
+                return Tree.calculate_sub_weight(child_node, accumulator)
+
     def print(self):
-        print(self.root)
+        print(self.root_node)
 
 if __name__ == "__main__":
-    lines = common.lines_from_text_file("day07_challenge_input.txt")
+    lines = common.lines_from_text_file("C:\\Users\\joraki\\src\\daily-programmer\\aoc2017\day07_sample_input.txt")
     nodes: List[Node] = list()
     for line in lines:
         nodes.append(Node.create(line))
