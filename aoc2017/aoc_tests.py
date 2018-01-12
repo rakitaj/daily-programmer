@@ -64,8 +64,49 @@ def test_day06_part2():
     sample_input = [0, 2, 7, 0]
     assert day06.memory_cycles(sample_input).previous_dupe == 4
 
-def test_day07_parse_input_and_equality():
+def test_day07_create_with_children():
     text = "fwft (72) -> ktlj, cntj, xhth"
-    tower_one = day07.TowerPrimative.create(text)
-    tower_two = day07.TowerPrimative("fwft", 72, ("ktlj", "cntj", "xhth"))
-    assert tower_one == tower_two
+    expected = day07.Node("fwft", 72, ("ktlj", "cntj", "xhth"))
+    assert day07.Node.create(text) == expected
+
+def test_day07_create_without_children():
+    text = "ktlj (57)"
+    expected = day07.Node("ktlj", 57)
+    assert day07.Node.create(text) == expected
+
+def test_day07_total_sub_weight():
+    nodes = (
+        day07.Node("one", 1, ["two", "three", "four"]),
+        day07.Node("two", 2),
+        day07.Node("three", 4),
+        day07.Node("four", 8))
+    tree = day07.Tree(nodes)
+    assert day07.Tree.calculate_sub_weight(tree.root_node) == 15
+    
+def test_day07_total_sub_weight_one_node():
+    nodes = [
+        day07.Node("one", 123)]
+    tree = day07.Tree(nodes)
+    assert day07.Tree.calculate_sub_weight(tree.root_node) == 123
+    
+
+def test_day07_total_sub_weight_one_node_one_child():
+    nodes = (
+        day07.Node("one", 1, ["two"]),
+        day07.Node("two", 2))
+    tree = day07.Tree(nodes)
+    assert day07.Tree.calculate_sub_weight(tree.root_node) == 3
+    
+def test_day07_total_sub_weight_three_levels_deep():
+    nodes = [
+        day07.Node("one", 1, ["two", "three", "four"]),
+        day07.Node("two", 2),
+        day07.Node("three", 4),
+        day07.Node("four", 8, ["five", "six"]),
+        day07.Node("five", 16),
+        day07.Node("six", 32)]
+    tree = day07.Tree(nodes)
+    result = day07.Tree.calculate_sub_weight(tree.root_node)
+    assert result == 63
+
+    
