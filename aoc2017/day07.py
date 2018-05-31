@@ -1,4 +1,4 @@
-from typing import Sequence, List, Tuple
+from typing import Sequence, List, Tuple, Dict
 import re
 import common
 
@@ -12,6 +12,7 @@ class Node(object):
             self.children.extend(children)
         self.parent = None
         self.child_nodes: List[Node] = list()
+        self.sub_weight = None
 
     @classmethod
     def create(cls, text: str) -> 'Node':
@@ -41,8 +42,14 @@ class Node(object):
         else:
             return False
 
+    def child_nodes_one_level(self) -> str:
+        children = ""
+        for node in self.child_nodes:
+            children += f"{node.name} {node.weight}\n"
+        return children
+
     def __repr__(self):
-        return f"{self.name} ({self.weight}) \n-> {self.child_nodes}"
+        return f"{self.name} ({self.weight}) [{self.sub_weight}] \n-> {self.child_nodes}"
 
 class Tree(object):
     """
@@ -89,13 +96,19 @@ class Tree(object):
                 total += Tree.calculate_sub_weight(child_node)
             return total
 
+    def calculate_all_sub_weights(self):
+        for node in self.nodes:
+            node.sub_weight = Tree.calculate_sub_weight(node)
+
     def print(self):
         print(self.root_node)
 
 if __name__ == "__main__":
-    lines = common.lines_from_text_file("C:\\Users\\joraki\\src\\daily-programmer\\aoc2017\day07_sample_input.txt")
+    lines = common.lines_from_text_file("day07_challenge_input.txt")
     nodes: List[Node] = list()
     for line in lines:
         nodes.append(Node.create(line))
     tree = Tree(nodes)
-    tree.print()
+    tree.calculate_all_sub_weights()
+    print(tree.root_node.child_nodes_one_level())
+    #tree.print()

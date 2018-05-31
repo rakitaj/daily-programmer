@@ -22,7 +22,7 @@ class SpiralMemory(object):
     def create(self):
         counter = 0
         current_position = [0][0]
-        for i in generate_spiral_sequence(capacity):
+        for i in generate_spiral_sequence(self.capacity):
             if counter % 4 == 0:
                 self.matrix.append()
             elif counter % 4 == 1:
@@ -32,5 +32,16 @@ class SpiralMemory(object):
             else:
                 pass
 
+    @classmethod
+    def closest_odd_square(cls, n: int):
+        for i in range(1, n * n, 2):
+            odd_square = i*i
+            if odd_square > n:
+                return f"i {(i-2)} square {(i-2)*(i-2)}"
+
 def manhattan_path(x_pos: int, y_pos: int) -> int:
     return abs(x_pos) + abs(y_pos)
+
+if __name__ == "__main__":
+    result = SpiralMemory.closest_odd_square(361527)
+    print(result)

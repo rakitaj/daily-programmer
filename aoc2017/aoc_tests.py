@@ -82,13 +82,12 @@ def test_day07_total_sub_weight():
         day07.Node("four", 8))
     tree = day07.Tree(nodes)
     assert day07.Tree.calculate_sub_weight(tree.root_node) == 15
-    
+
 def test_day07_total_sub_weight_one_node():
     nodes = [
         day07.Node("one", 123)]
     tree = day07.Tree(nodes)
     assert day07.Tree.calculate_sub_weight(tree.root_node) == 123
-    
 
 def test_day07_total_sub_weight_one_node_one_child():
     nodes = (
@@ -109,4 +108,8 @@ def test_day07_total_sub_weight_three_levels_deep():
     result = day07.Tree.calculate_sub_weight(tree.root_node)
     assert result == 63
 
-    
+@pytest.mark.parametrize("input, expected", [
+    (day07.Node("foo", 123, None), None)
+])
+def test_day07_odd_weight_out(input, expected):
+    assert expected == day07.Tree.odd_child_node(input)
