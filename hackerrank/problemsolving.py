@@ -2,6 +2,7 @@ from typing import Sequence, List, Tuple
 import re
 import itertools
 import sys
+import time
 
 def simple_sum_array(count: int, numbers: Sequence[int]) -> int:
     return sum(numbers)
@@ -76,8 +77,8 @@ def birthday_cake_candles(candle_heights: List[int]) -> int:
     return len(list(candles_of_that_height))
 
 def time_conversion(time_12h: str) -> str:
-    pattern_am_12 = re.compile("12:..:00AM")
-    pattern_pm_12 = re.compile("12:..:00PM")
+    pattern_am_12 = re.compile("12:..:..AM")
+    pattern_pm_12 = re.compile("12:..:..PM")
     pattern_am = re.compile("..:..:..AM")
     pattern_pm = re.compile("..:..:..PM")
     if pattern_am_12.match(time_12h):
@@ -120,6 +121,7 @@ class TestProblemSolving(object):
 
     def test_time_conversion(self):
         assert time_conversion("12:00:00AM") == "00:00:00"
+        assert time_conversion("12:01:01AM") == "00:01:01"
         assert time_conversion("12:35:00AM") == "00:35:00"
         assert time_conversion("01:23:45AM") == "01:23:45"
         assert time_conversion("12:00:00PM") == "12:00:00"
@@ -127,10 +129,12 @@ class TestProblemSolving(object):
         assert time_conversion("07:05:45AM") == "07:05:45"
         assert time_conversion("07:05:45PM") == "19:05:45"
 
-        # for half in ["AM", "PM"]:
-        #     for hour in range(1, 13):
-        #         for minute in range(1, 61):
-        #             for second in range(1, 61):
-        #                 time = str(hour) + ":" + str(minute) + ":" + str(second) + half
-        #                 result = time_conversion(time)
-        #                 print(time + "    " + result)
+        for half in ["AM", "PM"]:
+            for hour in range(1, 13):
+                for minute in range(1, 60):
+                    for second in range(1, 60):
+                        stime = str(hour).zfill(2) + ":" + str(minute).zfill(2) + ":" + str(second).zfill(2) + half
+                        result = time_conversion(stime)
+                        time_tuple = time.strptime(stime, "%I:%M:%S%p")
+                        expected = time.strftime("%H:%M:%S", time_tuple)
+                        assert result == expected, f"Raw: {stime} Expected: {expected} Actual:{result}"
