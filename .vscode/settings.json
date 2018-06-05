@@ -12,5 +12,9 @@
         "**/__pycache__": true,
         "**/.cache": true,
         "thevenv/": true
-    }
+    },
+    "python.unitTest.pyTestArgs": [
+        "."
+    ],
+    "python.unitTest.pyTestEnabled": true
 }
