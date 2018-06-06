@@ -1,5 +1,5 @@
 from typing import List, Tuple
-from common import true_for_all
+from common import true_for_all, sum_desired_length
 
 def grading(raw_grades: List[int]) -> List[int]:
     rounded_grades = list()
@@ -63,5 +63,21 @@ def breaking_the_records(scores: List[int]) -> Tuple[int, int]:
             min_score_count += 1
     return (max_score_count, min_score_count)
 
-def the_birthday_bar(numbers, day, month) -> int:
-    
+def the_birthday_bar(numbers: List[int], day: int, month: int) -> int:
+    desired_length = month
+    desired_sum = day
+    solution_count = 0
+    print(len(numbers) - desired_length)
+    for i in range(len(numbers) - desired_length + 1):
+        if sum_desired_length(numbers, i, desired_length) == desired_sum:
+            solution_count += 1
+    return solution_count
+
+def divisible_sum_pairs(n: int, k: int, array: List[int]) -> int:
+    valid_pairs: List[Tuple[int, int]] = list()
+    for i in range(len(array)):
+        for j in range(i + 1, len(array)):
+            if (array[i] + array[j]) % k == 0:
+                valid_pairs.append((array[i], array[j]))
+    print(valid_pairs)
+    return len(valid_pairs)

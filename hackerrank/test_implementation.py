@@ -18,3 +18,11 @@ class TestImplementation(object):
 
     def test_breaking_the_records(self):
         assert breaking_the_records([10, 5, 20, 20, 4, 5, 2, 25, 1]) == (2, 4)
+
+    def test_the_birthday_bar(self):
+        assert the_birthday_bar([1, 2, 1, 3, 2], 3, 2) == 2
+        assert the_birthday_bar([1, 1, 1, 1, 1, 1], 3, 2) == 0
+        assert the_birthday_bar([4], 4, 1) == 1
+
+    def test_divisible_sum_pairs(self):
+        assert divisible_sum_pairs(6, 3, [1, 3, 2, 6, 1, 2]) == 5

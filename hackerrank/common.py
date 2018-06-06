@@ -6,3 +6,9 @@ def true_for_all(items: List, func) -> bool:
         if result is not True:
             return False
     return True
+
+def sum_desired_length(numbers: List[int], start: int, length: int) -> int:
+    total = 0
+    for i in range(start, start + length):
+        total += numbers[i]
+    return total
