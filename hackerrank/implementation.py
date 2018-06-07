@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import List, Tuple, Dict
 from common import true_for_all, sum_desired_length
 
 def grading(raw_grades: List[int]) -> List[int]:
@@ -81,3 +81,37 @@ def divisible_sum_pairs(n: int, k: int, array: List[int]) -> int:
                 valid_pairs.append((array[i], array[j]))
     print(valid_pairs)
     return len(valid_pairs)
+
+def migratory_birds(array: List[int]) -> int:
+    numbers_count: Dict[int, int] = dict()
+    for number in array:
+        if number in numbers_count:
+            numbers_count[number] += 1
+        else:
+            numbers_count[number] = 1
+    return max(numbers_count, key=numbers_count.get)
+    
+def day_of_the_programmer(year: int) -> str:
+    months = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    count = 256
+    if is_leap_year(year):
+        months[2] = 29
+    if year == 1918:
+        months[2] = 15
+    for month, days_in_month in enumerate(months):
+        if days_in_month > count:
+            return "{0}.{1}.{2}".format(str(count).zfill(2), str(month).zfill(2), year)
+        else:
+            count -= days_in_month
+
+def is_leap_year(year: int) -> bool:
+    if year <= 1917:
+        return year % 4 == 0
+    else:
+        # if year % 400 == 0:
+        #     return True
+        # elif year % 100 == 0:
+        #     return False
+        # else:
+        #     return year % 4 == 0
+        return year % 400 == 0 or (year % 4 == 0 and year % 100 != 0)
