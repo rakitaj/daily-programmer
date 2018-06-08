@@ -12,3 +12,10 @@ def sum_desired_length(numbers: List[int], start: int, length: int) -> int:
     for i in range(start, start + length):
         total += numbers[i]
     return total
+
+def check_all(items: List, func, expected_func_result) -> bool:
+    for item in items:
+        result = func(item)
+        if result != expected_func_result:
+            return False
+    return True

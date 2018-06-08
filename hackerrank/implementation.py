@@ -100,9 +100,11 @@ def day_of_the_programmer(year: int) -> str:
         months[2] = 15
     for month, days_in_month in enumerate(months):
         if days_in_month > count:
-            return "{0}.{1}.{2}".format(str(count).zfill(2), str(month).zfill(2), year)
+            result = "{0}.{1}.{2}".format(str(count).zfill(2), str(month).zfill(2), year)
+            break
         else:
             count -= days_in_month
+    return result
 
 def is_leap_year(year: int) -> bool:
     if year <= 1917:
