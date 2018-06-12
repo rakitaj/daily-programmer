@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Sequence, Dict
 
 def true_for_all(items: List, func) -> bool:
     for item in items:
@@ -19,3 +19,12 @@ def check_all(items: List, func, expected_func_result) -> bool:
         if result != expected_func_result:
             return False
     return True
+
+def numbers_to_counts(numbers: Sequence[int]) -> Dict[int, int]:
+    counts: Dict[int, int] = dict()
+    for number in numbers:
+        if number in counts:
+            counts[number] += 1
+        else:
+            counts[number] = 1
+    return counts

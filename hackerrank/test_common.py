@@ -1,4 +1,4 @@
-from common import true_for_all, sum_desired_length, check_all
+from common import true_for_all, sum_desired_length, check_all, numbers_to_counts
 import pytest
 
 def test_true_for_all_should_be_true():
@@ -25,3 +25,11 @@ def test_true_for_all_with_bad_data_should_be_false():
 ])
 def test_sum_desired_length(numbers, start, length, expected):
     assert sum_desired_length(numbers, start, length) == expected
+
+@pytest.mark.parametrize("numbers, expected", [
+    ([0, 1, 2, 3], {0: 1, 1: 1, 2: 1, 3: 1}),
+    ([0, 0, 3, 3], {0: 2, 3: 2}),
+    ([0, 0, 3, 3, 7, 8, 8, 8], {0: 2, 3: 2, 7: 1, 8: 3})
+])
+def test_numbers_to_counts(numbers, expected):
+    assert numbers_to_counts(numbers) == expected

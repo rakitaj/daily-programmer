@@ -1,5 +1,7 @@
 from typing import List, Tuple, Dict
-from common import true_for_all, sum_desired_length
+from math import floor, ceil
+#from ..common import true_for_all, sum_desired_length, numbers_to_counts
+from .. import common
 
 def grading(raw_grades: List[int]) -> List[int]:
     rounded_grades = list()
@@ -83,14 +85,9 @@ def divisible_sum_pairs(n: int, k: int, array: List[int]) -> int:
     return len(valid_pairs)
 
 def migratory_birds(array: List[int]) -> int:
-    numbers_count: Dict[int, int] = dict()
-    for number in array:
-        if number in numbers_count:
-            numbers_count[number] += 1
-        else:
-            numbers_count[number] = 1
+    numbers_count = numbers_to_counts(array)
     return max(numbers_count, key=numbers_count.get)
-    
+
 def day_of_the_programmer(year: int) -> str:
     months = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
     count = 256
@@ -111,3 +108,30 @@ def is_leap_year(year: int) -> bool:
         return year % 4 == 0
     else:
         return year % 400 == 0 or (year % 4 == 0 and year % 100 != 0)
+
+def sock_monster(socks: List[int]) -> int:
+    sock_count = numbers_to_counts(socks)
+    pairs_of_socks = 0
+    for key, value in sock_count.items():
+        pairs_of_socks += floor(value / 2)
+    return pairs_of_socks
+
+def drawing_book(book_length: int, page: int) -> int:
+    # forwards = 0
+    # backwards = 0
+    # for i in range(1, book_length + 1, 2):
+    #     if i >= desired_page:
+    #         break
+    #     forwards += 1
+    # for i in range(book_length, 0, -2):
+    #     if book_length % 2 == 0:
+    #         if i <= desired_page:
+    #             break
+    #         backwards += 1
+    #     else:
+    #         if i <=
+    #return min(forwards, backwards)
+    half = book_length / 2
+    distance = abs(half - page)
+    result = ceil(distance / 2)
+    return result

@@ -1,4 +1,6 @@
 from implementation import *
+from bonappetit import bon_appetit
+import pytest
 
 class TestImplementation(object):
 
@@ -47,3 +49,20 @@ class TestImplementation(object):
         assert is_leap_year(2100) is False
         assert is_leap_year(2200) is False
         assert is_leap_year(2400) is True
+
+    def test_sock_monstor(self):
+        assert sock_monster([10, 20, 20, 10, 10, 30, 50, 10, 20]) == 3
+
+    @pytest.mark.parametrize("length, page, expected", [
+        (5, 4, 0),
+        (4, 4, 0),
+        (4, 1, 0),
+        (6, 1, 0),(6, 2, 1),(6, 3, 1),(6, 4, 1),(6, 5, 1),(6, 6, 0),
+        (9, 1, 0),(9, 2, 1),(9, 3, 1),(9, 4, 2),(9, 5, 2),(9, 6, 1),(9, 7, 1),(9, 8, 0),(9, 9, 0)
+    ])
+    def test_drawing_book(self, length, page, expected):
+        assert drawing_book(length, page) == expected
+
+def test_bon_appetit():
+    assert bon_appetit(1, [3, 10, 2, 9], 12) == 5
+    assert bon_appetit(1, [3, 10, 2, 9], 7) == "Bon Appetit"
