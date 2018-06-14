@@ -1,7 +1,6 @@
 from typing import List, Tuple, Dict
 from math import floor, ceil
-#from ..common import true_for_all, sum_desired_length, numbers_to_counts
-from .. import common
+from hackerrank.common import true_for_all, sum_desired_length, numbers_to_counts
 
 def grading(raw_grades: List[int]) -> List[int]:
     rounded_grades = list()
@@ -117,21 +116,41 @@ def sock_monster(socks: List[int]) -> int:
     return pairs_of_socks
 
 def drawing_book(book_length: int, page: int) -> int:
-    # forwards = 0
-    # backwards = 0
-    # for i in range(1, book_length + 1, 2):
-    #     if i >= desired_page:
-    #         break
-    #     forwards += 1
-    # for i in range(book_length, 0, -2):
-    #     if book_length % 2 == 0:
-    #         if i <= desired_page:
-    #             break
-    #         backwards += 1
-    #     else:
-    #         if i <=
-    #return min(forwards, backwards)
-    half = book_length / 2
-    distance = abs(half - page)
-    result = ceil(distance / 2)
-    return result
+    turns = floor(page / 2)
+    half_book = floor(book_length / 2)
+    forwards = turns
+    backwards = half_book - turns
+    return min(forwards, backwards)
+
+def counting_valleys(n: int, s: List[int]) -> int:
+    valleys_count = 0
+    counter = 0
+    for step in s:
+        if step == "U":
+            counter += 1
+        elif step == "D":
+            counter -= 1
+        else:
+            raise ValueError("Step has to have value of U or D.")
+        if counter == 0:
+            if step == "U":
+                valleys_count += 1
+    return valleys_count
+
+def electronics_shop(keyboards: List[int], drives: List[int], b: int) -> int:
+    spend = -1
+    for keyboard in keyboards:
+        for drive in drives:
+            if (keyboard + drive) > spend and (keyboard + drive) <= b:
+                spend = keyboard + drive
+    return spend
+
+def cats_and_a_mouse(x: int, y: int, z: int) -> str:
+    x_diff = abs(z - x)
+    y_diff = abs(z - y)
+    if x_diff == y_diff:
+        return "Mouse C"
+    elif x_diff < y_diff:
+        return "Cat A"
+    else:
+        return "Cat B"

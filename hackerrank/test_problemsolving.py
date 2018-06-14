@@ -1,4 +1,4 @@
-from problemsolving import *
+from hackerrank.problemsolving import *
 import pytest
 
 class TestProblemSolving(object):

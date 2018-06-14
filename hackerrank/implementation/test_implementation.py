@@ -1,5 +1,5 @@
-from implementation import *
-from bonappetit import bon_appetit
+from hackerrank.implementation.implementation import *
+from hackerrank.implementation.bonappetit import bon_appetit
 import pytest
 
 class TestImplementation(object):
@@ -62,6 +62,18 @@ class TestImplementation(object):
     ])
     def test_drawing_book(self, length, page, expected):
         assert drawing_book(length, page) == expected
+
+    def test_counting_valleys(self):
+        sample_data = "UDDDUDUU"
+        assert counting_valleys(len(sample_data), sample_data) == 1
+
+    def test_electronics_shop(self):
+        assert electronics_shop([3, 1], [5, 2, 8], 10) == 9
+        assert electronics_shop([4], [5], 5) == -1
+
+    def test_cats_and_a_mouse(self):
+        assert cats_and_a_mouse(1, 2, 3) == "Cat B"
+        assert cats_and_a_mouse(1, 3, 2) == "Mouse C"
 
 def test_bon_appetit():
     assert bon_appetit(1, [3, 10, 2, 9], 12) == 5

@@ -1,4 +1,4 @@
-from common import true_for_all, sum_desired_length, check_all, numbers_to_counts
+from hackerrank.common import true_for_all, sum_desired_length, check_all, numbers_to_counts
 import pytest
 
 def test_true_for_all_should_be_true():
