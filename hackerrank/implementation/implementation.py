@@ -158,10 +158,10 @@ def cats_and_a_mouse(x: int, y: int, z: int) -> str:
 def picking_numbers(numbers: List[int]) -> int:
     numbers = sorted(numbers)
     max_length, length = 0, 0
-    for i in range(len(numbers)):
+    for i, n_i in enumerate(numbers):
         length = 0
-        for j in range(i, len(numbers)):
-            diff = numbers[j] - numbers[i]
+        for j, n_j in enumerate(numbers, i):
+            diff = n_j - n_i
             if diff == 0 or diff == 1:
                 length += 1
         if length > max_length:
