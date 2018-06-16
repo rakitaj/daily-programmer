@@ -75,6 +75,10 @@ class TestImplementation(object):
         assert cats_and_a_mouse(1, 2, 3) == "Cat B"
         assert cats_and_a_mouse(1, 3, 2) == "Mouse C"
 
+    def test_picking_numbers(self):
+        assert picking_numbers([4, 6, 5, 3, 3, 1]) == 3
+        assert picking_numbers([1, 2, 2, 3, 1, 2]) == 5
+
 def test_bon_appetit():
     assert bon_appetit(1, [3, 10, 2, 9], 12) == 5
     assert bon_appetit(1, [3, 10, 2, 9], 7) == "Bon Appetit"

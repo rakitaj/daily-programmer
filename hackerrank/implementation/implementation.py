@@ -154,3 +154,16 @@ def cats_and_a_mouse(x: int, y: int, z: int) -> str:
         return "Cat A"
     else:
         return "Cat B"
+
+def picking_numbers(numbers: List[int]) -> int:
+    numbers = sorted(numbers)
+    max_length, length = 0, 0
+    for i in range(len(numbers)):
+        length = 0
+        for j in range(i, len(numbers)):
+            diff = numbers[j] - numbers[i]
+            if diff == 0 or diff == 1:
+                length += 1
+        if length > max_length:
+            max_length = length
+    return max_length
