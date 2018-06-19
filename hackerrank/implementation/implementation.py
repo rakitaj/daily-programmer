@@ -167,3 +167,20 @@ def picking_numbers(numbers: List[int]) -> int:
         if length > max_length:
             max_length = length
     return max_length
+
+def climbing_the_leaderboard(scores: List[int], alice: List[int]) -> List[int]:
+    unique_scores: List[int] = list()
+    alice_standings = list()
+    for score in scores:
+        if score not in unique_scores:
+            unique_scores.append(score)
+    for alice_score in alice:
+        lower_than_all = True
+        for i in range(len(unique_scores)):
+            if alice_score >= unique_scores[i]:
+                alice_standings.append(i + 1)
+                lower_than_all = False
+                break
+        if lower_than_all:
+            alice_standings.append(len(unique_scores) + 1)
+    return alice_standings

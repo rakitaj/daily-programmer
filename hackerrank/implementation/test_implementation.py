@@ -79,6 +79,9 @@ class TestImplementation(object):
         assert picking_numbers([4, 6, 5, 3, 3, 1]) == 3
         assert picking_numbers([1, 2, 2, 3, 1, 2]) == 5
 
+    def test_climbing_the_leaderboard(self):
+        assert climbing_the_leaderboard([100, 100, 50, 40, 40, 20, 10], [5, 25, 50, 120]) == [6, 4, 2, 1]
+
 def test_bon_appetit():
     assert bon_appetit(1, [3, 10, 2, 9], 12) == 5
     assert bon_appetit(1, [3, 10, 2, 9], 7) == "Bon Appetit"
