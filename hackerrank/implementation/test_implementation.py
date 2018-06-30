@@ -81,6 +81,10 @@ class TestImplementation(object):
 
     def test_climbing_the_leaderboard(self):
         assert climbing_the_leaderboard([100, 100, 50, 40, 40, 20, 10], [5, 25, 50, 120]) == [6, 4, 2, 1]
+        print(climbing_the_leaderboard([97, 93, 88, 29, 2], [34, 74, 79]))
+
+    #def test_get_standing(self):
+    #    assert get_standing([100, 100, 50, 40, 40, 20, 10], 50) == 2
 
 def test_bon_appetit():
     assert bon_appetit(1, [3, 10, 2, 9], 12) == 5

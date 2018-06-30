@@ -1,6 +1,7 @@
 from typing import List, Tuple, Dict
 from math import floor, ceil
-from hackerrank.common import true_for_all, sum_desired_length, numbers_to_counts
+from hackerrank.common import true_for_all, sum_desired_length, dedupe_sequence, numbers_to_counts
+import bisect
 
 def grading(raw_grades: List[int]) -> List[int]:
     rounded_grades = list()
@@ -169,18 +170,28 @@ def picking_numbers(numbers: List[int]) -> int:
     return max_length
 
 def climbing_the_leaderboard(scores: List[int], alice: List[int]) -> List[int]:
-    unique_scores: List[int] = list()
+    # [100, 50, 52, 20] - [5, 25, 50, 125]
+    uniques: List[int] = dedupe_sequence(scores)
+    length = len(uniques)
     alice_standings = list()
-    for score in scores:
-        if score not in unique_scores:
-            unique_scores.append(score)
     for alice_score in alice:
-        lower_than_all = True
-        for i in range(len(unique_scores)):
-            if alice_score >= unique_scores[i]:
-                alice_standings.append(i + 1)
-                lower_than_all = False
-                break
-        if lower_than_all:
-            alice_standings.append(len(unique_scores) + 1)
+        while (length > 0) and (alice_score >= uniques[length-1]):
+            length -= 1
+        alice_standings.append(length + 1)
     return alice_standings
+
+def get_standing(highscores: List[int], new_score: int) -> int:
+    low = 0
+    high = len(highscores) - 1
+    while low < high:
+        middle = floor((low+high)/2)
+        if new_score == highscores[middle]:
+            break
+        elif new_score > highscores[middle]:
+            low = middle
+        elif new_score < highscores[middle]:
+            high = middle
+        elif low == high:
+            middle = low
+            break
+    return middle + 1

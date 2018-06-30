@@ -28,3 +28,13 @@ def numbers_to_counts(numbers: Sequence[int]) -> Dict[int, int]:
         else:
             counts[number] = 1
     return counts
+
+def dedupe_sequence(sequence: Sequence) -> List:
+    uniques: List = list()
+    for element in sequence:
+        if element not in uniques:
+            uniques.append(element)
+    return uniques
+
+def is_even(number: int) -> bool:
+    return number % 2 == 0

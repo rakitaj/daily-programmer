@@ -14,7 +14,7 @@
         "thevenv/": true
     },
     "python.unitTest.pyTestArgs": [
-        "."
+        "./hackerrank"
     ],
     "python.unitTest.pyTestEnabled": true
 }

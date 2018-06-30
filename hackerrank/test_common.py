@@ -1,4 +1,4 @@
-from hackerrank.common import true_for_all, sum_desired_length, check_all, numbers_to_counts
+from hackerrank.common import *
 import pytest
 
 def test_true_for_all_should_be_true():
@@ -33,3 +33,20 @@ def test_sum_desired_length(numbers, start, length, expected):
 ])
 def test_numbers_to_counts(numbers, expected):
     assert numbers_to_counts(numbers) == expected
+
+@pytest.mark.parametrize("numbers, expected", [
+    ([0, 0, 3, 3], [0, 3]),
+    ([0, 0, 3, 3, 7, 8, 8, 8], [0, 3, 7, 8])
+])
+def test_dedupe_sequence(numbers, expected):
+    assert dedupe_sequence(numbers) == expected
+
+@pytest.mark.parametrize("number, expected", [
+    (0, True),
+    (1, False),
+    (2, True),
+    (3, False),
+    (4, True)
+])
+def test_is_even(number, expected):
+    assert is_even(number) is expected
