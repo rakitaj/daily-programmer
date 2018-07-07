@@ -195,3 +195,28 @@ def get_standing(highscores: List[int], new_score: int) -> int:
             middle = low
             break
     return middle + 1
+
+def the_hurdle_race(jump_height: int, hurdles: List[int]) -> int:
+    max_height = max(hurdles)
+    height_diff = max_height - jump_height
+    if height_diff > 0:
+        return height_diff
+    else:
+        return 0
+
+def designer_pdf_viewer(letters: List[str], word: str) -> int:
+    heights = list()
+    for letter in word:
+        index = ord(letter) - 97
+        heights.append(int(letters[index]))
+    max_height = max(heights)
+    return len(word) * max_height
+
+def utopian_tree(n: int) -> int:
+    height = 1
+    for i in range(1, n+1):
+        if i % 2 == 0:
+            height += 1
+        else:
+            height = height * 2
+    return height

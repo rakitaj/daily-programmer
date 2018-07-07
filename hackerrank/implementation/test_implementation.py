@@ -86,6 +86,22 @@ class TestImplementation(object):
     #def test_get_standing(self):
     #    assert get_standing([100, 100, 50, 40, 40, 20, 10], 50) == 2
 
+    def test_the_hurdle_race(self):
+        assert the_hurdle_race(4, [1, 6, 3, 5, 2]) == 2
+
+    @pytest.mark.parametrize("letters, word, expected", [
+        ("1 3 1 3 1 4 1 3 2 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5", "abc", 9),
+        ("1 3 1 3 1 4 1 3 2 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 7", "zaba", 28)
+    ])
+    def test_designer_pdf_viewer(self, letters, word, expected):
+        letter_heights = letters.split()
+        assert designer_pdf_viewer(letter_heights, word) == expected
+
+    def test_utopian_tree(self):
+        assert utopian_tree(0) == 1
+        assert utopian_tree(1) == 2
+        assert utopian_tree(4) == 7
+
 def test_bon_appetit():
     assert bon_appetit(1, [3, 10, 2, 9], 12) == 5
     assert bon_appetit(1, [3, 10, 2, 9], 7) == "Bon Appetit"
