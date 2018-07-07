@@ -220,3 +220,18 @@ def utopian_tree(n: int) -> int:
         else:
             height = height * 2
     return height
+
+def angry_professor(k: int, a: List[int]) -> str:
+    on_time_count = 0
+    for arrival_time in a:
+        if arrival_time <= 0:
+            on_time_count += 1
+    if on_time_count >= k:
+        return "NO"
+    else:
+        return "YES"
+
+def big_sorting(number_strings: List[str]) -> List[int]:
+    numbers = [int(string) for string in number_strings]
+    sorted_numbers = sorted(numbers)
+    return sorted_numbers

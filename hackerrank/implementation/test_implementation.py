@@ -102,6 +102,16 @@ class TestImplementation(object):
         assert utopian_tree(1) == 2
         assert utopian_tree(4) == 7
 
+    def test_angry_professor(self):
+        assert angry_professor(3, [-1, -3, 4, 2]) == "YES"
+        assert angry_professor(2, [0, -1, 2, 1]) == "NO"
+
+    def test_big_sorting(self):
+        string_numbers = ["31415926535897932384626433832795", "1", "3", "10", "3", "5"]
+        sorted_numbers = [1, 3, 3, 5, 10, 31415926535897932384626433832795]
+        assert big_sorting(string_numbers) == sorted_numbers
+
+
 def test_bon_appetit():
     assert bon_appetit(1, [3, 10, 2, 9], 12) == 5
     assert bon_appetit(1, [3, 10, 2, 9], 7) == "Bon Appetit"
