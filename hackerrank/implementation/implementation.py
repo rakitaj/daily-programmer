@@ -1,9 +1,11 @@
-from typing import List, Tuple, Dict
-from math import floor, ceil
+from typing import List, Tuple
+from math import floor
 from hackerrank.common import true_for_all, sum_desired_length, dedupe_sequence, numbers_to_counts
-import bisect
 
 def grading(raw_grades: List[int]) -> List[int]:
+    """
+    Round grades to passing, failing, nearest 5 based on raw scores.
+    """
     rounded_grades = list()
     for grade in raw_grades:
         if grade <= 37:
@@ -170,28 +172,52 @@ def picking_numbers(numbers: List[int]) -> int:
     return max_length
 
 def climbing_the_leaderboard(scores: List[int], alice: List[int]) -> List[int]:
-    # [100, 50, 52, 20] - [5, 25, 50, 125]
+    # [100, 50, 25, 20] - [5, 25, 50, 125]
     uniques: List[int] = dedupe_sequence(scores)
     length = len(uniques)
     alice_standings = list()
     for alice_score in alice:
-        while (length > 0) and (alice_score >= uniques[length-1]):
-            length -= 1
-        alice_standings.append(length + 1)
+        standing = get_standing(scores, alice_score)
+        alice_standings.append(standing)
+        #while (length > 0) and (alice_score >= uniques[length-1]):
+        #    length -= 1
+        #alice_standings.append(length + 1)
     return alice_standings
 
 def get_standing(highscores: List[int], new_score: int) -> int:
     low = 0
     high = len(highscores) - 1
-    while low < high:
+    if new_score >= highscores[0]:
+        return 1
+    if new_score <= highscores[-1]:
+        return len(highscores) + 1
+    while low <= high:
         middle = floor((low+high)/2)
         if new_score == highscores[middle]:
             break
+        elif new_score > highscores[middle] and new_score < highscores[middle + 1]:
+            return middle
         elif new_score > highscores[middle]:
-            low = middle
-        elif new_score < highscores[middle]:
-            high = middle
-        elif low == high:
-            middle = low
-            break
+            low = middle + 1
+        else:
+            high = middle - 1
     return middle + 1
+
+def beautiful_days_at_the_movies(start: int, end: int, divisor: int) -> int:
+    reverse = lambda n: int(str(n)[::-1])
+    count = 0
+    for day in range(start, end):
+        if reverse(day) % divisor == 0:
+            count += 1
+    return count
+
+def strange_advertising(day: int) -> int:
+    return strange_advertising_recurse(1, day, 2, 2)
+
+def strange_advertising_recurse(day: int, end_day: int, new_shares: int, total_shares: int) -> int:
+    if day == end_day:
+        return total_shares
+    else:
+        shares = floor((new_shares * 3) / 2)
+        total_shares += shares
+        return strange_advertising_recurse(day+1, end_day, shares, total_shares)

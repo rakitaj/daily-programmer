@@ -57,8 +57,8 @@ class TestImplementation(object):
         (5, 4, 0),
         (4, 4, 0),
         (4, 1, 0),
-        (6, 1, 0),(6, 2, 1),(6, 3, 1),(6, 4, 1),(6, 5, 1),(6, 6, 0),
-        (9, 1, 0),(9, 2, 1),(9, 3, 1),(9, 4, 2),(9, 5, 2),(9, 6, 1),(9, 7, 1),(9, 8, 0),(9, 9, 0)
+        (6, 1, 0), (6, 2, 1), (6, 3, 1), (6, 4, 1), (6, 5, 1), (6, 6, 0),
+        (9, 1, 0), (9, 2, 1), (9, 3, 1), (9, 4, 2), (9, 5, 2), (9, 6, 1), (9, 7, 1), (9, 8, 0), (9, 9, 0)
     ])
     def test_drawing_book(self, length, page, expected):
         assert drawing_book(length, page) == expected
@@ -79,12 +79,31 @@ class TestImplementation(object):
         assert picking_numbers([4, 6, 5, 3, 3, 1]) == 3
         assert picking_numbers([1, 2, 2, 3, 1, 2]) == 5
 
+    @pytest.mark.skip
     def test_climbing_the_leaderboard(self):
         assert climbing_the_leaderboard([100, 100, 50, 40, 40, 20, 10], [5, 25, 50, 120]) == [6, 4, 2, 1]
         print(climbing_the_leaderboard([97, 93, 88, 29, 2], [34, 74, 79]))
 
-    #def test_get_standing(self):
-    #    assert get_standing([100, 100, 50, 40, 40, 20, 10], 50) == 2
+    @pytest.mark.skip
+    @pytest.mark.parametrize("highscores, new_score, expected", [
+        ([100, 100, 50, 40, 40, 20, 10], 5, 6),
+        ([100, 100, 50, 40, 40, 20, 10], 25, 4),
+        ([100, 100, 50, 40, 40, 20, 10], 50, 2),
+        ([100, 100, 50, 40, 40, 20, 10], 120, 1)
+    ])
+    def test_get_standing(self, highscores, new_score, expected):
+        highscores = dedupe_sequence(highscores)
+        assert get_standing(highscores, new_score) == expected
+
+    @pytest.mark.parametrize("day, expected", [
+        (1, 2),
+        (2, 5),
+        (3, 9),
+        (4, 15),
+        (5, 24)
+    ])
+    def test_strange_advertising(self, day: int, expected: int):
+        assert strange_advertising(day) == expected
 
 def test_bon_appetit():
     assert bon_appetit(1, [3, 10, 2, 9], 12) == 5
