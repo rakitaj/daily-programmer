@@ -13,6 +13,7 @@ import algorithms.search as search
 ])
 def test_binary_search(search_data, target, expected):
     assert search.binary_search(search_data, target) == expected, f"\nTarget: {target}\nSearch data {search_data}"
+    reference(search_data, target, expected)
 
-def test_against_reference(search_data, target, expected):
+def reference(search_data, target, expected):
     assert search.reference(search_data, target) == expected

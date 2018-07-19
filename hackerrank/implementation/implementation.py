@@ -221,3 +221,43 @@ def strange_advertising_recurse(day: int, end_day: int, new_shares: int, total_s
         shares = floor((new_shares * 3) / 2)
         total_shares += shares
         return strange_advertising_recurse(day+1, end_day, shares, total_shares)
+
+def the_hurdle_race(jump_height: int, hurdles: List[int]) -> int:
+    max_height = max(hurdles)
+    height_diff = max_height - jump_height
+    if height_diff > 0:
+        return height_diff
+    else:
+        return 0
+
+def designer_pdf_viewer(letters: List[str], word: str) -> int:
+    heights = list()
+    for letter in word:
+        index = ord(letter) - 97
+        heights.append(int(letters[index]))
+    max_height = max(heights)
+    return len(word) * max_height
+
+def utopian_tree(n: int) -> int:
+    height = 1
+    for i in range(1, n+1):
+        if i % 2 == 0:
+            height += 1
+        else:
+            height = height * 2
+    return height
+
+def angry_professor(k: int, a: List[int]) -> str:
+    on_time_count = 0
+    for arrival_time in a:
+        if arrival_time <= 0:
+            on_time_count += 1
+    if on_time_count >= k:
+        return "NO"
+    else:
+        return "YES"
+
+def big_sorting(number_strings: List[str]) -> List[int]:
+    numbers = [int(string) for string in number_strings]
+    sorted_numbers = sorted(numbers)
+    return sorted_numbers

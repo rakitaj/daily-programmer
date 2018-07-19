@@ -105,6 +105,32 @@ class TestImplementation(object):
     def test_strange_advertising(self, day: int, expected: int):
         assert strange_advertising(day) == expected
 
+    def test_the_hurdle_race(self):
+        assert the_hurdle_race(4, [1, 6, 3, 5, 2]) == 2
+
+    @pytest.mark.parametrize("letters, word, expected", [
+        ("1 3 1 3 1 4 1 3 2 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5", "abc", 9),
+        ("1 3 1 3 1 4 1 3 2 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 7", "zaba", 28)
+    ])
+    def test_designer_pdf_viewer(self, letters, word, expected):
+        letter_heights = letters.split()
+        assert designer_pdf_viewer(letter_heights, word) == expected
+
+    def test_utopian_tree(self):
+        assert utopian_tree(0) == 1
+        assert utopian_tree(1) == 2
+        assert utopian_tree(4) == 7
+
+    def test_angry_professor(self):
+        assert angry_professor(3, [-1, -3, 4, 2]) == "YES"
+        assert angry_professor(2, [0, -1, 2, 1]) == "NO"
+
+    def test_big_sorting(self):
+        string_numbers = ["31415926535897932384626433832795", "1", "3", "10", "3", "5"]
+        sorted_numbers = [1, 3, 3, 5, 10, 31415926535897932384626433832795]
+        assert big_sorting(string_numbers) == sorted_numbers
+
+
 def test_bon_appetit():
     assert bon_appetit(1, [3, 10, 2, 9], 12) == 5
     assert bon_appetit(1, [3, 10, 2, 9], 7) == "Bon Appetit"
