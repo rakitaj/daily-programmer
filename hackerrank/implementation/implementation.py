@@ -174,33 +174,30 @@ def picking_numbers(numbers: List[int]) -> int:
 def climbing_the_leaderboard(scores: List[int], alice: List[int]) -> List[int]:
     # [100, 50, 25, 20] - [5, 25, 50, 125]
     uniques: List[int] = dedupe_sequence(scores)
-    length = len(uniques)
     alice_standings = list()
     for alice_score in alice:
-        standing = get_standing(scores, alice_score)
+        standing = get_standing(uniques, alice_score)
         alice_standings.append(standing)
-        #while (length > 0) and (alice_score >= uniques[length-1]):
-        #    length -= 1
-        #alice_standings.append(length + 1)
     return alice_standings
 
 def get_standing(highscores: List[int], new_score: int) -> int:
-    low = 0
-    high = len(highscores) - 1
+    low = len(highscores) - 1
+    high = 0
+    middle = -1
     if new_score >= highscores[0]:
         return 1
     if new_score <= highscores[-1]:
         return len(highscores) + 1
-    while low <= high:
+    while low >= high:
         middle = floor((low+high)/2)
         if new_score == highscores[middle]:
             break
-        elif new_score > highscores[middle] and new_score < highscores[middle + 1]:
-            return middle
+        elif new_score > highscores[middle] and new_score < highscores[middle - 1]:
+            break
         elif new_score > highscores[middle]:
-            low = middle + 1
+            low = middle - 1
         else:
-            high = middle - 1
+            high = middle + 1
     return middle + 1
 
 def beautiful_days_at_the_movies(start: int, end: int, divisor: int) -> int:
@@ -261,3 +258,16 @@ def big_sorting(number_strings: List[str]) -> List[int]:
     numbers = [int(string) for string in number_strings]
     sorted_numbers = sorted(numbers)
     return sorted_numbers
+def save_the_prisoner(num_prisoners: int, num_sweets: int, start: int) -> int:
+    result = (start + num_sweets - 1) % num_prisoners
+    if result == 0:
+        result = num_prisoners
+    return result
+
+def circular_array_rotation(array: List[int], shifts: int, queries: List[int]) -> List[int]:
+    results: List[int] = list()
+    for index in queries:
+        adjusted_index = (index + shifts - 1) % len(array)
+        result = array[adjusted_index]
+        results.append(result)
+    return results

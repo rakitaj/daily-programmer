@@ -11,7 +11,7 @@ class TestImplementation(object):
     def test_kangaroo(self):
         assert kangaroo(0, 3, 4, 2) == "YES"
         assert kangaroo(0, 2, 5, 3) == "NO"
-        
+
     def test_apple_and_orange(self):
         assert apple_and_orange(7, 11, 5, 15, [-2, 2, 1], [5, -6]) == (1, 1)
 
@@ -79,12 +79,10 @@ class TestImplementation(object):
         assert picking_numbers([4, 6, 5, 3, 3, 1]) == 3
         assert picking_numbers([1, 2, 2, 3, 1, 2]) == 5
 
-    @pytest.mark.skip
     def test_climbing_the_leaderboard(self):
         assert climbing_the_leaderboard([100, 100, 50, 40, 40, 20, 10], [5, 25, 50, 120]) == [6, 4, 2, 1]
-        print(climbing_the_leaderboard([97, 93, 88, 29, 2], [34, 74, 79]))
+        #print(climbing_the_leaderboard([97, 93, 88, 29, 2], [34, 74, 79]))
 
-    @pytest.mark.skip
     @pytest.mark.parametrize("highscores, new_score, expected", [
         ([100, 100, 50, 40, 40, 20, 10], 5, 6),
         ([100, 100, 50, 40, 40, 20, 10], 25, 4),
@@ -130,6 +128,23 @@ class TestImplementation(object):
         sorted_numbers = [1, 3, 3, 5, 10, 31415926535897932384626433832795]
         assert big_sorting(string_numbers) == sorted_numbers
 
+
+    @pytest.mark.parametrize("num_prisoners, num_sweets, start, expected", [
+        (5, 2, 1, 2),
+        (5, 2, 2, 3),
+        (5, 2, 4, 5),
+        (5, 3, 4, 1)
+    ])
+    def test_save_the_prisoner(self, num_prisoners, num_sweets, start, expected):
+        assert save_the_prisoner(num_prisoners, num_sweets, start) == expected
+
+    @pytest.mark.parametrize("array, shifts, queries, expected", [
+        ([1, 2, 3], 2, [0, 1, 2], [2, 3, 1]),
+        ([1, 2, 3, 4, 5], 8, [0, 1, 2, 3, 4], [3, 4, 5, 1, 2]),
+        ([23], 0, [0], [23])
+    ])
+    def test_circular_array_rotation(self, array, shifts, queries, expected):
+        assert circular_array_rotation(array, shifts, queries) == expected
 
 def test_bon_appetit():
     assert bon_appetit(1, [3, 10, 2, 9], 12) == 5

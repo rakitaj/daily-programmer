@@ -16,8 +16,10 @@ def bubble_sort(elements: List) -> List:
                 in_place_swap(elements, i, j)
     return elements
 
-# def insertion_sort(elements: List) -> List:
-#     length = len(elements)
-#     for i in range(0, length):
-#         for j in rnage(0, length):
-#             pass            
+def insertion_sort(elements: List) -> List:
+    length = len(elements)
+    for i in range(1, length):
+        for j in range(i, -1, -1):
+            if elements[i] > elements[j]:
+                in_place_swap(elements, i, j)
+    return elements
