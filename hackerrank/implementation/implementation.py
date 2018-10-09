@@ -263,11 +263,3 @@ def save_the_prisoner(num_prisoners: int, num_sweets: int, start: int) -> int:
     if result == 0:
         result = num_prisoners
     return result
-
-def circular_array_rotation(array: List[int], shifts: int, queries: List[int]) -> List[int]:
-    results: List[int] = list()
-    for index in queries:
-        adjusted_index = (index + shifts - 1) % len(array)
-        result = array[adjusted_index]
-        results.append(result)
-    return results

@@ -138,14 +138,6 @@ class TestImplementation(object):
     def test_save_the_prisoner(self, num_prisoners, num_sweets, start, expected):
         assert save_the_prisoner(num_prisoners, num_sweets, start) == expected
 
-    @pytest.mark.parametrize("array, shifts, queries, expected", [
-        ([1, 2, 3], 2, [0, 1, 2], [2, 3, 1]),
-        ([1, 2, 3, 4, 5], 8, [0, 1, 2, 3, 4], [3, 4, 5, 1, 2]),
-        ([23], 0, [0], [23])
-    ])
-    def test_circular_array_rotation(self, array, shifts, queries, expected):
-        assert circular_array_rotation(array, shifts, queries) == expected
-
 def test_bon_appetit():
     assert bon_appetit(1, [3, 10, 2, 9], 12) == 5
     assert bon_appetit(1, [3, 10, 2, 9], 7) == "Bon Appetit"
