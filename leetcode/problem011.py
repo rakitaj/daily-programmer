@@ -1,5 +1,6 @@
 from typing import List
 
+
 class Problem011:
 
     def container_most_water(self, numbers: List[int]) -> int:

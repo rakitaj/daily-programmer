@@ -1,16 +1,14 @@
 {
-    "python.linting.pylintEnabled": true,
+    "python.linting.pylintEnabled": false,
+    "python.linting.flake8Enabled": true,
     "python.pythonPath": "${workspaceRoot}\\thevenv\\Scripts\\python.exe",
     "python.linting.mypyEnabled": true,
     "files.exclude": {
         "**/.git": true,
-        "**/.svn": true,
-        "**/.hg": true,
-        "**/CVS": true,
-        "**/.DS_Store": true,
         "**/.mypy_cache": true,
         "**/__pycache__": true,
         "**/.cache": true,
+        "**/.pytest_cache": true,
         "thevenv/": true
     },
     "python.unitTest.pyTestEnabled": true

@@ -1,4 +1,4 @@
 mypy
-pylint
+flake8
 pytest
 rope
