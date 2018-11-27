@@ -1,5 +1,5 @@
 import pytest
-import problem015 as p
+import leetcode.problem015 as p
 
 
 @pytest.mark.parametrize("test_data, expected", [

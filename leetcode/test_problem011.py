@@ -1,5 +1,5 @@
 import pytest
-import problem011 as p
+import leetcode.problem011 as p
 
 
 class TestProblem(object):
