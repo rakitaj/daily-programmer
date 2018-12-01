@@ -27,3 +27,24 @@ def test_min_and_remove():
     result = Solution.min_and_dequeue(lists)
     assert result[0].val == ln_1.val
     assert result[1] == [ln_3, ln_2]
+
+
+def test_get_last_node():
+    ln_0 = ListNode(0)
+    ln_1 = ListNode(1)
+    ln_2 = ListNode(2)
+    ln_0.next = ln_1
+    ln_1.next = ln_2
+    assert Solution().get_last_node(ln_0) == ln_2
+
+
+def test_merge_lists():
+    ln_1 = ListNode(1)
+    ln_2 = ListNode(2)
+    ln_3 = ListNode(3)
+    ln_1.next = ln_3
+    lists: List[ListNode] = [ln_1, ln_2]
+    result = Solution().merge_lists(lists)
+    assert result.val == ln_1.val
+    assert result.next.val == ln_2.val
+    assert result.next.next.val == ln_3.val
