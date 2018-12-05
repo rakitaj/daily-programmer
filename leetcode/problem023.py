@@ -75,13 +75,4 @@ class Solution:
                 current = current.next
             return current
 
-    @staticmethod
-    def all_none(lists) -> bool:
-        for l in lists:
-            if l is None:
-                continue
-            else:
-                return False
-        return True
-
     mergeKLists = merge_lists

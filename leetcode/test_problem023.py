@@ -8,16 +8,6 @@ def test_min_of_lists_flat_3():
     assert solution.find_min_index() == 1
 
 
-def test_lists_all_none_should_be_true_when_every_list_element_is_none():
-    lists = [None, None, None, None, None]
-    assert Solution.all_none(lists) is True
-
-
-def test_lists_all_none_should_be_false_when_any_element_is_not_none():
-    lists = [None, None, None, ListNode(50000)]
-    assert Solution.all_none(lists) is False
-
-
 def test_min_and_remove():
     ln_1 = ListNode(1)
     ln_2 = ListNode(2)
