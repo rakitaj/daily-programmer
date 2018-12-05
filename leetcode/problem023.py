@@ -10,9 +10,10 @@ class ListNode:
 
     def __repr__(self):
         if self.next is None:
-            return f"{self.val}"
+            next_val = "None"
         else:
-            return f"{self.val} -> {self.next.val}"
+            next_val = self.next.val
+        return f"{self.val} -> {next_val}"
 
     def __eq__(self, other):
         if self.next is None:
@@ -31,22 +32,21 @@ class Solution:
         min_node = self.dequeue_min_node()
         while min_node is not None:
             self.append_to_sorted_list(min_node)
+            if len(self.lists) == 0:
+                break
             min_node = self.dequeue_min_node()
         return self.sorted_list
 
     def find_min_index(self) -> int:
-        if len(self.lists) == 1:
-            return self.lists[0].val
-        else:
-            min_index = 0
-            min_value = sys.maxsize
-            for index, node in enumerate(self.lists):
-                if node is None:
-                    continue
-                else:
-                    if node.val < min_value:
-                        min_index = index
-                        min_value = node.val
+        min_index = 0
+        min_value = sys.maxsize
+        for index, node in enumerate(self.lists):
+            if node is None:
+                continue
+            else:
+                if node.val < min_value:
+                    min_index = index
+                    min_value = node.val
         return min_index
 
     def dequeue_min_node(self) -> ListNode:
@@ -60,10 +60,10 @@ class Solution:
 
     def append_to_sorted_list(self, node: ListNode) -> None:
         if self.sorted_list is None:
-            self.sorted_list = node
+            self.sorted_list = ListNode(node.val)
         else:
             last_node = Solution.get_last_node(self.sorted_list)
-            last_node.next = node
+            last_node.next = ListNode(node.val)
 
     @staticmethod
     def get_last_node(node: ListNode) -> ListNode:
