@@ -87,9 +87,71 @@ def day02_2() -> str:
     for i in range(len(labels)):
         for j in range(i, len(labels)):
             if word_diff_chars(labels[i], labels[j], 1) is True:
-                return common_letters(labels[i], labels[j])
+                result = common_letters(labels[i], labels[j])
+    return result
+
+
+class FabricClaim(object):    
+
+    def __init__(self, claim_id: int, left_padding: int, top_padding: int, width: int, height: int) -> None:
+        self.claim_id = claim_id
+        self.left_padding = left_padding
+        self.top_padding = top_padding
+        self.width = width
+        self.height = height
+
+    @staticmethod
+    def from_puzzle_input(claim_string: str) -> "FabricClaim":
+        """Claim format: #123 @ 3,2: 5x4"""
+        claim_parts = claim_string.split("@")
+        claim_id = int(claim_parts[0].strip().strip("#"))
+        size_parts = claim_parts[1].split(":")
+        paddings = size_parts[0].split(",")
+        left_padding = int(paddings[0].strip())
+        top_padding = int(paddings[1].strip())
+        sizes = size_parts[1].split("x")
+        width = int(sizes[0].strip())
+        height = int(sizes[1].strip())
+        return FabricClaim(claim_id, left_padding, top_padding, width, height)
+
+    def points(self):
+        points: List[Point] = list()
+        for x in range(self.left_padding, self.left_padding + self.width):
+            for y in range(self.top_padding, self.top_padding + self.height):
+                points.append(Point(x, y))
+        return points
+
+
+class Point(object):
+
+    def __init__(self, x: int, y: int) -> None:
+        self.x = x
+        self.y = y
+
+    def __eq__(self, other) -> bool:
+        return self.x == other.x and self.y == other.y
+
+    def __repr__(self) -> str:
+        return f"({self.x}, {self.y})"
+
+
+def day03_1():
+    puzzle_strings = puzzle_input_to_strings("day03.txt")
+    fabric_claims: List[FabricClaim] = list()
+    seen_points: List[Point] = list()
+    count = 0
+    for puzzle_string in puzzle_strings:
+        fabric_claims.append(FabricClaim.from_puzzle_input(puzzle_string))
+    for fc in fabric_claims:
+        points = fc.points()
+        for point in points:
+            if point in seen_points:
+                count += 1
+            else:
+                seen_points.append(point)
+    return count
 
 
 if __name__ == "__main__":
-    answer = day02_2()
+    answer = day03_1()
     print(answer)
