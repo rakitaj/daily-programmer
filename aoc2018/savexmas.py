@@ -91,7 +91,7 @@ def day02_2() -> str:
     return result
 
 
-class FabricClaim(object):    
+class FabricClaim(object):
 
     def __init__(self, claim_id: int, left_padding: int, top_padding: int, width: int, height: int) -> None:
         self.claim_id = claim_id
@@ -114,11 +114,11 @@ class FabricClaim(object):
         height = int(sizes[1].strip())
         return FabricClaim(claim_id, left_padding, top_padding, width, height)
 
-    def points(self):
-        points: List[Point] = list()
+    def points(self) -> Dict["Point", bool]:
+        points: Dict["Point", bool] = dict()
         for x in range(self.left_padding, self.left_padding + self.width):
             for y in range(self.top_padding, self.top_padding + self.height):
-                points.append(Point(x, y))
+                points[Point(x, y)] = False
         return points
 
 
@@ -133,6 +133,9 @@ class Point(object):
 
     def __repr__(self) -> str:
         return f"({self.x}, {self.y})"
+
+    def __hash__(self):
+        return hash((self.x, self.y))
 
 
 def day03_1():
