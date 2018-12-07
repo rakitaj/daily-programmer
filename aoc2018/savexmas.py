@@ -149,7 +149,7 @@ def day03_1():
         points = fc.points()
         for point in points:
             if point in seen_points:
-                count += 1
+                seen_points[point] = True
             else:
                 seen_points.append(point)
     return count
