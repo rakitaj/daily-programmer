@@ -1,4 +1,4 @@
-from typing import Dict, List
+from typing import Dict, List, Callable
 
 
 def puzzle_input_base(filename: str, cast_func) -> List:
@@ -15,6 +15,14 @@ def puzzle_input_to_ints(filename: str) -> List[int]:
 
 def puzzle_input_to_strings(filename: str) -> List[str]:
     return puzzle_input_base(filename, str)
+
+
+def dict_values_where(dictionary: Dict, where_func: Callable):
+    result = list()
+    for value in dictionary.values():
+        if where_func(value) is True:
+            result.append(value)
+    return result
 
 
 def day01_1() -> int:
@@ -138,11 +146,10 @@ class Point(object):
         return hash((self.x, self.y))
 
 
-def day03_1():
+def day03_1() -> int:
     puzzle_strings = puzzle_input_to_strings("day03.txt")
     fabric_claims: List[FabricClaim] = list()
-    seen_points: List[Point] = list()
-    count = 0
+    seen_points: Dict[Point, bool] = dict()
     for puzzle_string in puzzle_strings:
         fabric_claims.append(FabricClaim.from_puzzle_input(puzzle_string))
     for fc in fabric_claims:
@@ -151,8 +158,8 @@ def day03_1():
             if point in seen_points:
                 seen_points[point] = True
             else:
-                seen_points.append(point)
-    return count
+                seen_points[point] = False
+    return len(dict_values_where(seen_points, lambda x: x is True))
 
 
 if __name__ == "__main__":
