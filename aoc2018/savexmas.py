@@ -17,12 +17,12 @@ def puzzle_input_to_strings(filename: str) -> List[str]:
     return puzzle_input_base(filename, str)
 
 
-def dict_values_where(dictionary: Dict, where_func: Callable):
-    result = list()
-    for value in dictionary.values():
-        if where_func(value) is True:
-            result.append(value)
-    return result
+def dict_where(dictionary: Dict, where_key: Callable) -> Dict:
+    filtered_dict = dict()
+    for key, value in dictionary.items():
+        if where_key(value) is True:
+            filtered_dict[key] = value
+    return filtered_dict
 
 
 def day01_1() -> int:
@@ -117,15 +117,19 @@ class Point(object):
 
 class ClaimedPoint(Point):
 
-    def __init__(self, x: int, y: int, claim_id: int) -> None:
+    def __init__(self, x: int, y: int, claim_id: int, area: int) -> None:
         super().__init__(x, y)
         self.claim_id = claim_id
+        self.area = area
 
     def __eq__(self, other) -> bool:
         return super().__eq__(other) and self.claim_id == other.claim_id
 
     def __repr__(self) -> str:
-        return f"{self.claim_id} - ({self.x}, {self.y})"
+        return f"ID:{self.claim_id} - A:{self.area} - ({self.x}, {self.y})"
+
+    def __hash__(self):
+        return hash((self.x, self.y, self.claim_id))
 
 
 class FabricClaim(object):
@@ -136,6 +140,7 @@ class FabricClaim(object):
         self.top_padding = top_padding
         self.width = width
         self.height = height
+        self.area = self.width = self.height
 
     @staticmethod
     def from_puzzle_input(claim_string: str) -> "FabricClaim":
@@ -162,7 +167,7 @@ class FabricClaim(object):
         points: Dict[ClaimedPoint, bool] = dict()
         for x in range(self.left_padding, self.left_padding + self.width):
             for y in range(self.top_padding, self.top_padding + self.height):
-                points[ClaimedPoint(x, y, self.claim_id)] = False
+                points[ClaimedPoint(x, y, self.claim_id, self.area)] = False
         return points
 
 
@@ -179,7 +184,7 @@ def day03_1() -> int:
                 seen_points[point] = True
             else:
                 seen_points[point] = False
-    return len(dict_values_where(seen_points, lambda x: x is True))
+    return len(dict_where(seen_points, lambda x: x is True))
 
 
 def day03_2() -> int:
@@ -195,7 +200,9 @@ def day03_2() -> int:
                 seen_points[point] = True
             else:
                 seen_points[point] = False
-    return dict_values_where(seen_points, lambda x: x is False)
+    unseen_points = dict_where(seen_points, lambda value: value is False)
+    for up in unseen_points:
+        print(up)
 
 
 if __name__ == "__main__":
