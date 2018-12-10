@@ -1,5 +1,5 @@
 import pytest
-from savexmas import common_letters, FabricClaim, Point
+from savexmas import common_letters, FabricClaim, Point, ClaimedPoint
 
 
 @pytest.mark.parametrize("word1, word2, expected", [
@@ -57,3 +57,11 @@ def test_fabric_claim_points():
         Point(7, 8): False
     }
     assert points == expected_points
+
+
+def test_claimed_point():
+    cp = ClaimedPoint(3, 4, 1001)
+    assert str(cp) == "1001 - (3, 4)"
+    assert cp != ClaimedPoint(3, 4, 1002)
+    assert cp == ClaimedPoint(3, 4, 1001)
+    assert cp != ClaimedPoint(3, 5, 1001)

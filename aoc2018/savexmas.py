@@ -99,6 +99,35 @@ def day02_2() -> str:
     return result
 
 
+class Point(object):
+
+    def __init__(self, x: int, y: int) -> None:
+        self.x = x
+        self.y = y
+
+    def __eq__(self, other) -> bool:
+        return self.x == other.x and self.y == other.y
+
+    def __repr__(self) -> str:
+        return f"({self.x}, {self.y})"
+
+    def __hash__(self):
+        return hash((self.x, self.y))
+
+
+class ClaimedPoint(Point):
+
+    def __init__(self, x: int, y: int, claim_id: int) -> None:
+        super().__init__(x, y)
+        self.claim_id = claim_id
+
+    def __eq__(self, other) -> bool:
+        return super().__eq__(other) and self.claim_id == other.claim_id
+
+    def __repr__(self) -> str:
+        return f"{self.claim_id} - ({self.x}, {self.y})"
+
+
 class FabricClaim(object):
 
     def __init__(self, claim_id: int, left_padding: int, top_padding: int, width: int, height: int) -> None:
@@ -122,28 +151,19 @@ class FabricClaim(object):
         height = int(sizes[1].strip())
         return FabricClaim(claim_id, left_padding, top_padding, width, height)
 
-    def points(self) -> Dict["Point", bool]:
+    def points(self) -> Dict[Point, bool]:
         points: Dict["Point", bool] = dict()
         for x in range(self.left_padding, self.left_padding + self.width):
             for y in range(self.top_padding, self.top_padding + self.height):
                 points[Point(x, y)] = False
         return points
 
-
-class Point(object):
-
-    def __init__(self, x: int, y: int) -> None:
-        self.x = x
-        self.y = y
-
-    def __eq__(self, other) -> bool:
-        return self.x == other.x and self.y == other.y
-
-    def __repr__(self) -> str:
-        return f"({self.x}, {self.y})"
-
-    def __hash__(self):
-        return hash((self.x, self.y))
+    def claimed_points(self) -> Dict[ClaimedPoint, bool]:
+        points: Dict[ClaimedPoint, bool] = dict()
+        for x in range(self.left_padding, self.left_padding + self.width):
+            for y in range(self.top_padding, self.top_padding + self.height):
+                points[ClaimedPoint(x, y, self.claim_id)] = False
+        return points
 
 
 def day03_1() -> int:
@@ -160,6 +180,22 @@ def day03_1() -> int:
             else:
                 seen_points[point] = False
     return len(dict_values_where(seen_points, lambda x: x is True))
+
+
+def day03_2() -> int:
+    puzzle_strings = puzzle_input_to_strings("day03.txt")
+    fabric_claims: List[FabricClaim] = list()
+    seen_points: Dict[ClaimedPoint, bool] = dict()
+    for puzzle_string in puzzle_strings:
+        fabric_claims.append(FabricClaim.from_puzzle_input(puzzle_string))
+    for fc in fabric_claims:
+        points = fc.claimed_points()
+        for point in points:
+            if point in seen_points:
+                seen_points[point] = True
+            else:
+                seen_points[point] = False
+    return dict_values_where(seen_points, lambda x: x is False)
 
 
 if __name__ == "__main__":
