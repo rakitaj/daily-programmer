@@ -1,5 +1,8 @@
+"""
+Tests for functions and classes used in solutions for multiple days of the Advent of Code 2018.
+"""
 import pytest
-from savexmas import common_letters, FabricClaim, Point, ClaimedPoint
+from xmascommon import common_letters, FabricClaim, Point, ClaimedPoint
 
 
 @pytest.mark.parametrize("word1, word2, expected", [
@@ -45,9 +48,8 @@ def test_point_hash(point1: Point, point2: Point, expected: bool):
 
 
 def test_fabric_claim_points():
-    fc = FabricClaim(1, 5, 7, 3, 2)
-    points = fc.points()
-    # expected_points = [Point(5, 7), Point(6, 7), Point(7, 7), Point(5, 8), Point(6, 8), Point(7, 8)]
+    fabric_claim = FabricClaim(1, 5, 7, 3, 2)
+    points = fabric_claim.points()
     expected_points = {
         Point(5, 7): False,
         Point(6, 7): False,
