@@ -1,4 +1,5 @@
 {
+    "python.jediEnabled": false,
     "python.linting.pylintEnabled": true,
     "python.linting.flake8Enabled": false,
     "python.pythonPath": "${workspaceRoot}\\thevenv\\Scripts\\python.exe",

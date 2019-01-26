@@ -2,7 +2,7 @@
 Tests for functions and classes used in solutions for multiple days of the Advent of Code 2018.
 """
 import pytest
-from xmascommon import common_letters, FabricClaim, Point, ClaimedPoint
+from aoc2018.xmascommon import common_letters, FabricClaim, Point, ClaimedPoint
 
 
 @pytest.mark.parametrize("word1, word2, expected", [

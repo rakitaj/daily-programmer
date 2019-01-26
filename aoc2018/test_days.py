@@ -1,4 +1,7 @@
-from xmasdays import day01_1, day01_2, day02_1, day02_2, day03_1
+"""
+Test for the different days 2018.
+"""
+from aoc2018.xmasdays import day01_1, day01_2, day02_1, day02_2, day03_1
 
 
 def test_day01_part1():
