@@ -1,3 +1,4 @@
+"""Implementation of search algorithms."""
 from typing import List
 
 def binary_search(search_data: List[int], target: int) -> int:

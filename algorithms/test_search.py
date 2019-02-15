@@ -1,5 +1,6 @@
 import pytest
 import algorithms.search as search
+from .binary_search import binary_search
 
 @pytest.mark.parametrize("search_data, target, expected",[
     ([5], 5, 0),
@@ -12,8 +13,12 @@ import algorithms.search as search
     ([1, 2, 3, 4], 3, 2)
 ])
 def test_binary_search(search_data, target, expected):
-    assert search.binary_search(search_data, target) == expected, f"\nTarget: {target}\nSearch data {search_data}"
+    assert search.binary_search(search_data, target) == expected
     reference(search_data, target, expected)
+    leetcode_algo(search_data, target, expected)
 
 def reference(search_data, target, expected):
     assert search.reference(search_data, target) == expected
+
+def leetcode_algo(search_data, target, expected):
+    assert binary_search(search_data, target) == expected
