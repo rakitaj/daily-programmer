@@ -4,13 +4,13 @@ from typing import List
 def binary_search(array: List[int], target: int) -> int:
     """Return index or -1 if target not found."""
     low = 0
-    high = len(array)
-    while low < high:
+    high = len(array) - 1
+    while low <= high:
         middle = (high + low) // 2
         if target == array[middle]:
             return middle
         elif target < array[middle]:
-            high = middle
+            high = middle - 1
         else:
             low = middle + 1
     return -1
