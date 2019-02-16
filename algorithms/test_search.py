@@ -1,8 +1,9 @@
+"""Tests for algorithms that search lists and arrays."""
 import pytest
 import algorithms.search as search
 from .binary_search import binary_search
 
-@pytest.mark.parametrize("search_data, target, expected",[
+@pytest.mark.parametrize("search_data, target, expected", [
     ([5], 5, 0),
     ([5], 3, -1),
     ([1, 2, 3], 1, 0),
