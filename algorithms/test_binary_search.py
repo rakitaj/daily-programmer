@@ -2,10 +2,12 @@
 import pytest
 from .binary_search import sqrt_builtin, sqrt_scratch
 
-@pytest.mark.parametrize("n, expected", [
-    [(9, 3),
-     (10, 3)]
+@pytest.mark.parametrize("sqrt_func, n, expected", [
+    (sqrt_builtin, 9, 3),
+    (sqrt_builtin, 8, 2),
+    (sqrt_builtin, 10, 3),
+    (sqrt_scratch, 9, 3),
+    (sqrt_scratch, 8, 2)
 ])
-def test_square_root(n: int, expected: int):
-    assert sqrt_builtin(n) == expected
-    assert sqrt_scratch(n) == expected
+def test_square_root(sqrt_func, n: int, expected: int):
+    assert sqrt_func(n) == expected

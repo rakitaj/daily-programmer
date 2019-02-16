@@ -24,9 +24,9 @@ def sqrt_scratch(x: int) -> int:
     high = x
     while guess(low, high) ** 2 != x:
         if guess(low, high) ** 2 < x:
-            high = guess(low, high)
-        else:
             low = guess(low, high)
+        else:
+            high = guess(low, high)
     return guess(low, high)
 
 def guess(low: int, high: int) -> int:
