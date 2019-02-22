@@ -19,15 +19,20 @@ def binary_search(array: List[int], target: int) -> int:
 def sqrt_builtin(x: int) -> int:
     return floor(sqrt(x))
 
+def close_enough(guess: float, target: int, delta: float) -> bool:
+    diff = target - guess
+    return abs(diff) <= delta
+
 def sqrt_scratch(x: int) -> int:
+    if x == 1:
+        return 1
     low = 0
     high = x
-    while guess(low, high) ** 2 != x:
-        if guess(low, high) ** 2 < x:
-            low = guess(low, high)
+    guess = (low + high) / 2
+    while close_enough(guess ** 2, x, .01) is False:
+        if guess ** 2 < x:
+            low = guess
         else:
-            high = guess(low, high)
-    return guess(low, high)
-
-def guess(low: int, high: int) -> int:
-    return (low + high) // 2
+            high = guess
+        guess = (low + high) / 2
+    return floor(guess)
