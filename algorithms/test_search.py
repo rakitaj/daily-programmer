@@ -1,7 +1,7 @@
 """Tests for algorithms that search lists and arrays."""
 import pytest
 import algorithms.search as search
-from .binary_search import binary_search
+from leetcode.binarysearch.binary_search import binary_search
 
 @pytest.mark.parametrize("search_data, target, expected", [
     ([5], 5, 0),
