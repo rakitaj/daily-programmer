@@ -2,3 +2,4 @@ mypy
 pytest
 rope
 pylint
+flake8
