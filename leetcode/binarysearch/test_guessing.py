@@ -2,6 +2,7 @@
 import pytest
 from leetcode.binarysearch.guessing import Solution
 
+
 @pytest.mark.parametrize("max_number, target", [
     [10, 6],
     [1, 1]
