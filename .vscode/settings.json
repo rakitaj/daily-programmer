@@ -1,7 +1,5 @@
 {
-    "python.jediEnabled": false,
-    "python.linting.pylintEnabled": false,
-    "python.linting.flake8Enabled": true,
+    "python.linting.pylintEnabled": true,
     "python.pythonPath": "${workspaceRoot}\\thevenv\\Scripts\\python.exe",
     "python.linting.mypyEnabled": true,
     "files.exclude": {
@@ -10,7 +8,9 @@
         "**/__pycache__": true,
         "**/.cache": true,
         "**/.pytest_cache": true,
-        "thevenv/": true
+        "venv/": true
     },
-    "python.unitTest.pyTestEnabled": true
+    "python.testing.pytestEnabled": true,
+    "python.languageServer":"Pylance",
+    "python.analysis.typeCheckingMode": "strict"
 }
