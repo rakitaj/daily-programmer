@@ -1,3 +1,4 @@
+"""Tests the puzzles in Advent of Code 2021 along with some test for helper function and algorithms."""
 import pytest
 from algos import *
 from puzzles import *
@@ -19,3 +20,28 @@ def test_sonar_sweep_simple():
 def test_sonar_sweep_sliding_window():
     depths = [199, 200, 208, 210, 200, 207, 240, 269, 260, 263]
     assert sonar_sweep_sliding_window(depths) == 5
+
+
+@pytest.mark.parametrize("position, expected", [(0, 1), (1, 0), (2, 1), (3, 1), (4, 0)])
+def test_most_common_bit(position: int, expected: int):
+    bits_list = [
+        "00100",
+        "11110",
+        "10110",
+        "10111",
+        "10101",
+        "01111",
+        "00111",
+        "11100",
+        "10000",
+        "11001",
+        "00010",
+        "01010",
+    ]
+    assert most_common_bit(bits_list, position) == expected
+
+
+@pytest.mark.parametrize("bits, decimal", [([1, 0, 1, 1, 0], 22)])
+def test_bits_to_decimal(bits: list[int], decimal: int):
+    bits.reverse()
+    assert bits_to_decimal(bits) == decimal
