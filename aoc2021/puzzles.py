@@ -1,6 +1,6 @@
 """Puzzle solutions for Advent of Code 2021"""
 from typing import Callable
-from algos import sliding_window, bits_to_decimal
+from algos import sliding_window, bits_to_decimal, count_bits, most_common_bit
 from input_helpers import puzzle_input_to_str, puzzle_input_to_ints
 
 
@@ -63,24 +63,50 @@ def dive2():
     return x * depth
 
 
-def most_common_bit(bits_list: list[str], i: int) -> int:
-    total = 0
-    for bits in bits_list:
-        total += int(bits[i])
-    return round(total / len(bits_list))
-
-
-def binary_diagnotic1():
+def binary_diagnostic1():
     bits_list = puzzle_input_to_str(3, strip=True)
     gamma_rate_bits: list[int] = list()
     for i in range(len(bits_list[0])):
         gamma_rate_bits.append(most_common_bit(bits_list, i))
     eplison_rate_bits = [bit ^ 1 for bit in gamma_rate_bits]
-    gamma_rate_bits.reverse()
-    eplison_rate_bits.reverse()
-    gamma_rate_decimal = bits_to_decimal(gamma_rate_bits)
-    epsilon_rate_decimal = bits_to_decimal(eplison_rate_bits)
+    gamma_rate_decimal = bits_to_decimal(gamma_rate_bits, "big")
+    epsilon_rate_decimal = bits_to_decimal(eplison_rate_bits, "big")
     return gamma_rate_decimal * epsilon_rate_decimal
+
+
+def binary_diagnostic2() -> int:
+    bits_list = puzzle_input_to_str(3, strip=True)
+    oxygen_generator_rating = calculate_oxygen_generator_rating(bits_list.copy())
+    co2_scrubber_rating = calculate_co2_scrubber_rating(bits_list.copy())
+    return oxygen_generator_rating * co2_scrubber_rating
+
+
+def calculate_oxygen_generator_rating(bits_list: list[str]) -> int:
+    length = len(bits_list[0])
+    for i in range(length):
+        bits_count = count_bits(bits_list, i)
+        if bits_count[0] <= bits_count[1]:
+            bits_list = [bits for bits in bits_list if bits[i] == "1"]
+        else:
+            bits_list = [bits for bits in bits_list if bits[i] == "0"]
+        if len(bits_list) == 1:
+            break
+    bits_ready_to_convert: list[int] = [int(bit) for bit in bits_list[0]]
+    return bits_to_decimal(bits_ready_to_convert, "big")
+
+
+def calculate_co2_scrubber_rating(bits_list: list[str]) -> int:
+    length = len(bits_list[0])
+    for i in range(length):
+        bits_count = count_bits(bits_list, i)
+        if bits_count[0] <= bits_count[1]:
+            bits_list = [bits for bits in bits_list if bits[i] == "0"]
+        else:
+            bits_list = [bits for bits in bits_list if bits[i] == "1"]
+        if len(bits_list) == 1:
+            break
+    bits_ready_to_convert: list[int] = [int(bit) for bit in bits_list[0]]
+    return bits_to_decimal(bits_ready_to_convert, "big")
 
 
 if __name__ == "__main__":
@@ -88,4 +114,5 @@ if __name__ == "__main__":
     print(f"Sonar Sweep part 2 {sonar_sweep(sonar_sweep_sliding_window)}")
     print(f"Dive part 1 {dive1()}")
     print(f"Dive part 2 {dive2()}")
-    print(f"Binary diagnostic 1 {binary_diagnotic1()}")
+    print(f"Binary diagnostic 1 {binary_diagnostic1()}")
+    print(f"Binary diagnostic 2 {binary_diagnostic2()}")
