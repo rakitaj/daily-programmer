@@ -1,35 +1,45 @@
 """
 Advent of Code 2018 solutions.
 """
-from typing import Dict, List, Callable
+from os.path import abspath, dirname
+from typing import Any, Callable, TypeVar
+
+T = TypeVar("T")
+TDictKey = TypeVar("TDictKey")
+TDictValue = TypeVar("TDictValue")
 
 
-def puzzle_input_base(filename: str, cast_func) -> List:
-    result: List = list()
-    with open(f"puzzle-input/{filename}", "r") as f:
+def puzzle_input_base(filename: str, cast_func: Callable[[str], T]) -> list[T]:
+    result: list[T] = list()
+    this_directory = dirname(__file__)
+    absolute_path = abspath(f"{this_directory}/puzzle-input/{filename}")
+    print(absolute_path)
+    with open(absolute_path, "r") as f:
         for line in f:
             result.append(cast_func(line))
     return result
 
 
-def puzzle_input_to_ints(filename: str) -> List[int]:
+def puzzle_input_to_ints(filename: str) -> list[int]:
     return puzzle_input_base(filename, int)
 
 
-def puzzle_input_to_strings(filename: str) -> List[str]:
+def puzzle_input_to_strings(filename: str) -> list[str]:
     return puzzle_input_base(filename, str)
 
 
-def dict_where(dictionary: Dict, where_func: Callable) -> Dict:
-    result = dict()
+def dict_where(
+    dictionary: dict[TDictKey, TDictValue], where_func: Callable[[TDictValue], bool]
+) -> dict[TDictKey, TDictValue]:
+    result: dict[TDictKey, TDictValue] = dict()
     for key, value in dictionary.items():
         if where_func(value) is True:
             result[key] = value
     return result
 
 
-def string_to_freq_dict(string: str) -> Dict[str, int]:
-    result: Dict[str, int] = dict()
+def string_to_freq_dict(string: str) -> dict[str, int]:
+    result: dict[str, int] = dict()
     for char in string:
         if char in result:
             result[char] += 1
@@ -57,12 +67,11 @@ def word_diff_chars(word_1: str, word_2: str, target_diff: int) -> bool:
 
 
 class Point(object):
-
     def __init__(self, x: int, y: int) -> None:
         self.x = x
         self.y = y
 
-    def __eq__(self, other) -> bool:
+    def __eq__(self, other: Any) -> bool:
         return self.x == other.x and self.y == other.y
 
     def __repr__(self) -> str:
@@ -71,13 +80,13 @@ class Point(object):
     def __hash__(self):
         return hash((self.x, self.y))
 
-class ClaimedPoint(Point):
 
+class ClaimedPoint(Point):
     def __init__(self, x: int, y: int, claim_id: int) -> None:
         super().__init__(x, y)
         self.claim_id = claim_id
 
-    def __eq__(self, other) -> bool:
+    def __eq__(self, other: Any) -> bool:
         return super().__eq__(other) and self.claim_id == other.claim_id
 
     def __repr__(self) -> str:
@@ -90,13 +99,20 @@ class ClaimedPoint(Point):
 class FabricClaim(object):
     """A claim on an area of fabric."""
 
-    def __init__(self, claim_id: int, left_padding: int, top_padding: int, width: int, height: int) -> None:
+    def __init__(
+        self,
+        claim_id: int,
+        left_padding: int,
+        top_padding: int,
+        width: int,
+        height: int,
+    ) -> None:
         self.claim_id = claim_id
         self.left_padding = left_padding
         self.top_padding = top_padding
         self.width = width
         self.height = height
-        self.area = self.width = self.height
+        self.area = self.width * self.height
 
     @staticmethod
     def from_puzzle_input(claim_string: str) -> "FabricClaim":
@@ -112,15 +128,15 @@ class FabricClaim(object):
         height = int(sizes[1].strip())
         return FabricClaim(claim_id, left_padding, top_padding, width, height)
 
-    def points(self) -> Dict[Point, bool]:
-        points: Dict["Point", bool] = dict()
+    def points(self) -> dict[Point, bool]:
+        points: dict["Point", bool] = dict()
         for x in range(self.left_padding, self.left_padding + self.width):
             for y in range(self.top_padding, self.top_padding + self.height):
                 points[Point(x, y)] = False
         return points
 
-    def overlapping_points(self, other: "FabricClaim") -> List[Point]:
-        overlapping_points: List[Point] = list()
+    def overlapping_points(self, other: "FabricClaim") -> list[Point]:
+        overlapping_points: list[Point] = list()
         points = self.points()
         other_points = other.points()
         for other_point in other_points:

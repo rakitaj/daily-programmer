@@ -1,8 +1,15 @@
 """The functions for the different days of AOC 2018"""
 from typing import Dict, List
-from aoc2018.xmascommon import (puzzle_input_to_ints, puzzle_input_to_strings,
-                                Point, FabricClaim,
-                                string_to_freq_dict, word_diff_chars, common_letters, dict_where)
+from aoc2018.xmascommon import (
+    puzzle_input_to_ints,
+    puzzle_input_to_strings,
+    Point,
+    FabricClaim,
+    string_to_freq_dict,
+    word_diff_chars,
+    common_letters,
+    dict_where,
+)
 
 
 def day01_1() -> int:
@@ -51,37 +58,5 @@ def day02_2() -> str:
     return result.strip()
 
 
-def day03_1() -> int:
-    puzzle_strings = puzzle_input_to_strings("day03.txt")
-    fabric_claims: List[FabricClaim] = list()
-    seen_points: Dict[Point, bool] = dict()
-    for puzzle_string in puzzle_strings:
-        fabric_claims.append(FabricClaim.from_puzzle_input(puzzle_string))
-    for f_c in fabric_claims:
-        points = f_c.points()
-        for point in points:
-            if point in seen_points:
-                seen_points[point] = True
-            else:
-                seen_points[point] = False
-    return len(dict_where(seen_points, lambda x: x is True))
-
-
-def day03_2() -> int:
-    puzzle_strings = puzzle_input_to_strings("day03.txt")
-    fabric_claims: List[FabricClaim] = list()
-    whole_claims = list()
-    for puzzle_string in puzzle_strings:
-        fabric_claims.append(FabricClaim.from_puzzle_input(puzzle_string))
-    for i in range(len(fabric_claims)):
-        for j in range(i, len(fabric_claims)):
-            print((i, j))
-            no_overlap = fabric_claims[i].overlapping_points_fast(fabric_claims[j])
-            if no_overlap is True:
-                whole_claims.append(fabric_claims[i])
-    return whole_claims
-
-
 if __name__ == "__main__":
-    ANSWER = day03_2()
-    print(ANSWER)
+    print("Print answer here")
