@@ -2,6 +2,7 @@
 from typing import Callable
 from algos import sliding_window, bits_to_decimal, count_bits, most_common_bit
 from input_helpers import puzzle_input_to_str, puzzle_input_to_ints
+from bingo import Bingo, puzzle_input_to_bingo
 
 
 def sonar_sweep(logic_func: Callable[[list[int]], float]):
@@ -109,6 +110,12 @@ def calculate_co2_scrubber_rating(bits_list: list[str]) -> int:
     return bits_to_decimal(bits_ready_to_convert, "big")
 
 
+def giant_squid1():
+    puzzle_input = puzzle_input_to_str(4, strip=True)
+    puzzle_data_parsed = puzzle_input_to_bingo(puzzle_input)
+    return puzzle_data_parsed
+
+
 if __name__ == "__main__":
     print(f"Sonar Sweep part 1 {sonar_sweep(sonar_sweep_lookback)}")
     print(f"Sonar Sweep part 2 {sonar_sweep(sonar_sweep_sliding_window)}")
@@ -116,3 +123,4 @@ if __name__ == "__main__":
     print(f"Dive part 2 {dive2()}")
     print(f"Binary diagnostic 1 {binary_diagnostic1()}")
     print(f"Binary diagnostic 2 {binary_diagnostic2()}")
+    print(f"Giant squid 2 {giant_squid1()}")
