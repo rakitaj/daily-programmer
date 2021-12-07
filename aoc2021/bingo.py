@@ -1,3 +1,4 @@
+"""Advent of Code Day 4"""
 from dataclasses import dataclass
 
 
@@ -21,3 +22,23 @@ def puzzle_input_to_bingo(lines: list[str]) -> Bingo:
         boards.append(board)
     bingo = Bingo(moves=moves, boards=boards)
     return bingo
+
+
+def mark_board(board: list[int], drawn_number: int) -> None:
+    for i in range(len(board)):
+        if board[i] == drawn_number:
+            board[i] = -1
+
+
+def is_board_winner(board: list[int]) -> bool:
+    # Check rows
+    for i in range(0, len(board), 5):
+        indices = range(i, i + 5)
+        if all(board[i] == -1 for i in indices) is True:
+            return True
+    # Check columns
+    for i in range(0, 5):
+        indices = range(i, len(board), 5)
+        if all(board[i] == -1 for i in indices) is True:
+            return True
+    return False
