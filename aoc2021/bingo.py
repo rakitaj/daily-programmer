@@ -42,3 +42,26 @@ def is_board_winner(board: list[int]) -> bool:
         if all(board[i] == -1 for i in indices) is True:
             return True
     return False
+
+
+def first_winning_board(bingo: Bingo) -> int:
+    for move in bingo.moves:
+        for board in bingo.boards:
+            mark_board(board, move)
+            if is_board_winner(board) is True:
+                board_summed = sum([n for n in board if n != -1])
+                return board_summed * move
+    return -1
+
+
+def last_winning_board(bingo: Bingo) -> int:
+    winning_boards: set[int] = set()
+    for move in bingo.moves:
+        for iboard in range(len(bingo.boards)):
+            mark_board(bingo.boards[iboard], move)
+            if is_board_winner(bingo.boards[iboard]) is True:
+                winning_boards.add(iboard)
+            if len(winning_boards) == len(bingo.boards):
+                board_summed = sum([n for n in bingo.boards[iboard] if n != -1])
+                return board_summed * move
+    return -1

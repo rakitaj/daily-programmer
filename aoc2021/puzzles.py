@@ -2,7 +2,7 @@
 from typing import Callable
 from algos import sliding_window, bits_to_decimal, count_bits, most_common_bit
 from input_helpers import puzzle_input_to_str, puzzle_input_to_ints
-from bingo import puzzle_input_to_bingo, is_board_winner, mark_board
+from bingo import puzzle_input_to_bingo, first_winning_board, last_winning_board
 
 
 def sonar_sweep(logic_func: Callable[[list[int]], float]):
@@ -113,30 +113,13 @@ def calculate_co2_scrubber_rating(bits_list: list[str]) -> int:
 def giant_squid1() -> int:
     puzzle_input = puzzle_input_to_str(4, strip=True)
     bingo = puzzle_input_to_bingo(puzzle_input)
-    for move in bingo.moves:
-        for board in bingo.boards:
-            mark_board(board, move)
-            if is_board_winner(board) is True:
-                board_summed = sum([n for n in board if n != -1])
-                return board_summed * move
-    return -1
+    return first_winning_board(bingo)
 
 
 def giant_squid2() -> int:
     puzzle_input = puzzle_input_to_str(4, strip=True)
     bingo = puzzle_input_to_bingo(puzzle_input)
-    winning_boards: set[int] = set()
-    for move in bingo.moves:
-        for iboard in range(len(bingo.boards)):
-            mark_board(bingo.boards[iboard], move)
-            if is_board_winner(bingo.boards[iboard]) is True:
-                winning_boards.add(iboard)
-            if len(winning_boards) == len(bingo.boards) - 1:
-                i_winning_board = winning_boards.difference(range(len(bingo.boards)))
-                breakpoint()
-                board_summed = sum([n for n in bingo.boards[i_winning_board] if n != -1])
-                return board_summed * move
-    return -1
+    return last_winning_board(bingo)
 
 
 if __name__ == "__main__":

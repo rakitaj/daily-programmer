@@ -1,5 +1,6 @@
 """Test the bingo problem."""
 import pytest
+from aoc2021.bingo import first_winning_board, last_winning_board
 from bingo import puzzle_input_to_bingo, is_board_winner
 
 
@@ -53,3 +54,13 @@ def test_is_board_winner_with_winning_column(raw_data: list[str]):
     bingo.boards[0][18] = -1
     bingo.boards[0][23] = -1
     assert is_board_winner(bingo.boards[0]) is True
+
+
+def test_first_winning_board(raw_data: list[str]):
+    bingo = puzzle_input_to_bingo(raw_data)
+    assert first_winning_board(bingo) == 4512
+
+
+def test_last_winning_board(raw_data: list[str]):
+    bingo = puzzle_input_to_bingo(raw_data)
+    assert last_winning_board(bingo) == 1924
