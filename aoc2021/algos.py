@@ -1,3 +1,24 @@
+"""Common classes and algorithms for Advent of Code 2021."""
+
+
+class Point:
+    def __init__(self, x: int, y: int):
+        self.x = x
+        self.y = y
+
+    def __eq__(self, __o: object) -> bool:
+        if isinstance(__o, Point):
+            return self.x == __o.x and self.y == __o.y
+        else:
+            return False
+
+    def __str__(self) -> str:
+        return f"(x:{self.x}, y:{self.y})"
+
+    def __repr__(self) -> str:
+        return str(self)
+
+
 def sliding_window(nums: list[int], start: int, lookback: int) -> int:
     total = 0
     for i in range(start - (lookback - 1), start + 1):
@@ -19,9 +40,7 @@ def bits_to_decimal(bits: list[int], endianness: str) -> int:
             if bits[i] == 1:
                 total += pow(2, (length - 1) - i)
     else:
-        raise ValueError(
-            f"Endianness must be little or big. Value of {endianness} is not known."
-        )
+        raise ValueError(f"Endianness must be little or big. Value of {endianness} is not known.")
     return total
 
 
