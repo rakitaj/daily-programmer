@@ -135,16 +135,23 @@ def normalize_vents(vent_vectors: list[tuple[Point, Point]]) -> list[tuple[Point
     result: list[tuple[Point, Point]] = list()
     for vector in vent_vectors:
         start, end = vector
-        if start.x == end.x or start.y == end.y:
-            start_point = min((start.x, start.y), (end.x, end.y))
-            end_point = max((start.x, start.y), (end.x, end.y))
-            ordered_vector = (Point(start_point[0], start_point[1]), Point(end_point[0], end_point[1]))
-            result.append(ordered_vector)
+        start_point = min((start.x, start.y), (end.x, end.y))
+        end_point = max((start.x, start.y), (end.x, end.y))
+        ordered_vector = (Point(start_point[0], start_point[1]), Point(end_point[0], end_point[1]))
+        result.append(ordered_vector)
     return result
 
 
-def hydrothermal_venture(vent_list: list[str]) -> int:
-    vent_vectors = [parse_vent_line(vent_line) for vent_line in vent_list]
+def only_straight_lines(vent_vectors: list[tuple[Point, Point]]) -> list[tuple[Point, Point]]:
+    result: list[tuple[Point, Point]] = list()
+    for vector in vent_vectors:
+        start, end = vector
+        if start.x == end.x or start.y == end.y:
+            result.append(vector)
+    return result
+
+
+def hydrothermal_venture(vent_vectors: list[tuple[Point, Point]]) -> int:
     occupied_points: dict[tuple[int, int], int] = dict()
     ordered_vectors = normalize_vents(vent_vectors)
     # Need to trim and normalize vectors because sometimes the end is the first point and the start is the second.
@@ -162,6 +169,14 @@ def hydrothermal_venture(vent_list: list[str]) -> int:
                     occupied_points[(x, start.y)] += 1
                 else:
                     occupied_points[(x, start.y)] = 1
+        else:
+            diagonal_length = end.x - start.x
+            for i in range(diagonal_length + 1):
+                point = (start.x + i, start.y + i)
+                if point in occupied_points:
+                    occupied_points[point] += 1
+                else:
+                    occupied_points[point] = 1
     overlap_count = 0
     for _, value in occupied_points.items():
         if 2 <= value:
@@ -171,8 +186,16 @@ def hydrothermal_venture(vent_list: list[str]) -> int:
 
 def hydrothermal_venture1() -> int:
     puzzle_input = puzzle_input_to_str(5, True)
+    vent_vectors = [parse_vent_line(vent_line) for vent_line in puzzle_input]
+    vent_vectors = only_straight_lines(vent_vectors)
+    result = hydrothermal_venture(vent_vectors)
+    return result
 
-    result = hydrothermal_venture(puzzle_input)
+
+def hydrothermal_venture2() -> int:
+    puzzle_input = puzzle_input_to_str(5, True)
+    vent_vectors = [parse_vent_line(vent_line) for vent_line in puzzle_input]
+    result = hydrothermal_venture(vent_vectors)
     return result
 
 
@@ -186,3 +209,4 @@ if __name__ == "__main__":
     print(f"Giant squid 1 {giant_squid1()}")
     print(f"Giant squid 2 {giant_squid2()}")
     print(f"Hydrothermal Venture 1 {hydrothermal_venture1()}")
+    print(f"Hydrothermal Venture 2 {hydrothermal_venture2()}")

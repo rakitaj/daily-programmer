@@ -41,3 +41,15 @@ def test_point(start: tuple[int, int], end: tuple[int, int], expected: bool):
     point1 = Point(start[0], start[1])
     point2 = Point(end[0], end[1])
     assert (point1 == point2) is expected
+
+
+def test_diagonal_line():
+    start = (1, 1)
+    end = (3, 3)
+    points: list[tuple[int, int]] = list()
+    diagonal_length = end[0] - start[0]
+    for i in range(diagonal_length + 1):
+        point = ((start[0] + i), (start[1] + i))
+        points.append(point)
+    assert len(points) == 3
+    assert points[0] == (1, 1) and points[2] == (3, 3)

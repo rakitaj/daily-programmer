@@ -43,8 +43,9 @@ def test_parse_vent_line(vents_list: list[str]):
     assert (Point(0, 9), Point(5, 9)) == result
 
 
-def test_normalize_vents(vents_list: list[str]):
+def test_normalize_vents_only_straight_lines(vents_list: list[str]):
     vent_vectors = [parse_vent_line(vent_line) for vent_line in vents_list]
+    vent_vectors = only_straight_lines(vent_vectors)
     result = normalize_vents(vent_vectors)
     assert result == [
         (Point(0, 9), Point(5, 9)),
@@ -57,5 +58,6 @@ def test_normalize_vents(vents_list: list[str]):
 
 
 def test_hydrothermal_venture(vents_list: list[str]):
-    result = hydrothermal_venture(vents_list)
+    vent_vectors = [parse_vent_line(vent_line) for vent_line in vents_list]
+    result = hydrothermal_venture(vent_vectors)
     assert result == 5
