@@ -76,20 +76,16 @@ def test_lantern_fish_tick():
     assert result == {2: 2, 0: 1, 1: 1, 3: 1}
 
 
-def test_lantern_fish_tick_3():
+@pytest.mark.parametrize(
+    "num_ticks, expected",
+    [(3, {0: 2, 1: 1, 5: 1, 6: 1, 7: 1, 8: 1}), (18, {6: 5, 0: 3, 4: 2, 5: 1, 1: 5, 2: 3, 3: 2, 7: 1, 8: 4})],
+)
+def test_lantern_fish_tick_3(num_ticks: int, expected: dict[int, int]):
     fish_dict = parse_lantern_fish_list("3,4,3,1,2")
-    for _ in range(3):
+    for _ in range(num_ticks):
         fish_dict = lantern_fish_tick(fish_dict)
     fish_dict = dict_remove_empty_kvps(fish_dict, 0)
-    assert fish_dict == {0: 2, 1: 1, 5: 1, 6: 1, 7: 1, 8: 1}
-
-
-def test_lantern_fish_tick_18():
-    fish_dict = parse_lantern_fish_list("3,4,3,1,2")
-    for _ in range(3):
-        fish_dict = lantern_fish_tick(fish_dict)
-    fish_dict = dict_remove_empty_kvps(fish_dict, 0)
-    assert fish_dict == {6: 5, 0: 3, 4: 2, 5: 1, 1: 5, 2: 3, 3: 2, 7: 1, 8: 4}
+    assert fish_dict == expected
 
 
 def dict_remove_empty_kvps(dictionary: dict[int, int], value_value: int) -> dict[int, int]:

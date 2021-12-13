@@ -213,17 +213,17 @@ def lantern_fish_tick(fish_dict: dict[int, int]) -> dict[int, int]:
     new_fish_dict: dict[int, int] = dict()
     for i in range(8, -1, -1):
         if i == 0:
-            new_fish_dict[8] += fish_dict.get(i, 0)
+            new_fish_dict[8] = fish_dict.get(i, 0)
             new_fish_dict[6] += fish_dict.get(i, 0)
         else:
             new_fish_dict[i - 1] = fish_dict.get(i, 0)
     return new_fish_dict
 
 
-def lantern_fish_1():
+def lantern_fish(num_ticks: int):
     data = puzzle_input_to_str(6, True)
     fish_dict = parse_lantern_fish_list(data[0])
-    for _ in range(80):
+    for _ in range(num_ticks):
         fish_dict = lantern_fish_tick(fish_dict)
     total = sum(fish_dict.values())
     return total
@@ -240,4 +240,5 @@ if __name__ == "__main__":
     print(f"Giant squid 2 {giant_squid2()}")
     print(f"Hydrothermal Venture 1 {hydrothermal_venture1()}")
     print(f"Hydrothermal Venture 2 {hydrothermal_venture2()}")
-    print(f"Lantern Fish 1 {lantern_fish_1()}")
+    print(f"Lantern Fish 1 {lantern_fish(80)}")
+    print(f"Lantern Fish 2 {lantern_fish(256)}")
