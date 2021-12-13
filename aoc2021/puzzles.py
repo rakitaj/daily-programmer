@@ -1,6 +1,6 @@
 """Puzzle solutions for Advent of Code 2021"""
 from typing import Callable
-from algos import sliding_window, bits_to_decimal, count_bits, most_common_bit, Point
+from algos import sliding_window, bits_to_decimal, count_bits, most_common_bit, Point, diagonal_line
 from input_helpers import puzzle_input_to_str, puzzle_input_to_ints
 from bingo import puzzle_input_to_bingo, first_winning_board, last_winning_board
 
@@ -170,9 +170,8 @@ def hydrothermal_venture(vent_vectors: list[tuple[Point, Point]]) -> int:
                 else:
                     occupied_points[(x, start.y)] = 1
         else:
-            diagonal_length = end.x - start.x
-            for i in range(diagonal_length + 1):
-                point = (start.x + i, start.y + i)
+            diagonal_points = diagonal_line(start, end)
+            for point in diagonal_points:
                 if point in occupied_points:
                     occupied_points[point] += 1
                 else:
@@ -199,6 +198,37 @@ def hydrothermal_venture2() -> int:
     return result
 
 
+def parse_lantern_fish_list(puzzle_input: str) -> dict[int, int]:
+    fish_life_numbers = [int(fish) for fish in puzzle_input.split(",")]
+    fish_lives: dict[int, int] = dict()
+    for fish in fish_life_numbers:
+        if fish in fish_lives:
+            fish_lives[fish] += 1
+        else:
+            fish_lives[fish] = 1
+    return fish_lives
+
+
+def lantern_fish_tick(fish_dict: dict[int, int]) -> dict[int, int]:
+    new_fish_dict: dict[int, int] = dict()
+    for i in range(8, -1, -1):
+        if i == 0:
+            new_fish_dict[8] += fish_dict.get(i, 0)
+            new_fish_dict[6] += fish_dict.get(i, 0)
+        else:
+            new_fish_dict[i - 1] = fish_dict.get(i, 0)
+    return new_fish_dict
+
+
+def lantern_fish_1():
+    data = puzzle_input_to_str(6, True)
+    fish_dict = parse_lantern_fish_list(data[0])
+    for _ in range(80):
+        fish_dict = lantern_fish_tick(fish_dict)
+    total = sum(fish_dict.values())
+    return total
+
+
 if __name__ == "__main__":
     print(f"Sonar Sweep part 1 {sonar_sweep(sonar_sweep_lookback)}")
     print(f"Sonar Sweep part 2 {sonar_sweep(sonar_sweep_sliding_window)}")
@@ -210,3 +240,4 @@ if __name__ == "__main__":
     print(f"Giant squid 2 {giant_squid2()}")
     print(f"Hydrothermal Venture 1 {hydrothermal_venture1()}")
     print(f"Hydrothermal Venture 2 {hydrothermal_venture2()}")
+    print(f"Lantern Fish 1 {lantern_fish_1()}")

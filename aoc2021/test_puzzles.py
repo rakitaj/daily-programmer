@@ -60,4 +60,41 @@ def test_normalize_vents_only_straight_lines(vents_list: list[str]):
 def test_hydrothermal_venture(vents_list: list[str]):
     vent_vectors = [parse_vent_line(vent_line) for vent_line in vents_list]
     result = hydrothermal_venture(vent_vectors)
-    assert result == 5
+    assert result == 12
+
+
+def test_parse_lantern_fish_list():
+    data = "3,4,3,1,2"
+    fish_dict = parse_lantern_fish_list(data)
+    assert fish_dict == {1: 1, 1: 1, 2: 1, 3: 2, 4: 1}
+
+
+def test_lantern_fish_tick():
+    fish_dict = parse_lantern_fish_list("3,4,3,1,2")
+    result = lantern_fish_tick(fish_dict)
+    result = dict_remove_empty_kvps(result, 0)
+    assert result == {2: 2, 0: 1, 1: 1, 3: 1}
+
+
+def test_lantern_fish_tick_3():
+    fish_dict = parse_lantern_fish_list("3,4,3,1,2")
+    for _ in range(3):
+        fish_dict = lantern_fish_tick(fish_dict)
+    fish_dict = dict_remove_empty_kvps(fish_dict, 0)
+    assert fish_dict == {0: 2, 1: 1, 5: 1, 6: 1, 7: 1, 8: 1}
+
+
+def test_lantern_fish_tick_18():
+    fish_dict = parse_lantern_fish_list("3,4,3,1,2")
+    for _ in range(3):
+        fish_dict = lantern_fish_tick(fish_dict)
+    fish_dict = dict_remove_empty_kvps(fish_dict, 0)
+    assert fish_dict == {6: 5, 0: 3, 4: 2, 5: 1, 1: 5, 2: 3, 3: 2, 7: 1, 8: 4}
+
+
+def dict_remove_empty_kvps(dictionary: dict[int, int], value_value: int) -> dict[int, int]:
+    trimmed_dict: dict[int, int] = dict()
+    for key, value in dictionary.items():
+        if value != value_value:
+            trimmed_dict[key] = value
+    return trimmed_dict

@@ -64,3 +64,12 @@ def count_bits(bits_list: list[str], i: int) -> tuple[int, int]:
         else:
             raise ValueError(f"Bit value in {bits} at position {i} is not valid.")
     return (count0s, count1s)
+
+
+def diagonal_line(start: Point, end: Point) -> list[tuple[int, int]]:
+    points: list[tuple[int, int]] = list()
+    diagonal_length = end.x - start.x
+    for i in range(diagonal_length + 1):
+        point = ((start.x + i), (start.y + i))
+        points.append(point)
+    return points
