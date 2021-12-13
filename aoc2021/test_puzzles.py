@@ -94,3 +94,13 @@ def dict_remove_empty_kvps(dictionary: dict[int, int], value_value: int) -> dict
         if value != value_value:
             trimmed_dict[key] = value
     return trimmed_dict
+
+
+def test_minimum_fuel_linear_cost():
+    crab_positions = [16, 1, 2, 0, 4, 2, 7, 1, 2, 14]
+    assert minimum_fuel(crab_positions, linear_crab_fuel) == (2, 37)
+
+
+def test_minimum_fuel_nonlinear_cost():
+    crab_positions = [16, 1, 2, 0, 4, 2, 7, 1, 2, 14]
+    assert minimum_fuel(crab_positions, nonlinear_crab_fuel) == (5, 168)

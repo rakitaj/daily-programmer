@@ -229,6 +229,43 @@ def lantern_fish(num_ticks: int):
     return total
 
 
+def minimum_fuel(crab_positions: list[int], cost_function: Callable[[int, int], int]) -> tuple[int, int]:
+    best_position = 0
+    min_fuel_used = 1_000_000_000_000
+    for i in range(min(crab_positions), max(crab_positions) + 1):
+        total_fuel = 0
+        for crab_position in crab_positions:
+            fuel_needed = cost_function(crab_position, i)
+            total_fuel += fuel_needed
+        if total_fuel < min_fuel_used:
+            min_fuel_used = total_fuel
+            best_position = i
+    return (best_position, min_fuel_used)
+
+
+def linear_crab_fuel(istart: int, itarget: int) -> int:
+    return abs(itarget - istart)
+
+
+cached_nonlinear_fuel: dict[int, int] = {}
+
+
+def nonlinear_crab_fuel(istart: int, itarget: int) -> int:
+    diff = abs(itarget - istart)
+    total = 0
+    if diff not in cached_nonlinear_fuel:
+        cached_nonlinear_fuel[diff] = sum(range(diff + 1))
+    total += cached_nonlinear_fuel[diff]
+    return total
+
+
+def the_treachery_of_whales(cost_function: Callable[[int, int], int]) -> int:
+    puzzle_input = puzzle_input_to_str(7)
+    crab_positions = [int(x) for x in puzzle_input[0].split(",")]
+    best_position, min_fuel = minimum_fuel(crab_positions, cost_function)
+    return min_fuel
+
+
 if __name__ == "__main__":
     print(f"Sonar Sweep part 1 {sonar_sweep(sonar_sweep_lookback)}")
     print(f"Sonar Sweep part 2 {sonar_sweep(sonar_sweep_sliding_window)}")
@@ -242,3 +279,5 @@ if __name__ == "__main__":
     print(f"Hydrothermal Venture 2 {hydrothermal_venture2()}")
     print(f"Lantern Fish 1 {lantern_fish(80)}")
     print(f"Lantern Fish 2 {lantern_fish(256)}")
+    print(f"The Treachery of Whales 1 {the_treachery_of_whales(linear_crab_fuel)}")
+    print(f"The Treachery of Whales 2 {the_treachery_of_whales(nonlinear_crab_fuel)}")
