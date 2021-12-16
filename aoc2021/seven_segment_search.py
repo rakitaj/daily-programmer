@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from algos import LinqList
 
 
 @dataclass
@@ -29,6 +30,36 @@ def output_pattern_counts(raw_signal_patterns: list[str]) -> int:
     return counts[2] + counts[4] + counts[3] + counts[7]
 
 
-def unscramble(patterns: list[str]) -> dict[str, str]:
-    pattern_map = {"a": "-", "b": "-", "c": "-", "d": "-", "e": "-", "f": "-", "g": "-"}
-    pass
+def unscramble(pattern: SignalPattern) -> dict[str, str]:
+    linq_list = LinqList(pattern.input_pattern)
+    numbers_map: dict[int, set[str]] = dict()
+    one = linq_list.single(lambda s: len(s) == 2)
+    four = linq_list.single(lambda s: len(s) == 4)
+    seven = linq_list.single(lambda s: len(s) == 3)
+    eight = linq_list.single(lambda s: len(s) == 7)
+    numbers_map[1] = set(one)
+    numbers_map[4] = set(four)
+    numbers_map[7] = set(seven)
+    numbers_map[8] = set(eight)
+    # 4 diff 9 pattern is empty.
+    nine_patterns = linq_list.where(lambda s: len(s) == 6)
+    nine = nine_patterns.single(lambda s: len(numbers_map[4].difference(set(s))) == 0)
+    numbers_map[9] = set(nine)
+    # 6 pattern diff 5 pattern is one. Must remove the 9 pattern from the 6s before doing this.
+    five_patterns = linq_list.where(lambda s: len(s) == 5)
+    six_patterns = linq_list.where(lambda s: len(s) == 6)
+    six_patterns.remove(nine)
+    for p6 in six_patterns:
+        for p5 in five_patterns:
+            if len(set(p6).difference(p5)) == 1:
+                five = p5
+                six = p6
+                numbers_map[5] = set(p5)
+                numbers_map[6] = set(p6)
+    # 0 is the leftover 6s pattern with 6 and 9 removed.
+    zero_patterns = linq_list.where(lambda s: len(s) == 6)
+    zero_patterns.remove(six)
+    zero_patterns.remove(nine)
+    zero = zero_patterns.first()
+    numbers_map[0] = set(zero)
+    return dict()

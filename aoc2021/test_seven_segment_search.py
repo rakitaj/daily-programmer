@@ -21,3 +21,8 @@ def signal_patterns() -> list[str]:
 def test_seven_segment_search(signal_patterns: list[str]):
     result = output_pattern_counts(signal_patterns)
     assert result == 26
+
+
+def test_unscramble_one(signal_patterns: list[str]):
+    parsed_signal_patterns = parse_signal_patterns(signal_patterns)
+    result = unscramble(parsed_signal_patterns[0])

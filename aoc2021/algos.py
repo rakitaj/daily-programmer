@@ -25,6 +25,10 @@ T = TypeVar("T")
 
 
 class LinqList(list[T]):
+    def __init__(self, initial_list: list[T] | None = None):
+        if initial_list is not None:
+            self.extend(initial_list)
+
     def first(self) -> T:
         return self[0]
 
