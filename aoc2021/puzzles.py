@@ -1,6 +1,7 @@
 """Puzzle solutions for Advent of Code 2021"""
 from typing import Callable
 from algos import sliding_window, bits_to_decimal, count_bits, most_common_bit, Point, diagonal_line
+from seven_segment_search import output_pattern_counts
 from input_helpers import puzzle_input_to_str, puzzle_input_to_ints
 from bingo import puzzle_input_to_bingo, first_winning_board, last_winning_board
 
@@ -262,8 +263,14 @@ def nonlinear_crab_fuel(istart: int, itarget: int) -> int:
 def the_treachery_of_whales(cost_function: Callable[[int, int], int]) -> int:
     puzzle_input = puzzle_input_to_str(7)
     crab_positions = [int(x) for x in puzzle_input[0].split(",")]
-    best_position, min_fuel = minimum_fuel(crab_positions, cost_function)
+    _, min_fuel = minimum_fuel(crab_positions, cost_function)
     return min_fuel
+
+
+def seven_segment_search_1() -> int:
+    puzzle_input = puzzle_input_to_str(8)
+    result = output_pattern_counts(puzzle_input)
+    return result
 
 
 if __name__ == "__main__":
@@ -281,3 +288,4 @@ if __name__ == "__main__":
     print(f"Lantern Fish 2 {lantern_fish(256)}")
     print(f"The Treachery of Whales 1 {the_treachery_of_whales(linear_crab_fuel)}")
     print(f"The Treachery of Whales 2 {the_treachery_of_whales(nonlinear_crab_fuel)}")
+    print(f"Seven Segment Search 1 {seven_segment_search_1()}")
