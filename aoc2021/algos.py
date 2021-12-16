@@ -1,4 +1,6 @@
 """Common classes and algorithms for Advent of Code 2021."""
+from __future__ import annotations
+from typing import TypeVar, Callable
 
 
 class Point:
@@ -17,6 +19,28 @@ class Point:
 
     def __repr__(self) -> str:
         return str(self)
+
+
+T = TypeVar("T")
+
+
+class LinqList(list[T]):
+    def first(self) -> T:
+        return self[0]
+
+    def where(self, func: Callable[[T], bool]) -> LinqList[T]:
+        results: LinqList[T] = LinqList()
+        for element in self:
+            if func(element) is True:
+                results.append(element)
+        return results
+
+    def single(self, func: Callable[[T], bool]) -> T:
+        results = self.where(func)
+        if len(results) == 1:
+            return results[0]
+        else:
+            raise Exception("More than 1 element. Single must match exactly one.")
 
 
 def sliding_window(nums: list[int], start: int, lookback: int) -> int:

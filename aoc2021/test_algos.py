@@ -1,3 +1,4 @@
+from _pytest.pytester import LineComp
 import pytest
 from algos import *
 
@@ -18,6 +19,16 @@ def bits_list() -> list[str]:
         "00010",
         "01010",
     ]
+
+
+@pytest.fixture
+def linq_list() -> LinqList[str]:
+    data: LinqList[str] = LinqList()
+    data.append("one")
+    data.append("two twos")
+    data.append("two twos")
+    data.append("one three")
+    return data
 
 
 @pytest.mark.parametrize("start, lookback, expected", [(0, 1, 199), (2, 3, 607), (3, 3, 618)])
@@ -49,3 +60,32 @@ def test_diagonal_line():
     points = diagonal_line(Point(*start), Point(*end))
     assert len(points) == 3
     assert points[0] == (1, 1) and points[2] == (3, 3)
+
+
+def test_linq_list_first(linq_list: LinqList[str]):
+    assert linq_list.first() == "one"
+
+
+def test_linq_list_empty_first():
+    empty_linq_list: LinqList[int] = LinqList()
+    with pytest.raises(IndexError):
+        empty_linq_list.first()
+
+
+def test_linq_list_single(linq_list: LinqList[str]):
+    assert linq_list.single(lambda s: s == "one three") == "one three"
+
+
+def test_linq_list_single_matches_multiple(linq_list: LinqList[str]):
+    with pytest.raises(Exception):
+        linq_list.single(lambda s: s == "two twos")
+
+
+def test_linq_list_where_matches(linq_list: LinqList[str]):
+    results = linq_list.where(lambda s: s == "two twos")
+    assert len(results) == 2 and results[0] == "two twos" and results[1] == "two twos"
+
+
+def test_linq_list_where_no_matches(linq_list: LinqList[str]):
+    results = linq_list.where(lambda s: s == "hearts")
+    assert len(results) == 0
