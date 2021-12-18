@@ -23,6 +23,29 @@ def test_seven_segment_search(signal_patterns: list[str]):
     assert result == 26
 
 
-def test_unscramble_one(signal_patterns: list[str]):
-    parsed_signal_patterns = parse_signal_patterns(signal_patterns)
+def test_unscramble():
+    parsed_signal_patterns = parse_signal_patterns(
+        ["acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab | cdfeb fcadb cdfeb cdbaf"]
+    )
+    expected: dict[int, set[str]] = {
+        8: set("acedgfb"),
+        5: set("cdfbe"),
+        2: set("gcdfa"),
+        3: set("fbcad"),
+        7: set("dab"),
+        9: set("cefabd"),
+        6: set("cdfgeb"),
+        4: set("eafb"),
+        0: set("cagedb"),
+        1: set("ab"),
+    }
     result = unscramble(parsed_signal_patterns[0])
+    assert result == expected
+
+
+def test_unscramble_output_pattern():
+    parsed_signal_patterns = parse_signal_patterns(
+        ["acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab | cdfeb fcadb cdfeb cdbaf"]
+    )
+    result = unscramble_output_pattern(parsed_signal_patterns[0])
+    assert result == "5353"

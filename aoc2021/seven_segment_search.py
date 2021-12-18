@@ -1,3 +1,4 @@
+"""Logic to solve the seven segment search problem."""
 from dataclasses import dataclass
 from algos import LinqList
 
@@ -30,7 +31,7 @@ def output_pattern_counts(raw_signal_patterns: list[str]) -> int:
     return counts[2] + counts[4] + counts[3] + counts[7]
 
 
-def unscramble(pattern: SignalPattern) -> dict[str, str]:
+def unscramble(pattern: SignalPattern) -> dict[int, set[str]]:
     linq_list = LinqList(pattern.input_pattern)
     numbers_map: dict[int, set[str]] = dict()
     one = linq_list.single(lambda s: len(s) == 2)
@@ -62,4 +63,27 @@ def unscramble(pattern: SignalPattern) -> dict[str, str]:
     zero_patterns.remove(nine)
     zero = zero_patterns.first()
     numbers_map[0] = set(zero)
-    return dict()
+    # 3 is either of the 5 length patterns where 9 has all
+    for p5 in five_patterns:
+        if len(set(p5).difference(nine)) == 0:
+            three = p5
+            numbers_map[3] = set(three)
+    # 2 is the only one remaining.
+    five_patterns.remove(three)
+    five_patterns.remove(five)
+    two = five_patterns.first()
+    numbers_map[2] = set(two)
+    return numbers_map
+
+
+def unscramble_output_pattern(signal_pattern: SignalPattern) -> str:
+    number_map = unscramble(signal_pattern)
+    inverse_map: dict[str, int] = dict()
+    for key, value in number_map.items():
+        sorted_str_key = "".join(sorted(value))
+        inverse_map[sorted_str_key] = key
+    result = ""
+    for output_pattern in signal_pattern.output_pattern:
+        sorted_output_pattern = "".join(sorted(output_pattern))
+        result += str(inverse_map[sorted_output_pattern])
+    return result

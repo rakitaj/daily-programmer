@@ -1,7 +1,7 @@
 """Puzzle solutions for Advent of Code 2021"""
 from typing import Callable
 from algos import sliding_window, bits_to_decimal, count_bits, most_common_bit, Point, diagonal_line
-from seven_segment_search import output_pattern_counts
+from seven_segment_search import unscramble_output_pattern, parse_signal_patterns, output_pattern_counts
 from input_helpers import puzzle_input_to_str, puzzle_input_to_ints
 from bingo import puzzle_input_to_bingo, first_winning_board, last_winning_board
 
@@ -273,6 +273,16 @@ def seven_segment_search_1() -> int:
     return result
 
 
+def seven_segment_search_2() -> int:
+    total = 0
+    puzzle_input = puzzle_input_to_str(8)
+    signal_patterns = parse_signal_patterns(puzzle_input)
+    for signal_pattern in signal_patterns:
+        number = unscramble_output_pattern(signal_pattern)
+        total += int(number)
+    return total
+
+
 if __name__ == "__main__":
     print(f"Sonar Sweep part 1 {sonar_sweep(sonar_sweep_lookback)}")
     print(f"Sonar Sweep part 2 {sonar_sweep(sonar_sweep_sliding_window)}")
@@ -289,3 +299,4 @@ if __name__ == "__main__":
     print(f"The Treachery of Whales 1 {the_treachery_of_whales(linear_crab_fuel)}")
     print(f"The Treachery of Whales 2 {the_treachery_of_whales(nonlinear_crab_fuel)}")
     print(f"Seven Segment Search 1 {seven_segment_search_1()}")
+    print(f"Seven Segment Search 2 {seven_segment_search_2()}")
