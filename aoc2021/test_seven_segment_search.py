@@ -51,7 +51,6 @@ def test_unscramble_output_pattern():
     assert result == "5353"
 
 
-@pytest.mark.skip
 def test_sum_all_output_patterns(signal_patterns: list[str]):
     total = 0
     parsed_signal_patterns = parse_signal_patterns(signal_patterns)

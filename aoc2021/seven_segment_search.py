@@ -42,37 +42,59 @@ def unscramble(pattern: SignalPattern) -> dict[int, set[str]]:
     numbers_map[4] = set(four)
     numbers_map[7] = set(seven)
     numbers_map[8] = set(eight)
-    # 4 diff 9 pattern is empty.
-    nine_patterns = linq_list.where(lambda s: len(s) == 6)
-    nine = nine_patterns.single(lambda s: len(numbers_map[4].difference(set(s))) == 0)
-    numbers_map[9] = set(nine)
-    # 6 pattern diff 5 pattern is one. Must remove the 9 pattern from the 6s before doing this.
+    # Remove numbers that are figured out.
+    linq_list.remove(one)
+    linq_list.remove(four)
+    linq_list.remove(seven)
+    linq_list.remove(eight)
+    # Figure out three
     five_patterns = linq_list.where(lambda s: len(s) == 5)
-    six_patterns = linq_list.where(lambda s: len(s) == 6)
-    six_patterns.remove(nine)
-    for p6 in six_patterns:
-        for p5 in five_patterns:
-            if len(set(p6).difference(p5)) == 1:
-                five = p5
-                six = p6
-                numbers_map[5] = set(p5)
-                numbers_map[6] = set(p6)
-    # 0 is the leftover 6s pattern with 6 and 9 removed.
-    zero_patterns = linq_list.where(lambda s: len(s) == 6)
-    zero_patterns.remove(six)
-    zero_patterns.remove(nine)
-    zero = zero_patterns.first()
-    numbers_map[0] = set(zero)
-    # 3 is either of the 5 length patterns where 9 has all
+    assert len(five_patterns) == 3
     for p5 in five_patterns:
-        if len(set(p5).difference(nine)) == 0:
+        if len(numbers_map[1].intersection(p5)) == 2:
             three = p5
             numbers_map[3] = set(three)
-    # 2 is the only one remaining.
-    five_patterns.remove(three)
-    five_patterns.remove(five)
+            linq_list.remove(three)
+            break
+    # Figure out five
+    five_patterns = linq_list.where(lambda s: len(s) == 5)
+    assert len(five_patterns) == 2
+    for p5 in five_patterns:
+        if len(numbers_map[4].difference(one).intersection(p5)) == 2:
+            five = p5
+            numbers_map[5] = set(five)
+            linq_list.remove(five)
+            break
+    # Figure out 2. It's the last one remaining
+    five_patterns = linq_list.where(lambda s: len(s) == 5)
+    assert len(five_patterns) == 1
     two = five_patterns.first()
     numbers_map[2] = set(two)
+    linq_list.remove(two)
+    # Figure out 9.
+    six_patterns = linq_list.where(lambda s: len(s) == 6)
+    assert len(six_patterns) == 3
+    for p6 in six_patterns:
+        if len(numbers_map[4].difference(p6)) == 0:
+            nine = p6
+            numbers_map[9] = set(nine)
+            linq_list.remove(nine)
+            break
+    # Figure out 6
+    six_patterns = linq_list.where(lambda s: len(s) == 6)
+    assert len(six_patterns) == 2
+    for p6 in six_patterns:
+        if len(numbers_map[5].difference(p6)) == 0:
+            six = p6
+            numbers_map[6] = set(six)
+            linq_list.remove(six)
+            break
+    # 0 is the only 6 segment pattern left.
+    six_patterns = linq_list.where(lambda s: len(s) == 6)
+    assert len(six_patterns) == 1
+    zero = six_patterns.first()
+    numbers_map[0] = set(zero)
+    linq_list.remove(zero)
     return numbers_map
 
 
