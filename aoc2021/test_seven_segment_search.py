@@ -49,3 +49,34 @@ def test_unscramble_output_pattern():
     )
     result = unscramble_output_pattern(parsed_signal_patterns[0])
     assert result == "5353"
+
+
+@pytest.mark.skip
+def test_sum_all_output_patterns(signal_patterns: list[str]):
+    total = 0
+    parsed_signal_patterns = parse_signal_patterns(signal_patterns)
+    for signal_pattern in parsed_signal_patterns:
+        number = unscramble_output_pattern(signal_pattern)
+        total += int(number)
+    assert total == 61229
+
+
+@pytest.mark.parametrize(
+    "pattern_index, expected",
+    [
+        (0, 8394),
+        (1, 9781),
+        (2, 1197),
+        (3, 9361),
+        (4, 4873),
+        (5, 8418),
+        (6, 4548),
+        (7, 1625),
+        (8, 8717),
+        (9, 4315),
+    ],
+)
+def test_individual_output_pattern(signal_patterns: list[str], pattern_index: int, expected: int):
+    parsed_signal_patterns = parse_signal_patterns(signal_patterns)
+    number = unscramble_output_pattern(parsed_signal_patterns[pattern_index])
+    assert number == str(expected)
