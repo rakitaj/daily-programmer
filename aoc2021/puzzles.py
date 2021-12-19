@@ -1,6 +1,6 @@
 """Puzzle solutions for Advent of Code 2021"""
 from typing import Callable
-from algos import sliding_window, bits_to_decimal, count_bits, most_common_bit, Point, diagonal_line
+from algos import sliding_window, bits_to_decimal, count_bits, most_common_bit, Point, diagonal_line, Grid
 from seven_segment_search import unscramble_output_pattern, parse_signal_patterns, output_pattern_counts
 from input_helpers import puzzle_input_to_str, puzzle_input_to_ints
 from bingo import puzzle_input_to_bingo, first_winning_board, last_winning_board
@@ -283,6 +283,54 @@ def seven_segment_search_2() -> int:
     return total
 
 
+def parse_smoke_basin_string(smoke_basin_strings: list[str]) -> tuple[int, list[int]]:
+    result: list[int] = list()
+    length = len(smoke_basin_strings[0].strip())
+    for line in smoke_basin_strings:
+        nums = [int(char) for char in line.strip()]
+        result.extend(nums)
+    return (length, result)
+
+
+def smoke_basin(grid: Grid) -> list[int]:
+    low_points: list[int] = list()
+    for y in range(grid.length):
+        for x in range(grid.length):
+            min_point = grid.get(x, y)
+            if min_point is None:
+                continue
+            upper_left = safe_lt_or_eq(min_point, grid.get(x - 1, y - 1))
+            upper_mid = safe_lt_or_eq(min_point, grid.get(x, y - 1))
+            upper_right = safe_lt_or_eq(min_point, grid.get(x + 1, y - 1))
+            left = safe_lt_or_eq(min_point, grid.get(x - 1, y))
+            right = safe_lt_or_eq(min_point, grid.get(x + 1, y))
+            bottom_left = safe_lt_or_eq(min_point, grid.get(x - 1, y + 1))
+            bottom_mid = safe_lt_or_eq(min_point, grid.get(x, y + 1))
+            bottom_right = safe_lt_or_eq(min_point, grid.get(x + 1, y + 1))
+            if not any(
+                [upper_left, upper_mid, upper_right, left, right, bottom_left, bottom_mid, bottom_right]
+            ):
+                low_points.append(min_point)
+    return low_points
+
+
+def safe_lt_or_eq(target: int, other: int | None) -> bool:
+    if other is None:
+        return False
+    return other <= target
+
+
+def smoke_basin_1():
+    puzzle_input = puzzle_input_to_str(9)
+    length, numbers = parse_smoke_basin_string(puzzle_input)
+    grid = Grid(length, numbers)
+    low_points = smoke_basin(grid)
+    total = 0
+    for p in low_points:
+        total += p + 1
+    return total
+
+
 if __name__ == "__main__":
     print(f"Sonar Sweep part 1 {sonar_sweep(sonar_sweep_lookback)}")
     print(f"Sonar Sweep part 2 {sonar_sweep(sonar_sweep_sliding_window)}")
@@ -300,3 +348,4 @@ if __name__ == "__main__":
     print(f"The Treachery of Whales 2 {the_treachery_of_whales(nonlinear_crab_fuel)}")
     print(f"Seven Segment Search 1 {seven_segment_search_1()}")
     print(f"Seven Segment Search 2 {seven_segment_search_2()}")
+    print(f"Smoke Basin 1 {smoke_basin_1()}")

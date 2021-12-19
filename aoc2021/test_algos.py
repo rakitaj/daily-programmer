@@ -89,3 +89,17 @@ def test_linq_list_where_matches(linq_list: LinqList[str]):
 def test_linq_list_where_no_matches(linq_list: LinqList[str]):
     results = linq_list.where(lambda s: s == "hearts")
     assert len(results) == 0
+
+
+@pytest.mark.parametrize("x, y", [(-1, -1), (3, 4), (4, 3), (2, 4)])
+def test_grid_get_none(x: int, y: int):
+    numbers = [2, 2, 4, 4, 10, 10, 7, 8, 9]
+    grid = Grid(3, numbers)
+    assert grid.get(x, y) is None
+
+
+@pytest.mark.parametrize("x, y, expected", [(0, 0, 2), (3, 0, 4), (2, 1, 10), (2, 2, 9)])
+def test_grid_get(x: int, y: int, expected: int):
+    numbers = [2, 2, 4, 4, 10, 10, 7, 8, 9]
+    grid = Grid(3, numbers)
+    assert grid.get(x, y) == expected

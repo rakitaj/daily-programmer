@@ -20,6 +20,15 @@ def vents_list() -> list[str]:
     ]
 
 
+@pytest.fixture
+def smoke_basin_string() -> list[str]:
+    return """2199943210
+        3987894921
+        9856789892
+        8767896789
+        9899965678""".splitlines()
+
+
 def test_sonar_sweep_simple():
     depths = [199, 200, 208, 210, 200, 207, 240, 269, 260, 263]
     assert sonar_sweep_lookback(depths) == 7
@@ -104,3 +113,10 @@ def test_minimum_fuel_linear_cost():
 def test_minimum_fuel_nonlinear_cost():
     crab_positions = [16, 1, 2, 0, 4, 2, 7, 1, 2, 14]
     assert minimum_fuel(crab_positions, nonlinear_crab_fuel) == (5, 168)
+
+
+def test_smoke_basin(smoke_basin_string: list[str]):
+    length, numbers = parse_smoke_basin_string(smoke_basin_string)
+    grid = Grid(length, numbers)
+    low_points = smoke_basin(grid)
+    assert low_points == [1, 0, 5, 5]

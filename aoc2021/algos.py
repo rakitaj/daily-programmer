@@ -47,6 +47,21 @@ class LinqList(list[T]):
             raise Exception("More than 1 element. Single must match exactly one.")
 
 
+class Grid:
+    def __init__(self, length: int, numbers: list[int]):
+        self.length = length
+        self.numbers = numbers
+        if len(numbers) % length != 0:
+            raise ValueError(f"{len(numbers)} must be evenly divisible by {length}")
+
+    def get(self, x: int, y: int) -> int | None:
+        i = (self.length * y) + x
+        if x < 0 or y < 0 or i < 0 or len(self.numbers) <= i:
+            return None
+        else:
+            return self.numbers[i]
+
+
 def sliding_window(nums: list[int], start: int, lookback: int) -> int:
     total = 0
     for i in range(start - (lookback - 1), start + 1):
