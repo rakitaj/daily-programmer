@@ -1,6 +1,6 @@
 """Common classes and algorithms for Advent of Code 2021."""
 from __future__ import annotations
-from typing import TypeVar, Callable
+from typing import TypeVar, Callable, Generic
 
 
 class Point:
@@ -60,6 +60,21 @@ class Grid:
             return None
         else:
             return self.numbers[i]
+
+    def get_neighbors(self, x: int, y: int) -> list[int]:
+        neighbors: list[int] = list()
+        left = self.get(x - 1, y)
+        right = self.get(x + 1, y)
+        up = self.get(x, y + 1)
+        down = self.get(x, y - 1)
+        [neighbors.append(x) for x in [left, right, up, down] if x is not None]
+        return neighbors
+
+
+class Node(Generic[T]):
+    def __init__(self, value: T):
+        self.value = value
+        self.connections: list[Node[T]] = list()
 
 
 def sliding_window(nums: list[int], start: int, lookback: int) -> int:

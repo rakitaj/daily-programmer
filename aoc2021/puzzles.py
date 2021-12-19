@@ -299,25 +299,17 @@ def smoke_basin(grid: Grid) -> list[int]:
             min_point = grid.get(x, y)
             if min_point is None:
                 continue
-            upper_left = safe_lt_or_eq(min_point, grid.get(x - 1, y - 1))
-            upper_mid = safe_lt_or_eq(min_point, grid.get(x, y - 1))
-            upper_right = safe_lt_or_eq(min_point, grid.get(x + 1, y - 1))
-            left = safe_lt_or_eq(min_point, grid.get(x - 1, y))
-            right = safe_lt_or_eq(min_point, grid.get(x + 1, y))
-            bottom_left = safe_lt_or_eq(min_point, grid.get(x - 1, y + 1))
-            bottom_mid = safe_lt_or_eq(min_point, grid.get(x, y + 1))
-            bottom_right = safe_lt_or_eq(min_point, grid.get(x + 1, y + 1))
-            if not any(
-                [upper_left, upper_mid, upper_right, left, right, bottom_left, bottom_mid, bottom_right]
-            ):
+            neighbors = grid.get_neighbors(x, y)
+            if any_lower(min_point, neighbors) is False:
                 low_points.append(min_point)
     return low_points
 
 
-def safe_lt_or_eq(target: int, other: int | None) -> bool:
-    if other is None:
-        return False
-    return other <= target
+def any_lower(target: int, others: list[int]) -> bool:
+    for num in others:
+        if num <= target:
+            return True
+    return False
 
 
 def smoke_basin_1():
