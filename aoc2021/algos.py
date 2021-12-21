@@ -48,18 +48,21 @@ class LinqList(list[T]):
 
 
 class Grid:
-    def __init__(self, length: int, numbers: list[int]):
-        self.length = length
+    def __init__(self, numbers: list[list[int]]):
+        self.x_length = len(numbers[0])
+        self.y_length = len(numbers)
         self.numbers = numbers
-        if len(numbers) % length != 0:
-            raise ValueError(f"{len(numbers)} must be evenly divisible by {length}")
 
     def get(self, x: int, y: int) -> int | None:
-        i = (self.length * y) + x
-        if x < 0 or y < 0 or i < 0 or len(self.numbers) <= i:
+        # i = (self.length * y) + x
+        # if x < 0 or y < 0 or i < 0 or len(self.numbers) <= i:
+        #     return None
+        # else:
+        #     return self.numbers[i]
+        if x < 0 or y < 0 or self.x_length <= x or self.y_length <= y:
             return None
         else:
-            return self.numbers[i]
+            return self.numbers[y][x]
 
     def get_neighbors(self, x: int, y: int) -> list[int]:
         neighbors: list[int] = list()
@@ -67,7 +70,14 @@ class Grid:
         right = self.get(x + 1, y)
         up = self.get(x, y + 1)
         down = self.get(x, y - 1)
-        [neighbors.append(x) for x in [left, right, up, down] if x is not None]
+        if left is not None:
+            neighbors.append(left)
+        if right is not None:
+            neighbors.append(right)
+        if up is not None:
+            neighbors.append(up)
+        if down is not None:
+            neighbors.append(down)
         return neighbors
 
 

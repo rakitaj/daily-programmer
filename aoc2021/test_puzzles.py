@@ -115,8 +115,16 @@ def test_minimum_fuel_nonlinear_cost():
     assert minimum_fuel(crab_positions, nonlinear_crab_fuel) == (5, 168)
 
 
-def test_smoke_basin(smoke_basin_string: list[str]):
-    length, numbers = parse_smoke_basin_string(smoke_basin_string)
-    grid = Grid(length, numbers)
-    low_points = smoke_basin(grid)
+def test_smoke_low_points(smoke_basin_string: list[str]):
+    numbers = parse_smoke_basin_string(smoke_basin_string)
+    grid = Grid(numbers)
+    low_points = smoke_low_points(grid)
     assert low_points == [1, 0, 5, 5]
+
+
+def test_smoke_low_basins(smoke_basin_string: list[str]):
+    numbers = parse_smoke_basin_string(smoke_basin_string)
+    grid = Grid(numbers)
+    low_basins = smoke_low_basins(grid)
+    basins_sorted = sorted(low_basins)
+    assert basins_sorted[-1] == 14 and basins_sorted[-2] == 9 and basins_sorted[-3] == 9

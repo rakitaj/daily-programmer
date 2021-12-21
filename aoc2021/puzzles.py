@@ -283,40 +283,99 @@ def seven_segment_search_2() -> int:
     return total
 
 
-def parse_smoke_basin_string(smoke_basin_strings: list[str]) -> tuple[int, list[int]]:
-    result: list[int] = list()
-    length = len(smoke_basin_strings[0].strip())
+def parse_smoke_basin_string(smoke_basin_strings: list[str]) -> list[list[int]]:
+    result: list[list[int]] = list()
     for line in smoke_basin_strings:
         nums = [int(char) for char in line.strip()]
-        result.extend(nums)
-    return (length, result)
+        result.append(nums)
+    return result
 
 
-def smoke_basin(grid: Grid) -> list[int]:
+def smoke_low_points(grid: Grid) -> list[int]:
     low_points: list[int] = list()
-    for y in range(grid.length):
-        for x in range(grid.length):
+    for y in range(grid.y_length):
+        for x in range(grid.x_length):
             min_point = grid.get(x, y)
             if min_point is None:
                 continue
             neighbors = grid.get_neighbors(x, y)
-            if any_lower(min_point, neighbors) is False:
+            if all_neighbors_gt(min_point, neighbors):
                 low_points.append(min_point)
     return low_points
 
 
-def any_lower(target: int, others: list[int]) -> bool:
-    for num in others:
-        if num <= target:
+def any_neighbors_lt_or_eq(target: int, neighbors: list[int]) -> bool:
+    for n in neighbors:
+        if n <= target:
             return True
     return False
+
+
+def all_neighbors_gt(target: int, neighbors: list[int]) -> bool:
+    for n in neighbors:
+        if n <= target:
+            return False
+    return True
+
+
+def smoke_low_basins(grid: Grid) -> list[int]:
+    """
+    Calculate the size of every basin.
+
+    :param grid: Grid of ints representing the smoke heights.
+    :returns: A list of the size of every basin, unordered.
+    """
+    basins: list[int] = list()
+    visited: set[tuple[int, int]] = set()
+    for x in range(grid.x_length):
+        for y in range(grid.y_length):
+            if (x, y) in visited or grid.get(x, y) == 9:
+                continue
+            basin_visited = depth_first_search((x, y), grid)
+            basins.append(len(basin_visited))
+            visited.update(basin_visited)
+    return basins
+
+
+def depth_first_search(starting_point: tuple[int, int], grid: Grid) -> set[tuple[int, int]]:
+    """Perform a depth first search to find a smoke basin."""
+    visited: set[tuple[int, int]] = set()
+    queue: list[tuple[int, int]] = [starting_point]
+    if starting_point in visited or grid.get(starting_point[0], starting_point[1]) == 9:
+        return set()
+    while 0 < len(queue):
+        x, y = queue.pop(0)
+
+        up = (x, y + 1)
+        down = (x, y - 1)
+        left = (x - 1, y)
+        right = (x + 1, y)
+
+        if grid.get(up[0], up[1]) is not None and grid.get(up[0], up[1]) != 9 and up not in visited:
+            visited.add(up)
+            queue.append(up)
+        if grid.get(down[0], down[1]) is not None and grid.get(down[0], down[1]) != 9 and down not in visited:
+            visited.add(down)
+            queue.append(down)
+        if grid.get(left[0], left[1]) is not None and grid.get(left[0], left[1]) != 9 and left not in visited:
+            visited.add(left)
+            queue.append(left)
+        if (
+            grid.get(right[0], right[1]) is not None
+            and grid.get(right[0], right[1]) != 9
+            and right not in visited
+        ):
+            visited.add(right)
+            queue.append(right)
+    # return len(visited)
+    return visited
 
 
 def smoke_basin_1():
     puzzle_input = puzzle_input_to_str(9)
     length, numbers = parse_smoke_basin_string(puzzle_input)
     grid = Grid(length, numbers)
-    low_points = smoke_basin(grid)
+    low_points = smoke_low_points(grid)
     total = 0
     for p in low_points:
         total += p + 1
