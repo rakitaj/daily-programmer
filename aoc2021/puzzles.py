@@ -373,13 +373,22 @@ def depth_first_search(starting_point: tuple[int, int], grid: Grid) -> set[tuple
 
 def smoke_basin_1():
     puzzle_input = puzzle_input_to_str(9)
-    length, numbers = parse_smoke_basin_string(puzzle_input)
-    grid = Grid(length, numbers)
+    numbers = parse_smoke_basin_string(puzzle_input)
+    grid = Grid(numbers)
     low_points = smoke_low_points(grid)
     total = 0
     for p in low_points:
         total += p + 1
     return total
+
+
+def smoke_basin_2():
+    puzzle_input = puzzle_input_to_str(9)
+    numbers = parse_smoke_basin_string(puzzle_input)
+    grid = Grid(numbers)
+    low_basins = smoke_low_basins(grid)
+    ordered_basins = sorted(low_basins)
+    return ordered_basins[-1] * ordered_basins[-2] * ordered_basins[-3]
 
 
 if __name__ == "__main__":
@@ -400,3 +409,4 @@ if __name__ == "__main__":
     print(f"Seven Segment Search 1 {seven_segment_search_1()}")
     print(f"Seven Segment Search 2 {seven_segment_search_2()}")
     print(f"Smoke Basin 1 {smoke_basin_1()}")
+    print(f"Smoke Basin 2 {smoke_basin_2()}")
