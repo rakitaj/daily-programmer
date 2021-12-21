@@ -391,6 +391,31 @@ def smoke_basin_2():
     return ordered_basins[-1] * ordered_basins[-2] * ordered_basins[-3]
 
 
+def syntax_parser(line: str) -> str:
+    """{([(<{}[<>[]}>{[]{[(<()>"""
+    char_map: dict[str, str] = {")": "(", "]": "[", "}": "{", ">": "<"}
+    stack: list[str] = list()
+    for char in line:
+        if char in ["(", "[", "{", "<"]:
+            stack.append(char)
+        elif stack[-1] == char_map[char]:
+            stack.pop()
+        else:
+            return char
+    return ""
+
+
+def syntax_scoring_1():
+    puzzle_input = puzzle_input_to_str(10, strip=True)
+    closing_char_map: dict[str, int] = {")": 3, "]": 57, "}": 1197, ">": 25137, "": 0}
+    total = 0
+    for line in puzzle_input:
+        illegal_char = syntax_parser(line)
+        score = closing_char_map[illegal_char]
+        total += score
+    return total
+
+
 if __name__ == "__main__":
     print(f"Sonar Sweep part 1 {sonar_sweep(sonar_sweep_lookback)}")
     print(f"Sonar Sweep part 2 {sonar_sweep(sonar_sweep_sliding_window)}")
@@ -410,3 +435,4 @@ if __name__ == "__main__":
     print(f"Seven Segment Search 2 {seven_segment_search_2()}")
     print(f"Smoke Basin 1 {smoke_basin_1()}")
     print(f"Smoke Basin 2 {smoke_basin_2()}")
+    print(f"Syntax Scoring 1 {syntax_scoring_1()}")

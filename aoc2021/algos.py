@@ -54,11 +54,6 @@ class Grid:
         self.numbers = numbers
 
     def get(self, x: int, y: int) -> int | None:
-        # i = (self.length * y) + x
-        # if x < 0 or y < 0 or i < 0 or len(self.numbers) <= i:
-        #     return None
-        # else:
-        #     return self.numbers[i]
         if x < 0 or y < 0 or self.x_length <= x or self.y_length <= y:
             return None
         else:

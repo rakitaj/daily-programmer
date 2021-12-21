@@ -128,3 +128,18 @@ def test_smoke_low_basins(smoke_basin_string: list[str]):
     low_basins = smoke_low_basins(grid)
     basins_sorted = sorted(low_basins)
     assert basins_sorted[-1] == 14 and basins_sorted[-2] == 9 and basins_sorted[-3] == 9
+
+
+@pytest.mark.parametrize(
+    "line, expected",
+    [
+        ("{([(<{}[<>[]}>{[]{[(<()>", "}"),
+        ("[[<[([]))<([[{}[[()]]]", ")"),
+        ("[{[{({}]{}}([{[{{{}}([]", "]"),
+        ("[<(<(<(<{}))><([]([]()", ")"),
+        ("<{([([[(<>()){}]>(<<{{", ">"),
+    ],
+)
+def test_syntax_parser(line: str, expected: int):
+    illegal_char = syntax_parser(line)
+    assert illegal_char == expected
