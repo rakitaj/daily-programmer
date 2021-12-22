@@ -392,7 +392,7 @@ def smoke_basin_2():
 
 
 def syntax_parser(line: str) -> str:
-    """{([(<{}[<>[]}>{[]{[(<()>"""
+    """Check that lines are not corrupted."""
     char_map: dict[str, str] = {")": "(", "]": "[", "}": "{", ">": "<"}
     stack: list[str] = list()
     for char in line:
@@ -405,6 +405,21 @@ def syntax_parser(line: str) -> str:
     return ""
 
 
+def syntax_autocomplete(line: str) -> list[str]:
+    opening_char_map: dict[str, str] = {"(": ")", "[": "]", "{": "}", "<": ">"}
+    closing_char_map: dict[str, str] = {")": "(", "]": "[", "}": "{", ">": "<"}
+    stack: list[str] = list()
+    autocomplete: list[str] = list()
+    for char in line:
+        if char in opening_char_map.keys():
+            stack.append(char)
+        elif stack[-1] == closing_char_map[char]:
+            stack.pop()
+    for i in range(len(stack) - 1, -1, -1):
+        autocomplete.append(opening_char_map[stack[i]])
+    return autocomplete
+
+
 def syntax_scoring_1():
     puzzle_input = puzzle_input_to_str(10, strip=True)
     closing_char_map: dict[str, int] = {")": 3, "]": 57, "}": 1197, ">": 25137, "": 0}
@@ -414,6 +429,29 @@ def syntax_scoring_1():
         score = closing_char_map[illegal_char]
         total += score
     return total
+
+
+def score_autocomplete(chars: list[str]) -> int:
+    total = 0
+    points = {")": 1, "]": 2, "}": 3, ">": 4}
+    for char in chars:
+        total = total * 5
+        total += points[char]
+    return total
+
+
+def syntax_scoring_2():
+    puzzle_input = puzzle_input_to_str(10, strip=True)
+    scores: list[int] = list()
+    for line in puzzle_input:
+        illegal_character = syntax_parser(line)
+        if illegal_character != "":
+            continue
+        autocomplete_chars = syntax_autocomplete(line)
+        score = score_autocomplete(autocomplete_chars)
+        scores.append(score)
+    scores.sort()
+    return scores[len(scores) // 2]
 
 
 if __name__ == "__main__":
@@ -436,3 +474,4 @@ if __name__ == "__main__":
     print(f"Smoke Basin 1 {smoke_basin_1()}")
     print(f"Smoke Basin 2 {smoke_basin_2()}")
     print(f"Syntax Scoring 1 {syntax_scoring_1()}")
+    print(f"Syntax Scoring 2 {syntax_scoring_2()}")

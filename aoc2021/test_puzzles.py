@@ -143,3 +143,18 @@ def test_smoke_low_basins(smoke_basin_string: list[str]):
 def test_syntax_parser(line: str, expected: int):
     illegal_char = syntax_parser(line)
     assert illegal_char == expected
+
+
+@pytest.mark.parametrize(
+    "line, expected",
+    [
+        ("[({(<(())[]>[[{[]{<()<>>", "}}]])})]"),
+        ("[(()[<>])]({[<{<<[]>>(", ")}>]})"),
+        ("(((({<>}<{<{<>}{[]{[]{}", "}}>}>))))"),
+        ("{<[[]]>}<{[{[{[]{()[[[]", "]]}}]}]}>"),
+        ("<{([{{}}[<[[[<>{}]]]>[]]", "])}>"),
+    ],
+)
+def test_syntax_autocomplete(line: str, expected: str):
+    actual = syntax_autocomplete(line)
+    assert actual == list(expected)
