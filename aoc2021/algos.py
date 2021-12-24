@@ -59,21 +59,23 @@ class Grid:
         else:
             return self.numbers[y][x]
 
-    def get_neighbors(self, x: int, y: int) -> list[int]:
-        neighbors: list[int] = list()
-        left = self.get(x - 1, y)
-        right = self.get(x + 1, y)
-        up = self.get(x, y + 1)
-        down = self.get(x, y - 1)
-        if left is not None:
-            neighbors.append(left)
-        if right is not None:
-            neighbors.append(right)
-        if up is not None:
-            neighbors.append(up)
-        if down is not None:
-            neighbors.append(down)
-        return neighbors
+    def set(self, x: int, y: int, value: int) -> None:
+        self.numbers[y][x] = value
+
+    def get_neighbor_values(self, x: int, y: int) -> list[int]:
+        """Get the neighboring values for up, down, left, and right.
+        It handles asking for out of range grid points."""
+        neighbor_values: list[int | None] = [
+            self.get(x - 1, y),
+            self.get(x + 1, y),
+            self.get(x, y + 1),
+            self.get(x, y - 1),
+        ]
+        filtered_neighbor_values = [x for x in neighbor_values if x is not None]
+        return filtered_neighbor_values
+
+    def get_all_neighbor_points(self, x: int, y: int) -> list[tuple[int, int]]:
+        """Get the neighboring points that correspond to up, down, left, and right."""
 
 
 class Node(Generic[T]):

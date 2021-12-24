@@ -298,7 +298,7 @@ def smoke_low_points(grid: Grid) -> list[int]:
             min_point = grid.get(x, y)
             if min_point is None:
                 continue
-            neighbors = grid.get_neighbors(x, y)
+            neighbors = grid.get_neighbor_values(x, y)
             if all_neighbors_gt(min_point, neighbors):
                 low_points.append(min_point)
     return low_points
