@@ -76,7 +76,7 @@ csharp_preferred_modifier_order = public,private,internal,static,readonly:sugges
 dotnet_style_qualification_for_field = false:suggestion
 
 [*.{cs,vb}]
-dotnet_style_qualification_for_field=true:suggestion
-dotnet_style_qualification_for_property=true:silent
-dotnet_style_qualification_for_method=true:silent
-dotnet_style_qualification_for_event=true:silent
+dotnet_style_qualification_for_field=true:warning
+dotnet_style_qualification_for_property=true:warning
+dotnet_style_qualification_for_method=true:warning
+dotnet_style_qualification_for_event=true:warning
