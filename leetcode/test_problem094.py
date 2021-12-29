@@ -27,7 +27,6 @@ def test_in_order_traversal_recursive(example1: TreeNode[int]):
     assert result == [1, 3, 2]
 
 
-@pytest.mark.skip
 def test_in_order_traversal_iterative(example1: TreeNode[int]):
     result = Solution().in_order_traversal_iter(example1)
     assert result == [1, 3, 2]

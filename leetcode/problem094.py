@@ -12,17 +12,22 @@ class TreeNode(Generic[T]):
         self.left: TreeNode[T] | None = None
         self.right: TreeNode[T] | None = None
 
+    def __repr__(self) -> str:
+        return f"Node val:{self.val}"
+
 
 class Solution:
     def in_order_traversal_iter(self, root: TreeNode[int]) -> list[int]:
         result: list[int] = []
-        stack: list[TreeNode[int] | None] = [root]
-        while 0 < len(stack):
-            current = stack.pop()
-            if current:
-                result.append(current.val)
-                stack.append(current.right)
-                stack.append(current.left)
+        stack: list[TreeNode[int]] = []
+        node: TreeNode[int] | None = root
+        while 0 < len(stack) or node is not None:
+            while node is not None:
+                stack.append(node)
+                node = node.left
+            node = stack.pop()
+            result.append(node.val)
+            node = node.right
         return result
 
     def in_order_traversal(self, root: TreeNode[int]) -> list[int]:
