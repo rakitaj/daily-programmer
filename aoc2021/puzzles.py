@@ -367,7 +367,6 @@ def depth_first_search(starting_point: tuple[int, int], grid: Grid) -> set[tuple
         ):
             visited.add(right)
             queue.append(right)
-    # return len(visited)
     return visited
 
 

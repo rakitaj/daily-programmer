@@ -1,6 +1,6 @@
 """Common classes and algorithms for Advent of Code 2021."""
 from __future__ import annotations
-from typing import TypeVar, Callable, Generic
+from typing import TypeVar, Callable
 
 
 class Point:
@@ -8,9 +8,9 @@ class Point:
         self.x = x
         self.y = y
 
-    def __eq__(self, __o: object) -> bool:
-        if isinstance(__o, Point):
-            return self.x == __o.x and self.y == __o.y
+    def __eq__(self, other: object) -> bool:
+        if isinstance(other, Point):
+            return self.x == other.x and self.y == other.y
         else:
             return False
 
@@ -74,14 +74,30 @@ class Grid:
         filtered_neighbor_values = [x for x in neighbor_values if x is not None]
         return filtered_neighbor_values
 
-    def get_all_neighbor_points(self, x: int, y: int) -> list[tuple[int, int]]:
+    def get_neighboring_points(self, x: int, y: int) -> list[Point]:
         """Get the neighboring points that correspond to up, down, left, and right."""
+        points: list[Point] = list()
+        for x_offset in range(-1, 2):
+            for y_offset in range(-1, 2):
+                x_target = x + x_offset
+                y_target = y + y_offset
+                if x_target < 0 or self.x_length <= x_target:
+                    continue
+                if y_target < 0 or self.y_length <= y_target:
+                    continue
+                if x_target == x and y_target == y:
+                    continue
+                points.append(Point(x_target, y_target))
+        return points
 
 
-class Node(Generic[T]):
-    def __init__(self, value: T):
-        self.value = value
-        self.connections: list[Node[T]] = list()
+class GraphNode:
+    def __init__(self, name: str, connections: set[tuple[str, str]] | None = None):
+        self.name = name
+        if connections is None:
+            self.connections: set[tuple[str, str]] = set()
+        else:
+            self.connections = connections
 
 
 def sliding_window(nums: list[int], start: int, lookback: int) -> int:

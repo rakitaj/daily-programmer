@@ -11,7 +11,7 @@ namespace AdventOfCode2021
         public static string GetFilePath(int dayNumber)
         {
             var dayWithLeadingZeros = dayNumber.ToString("D2");
-            string filePath = Path.Join("PuzzleInputData", $"day{dayWithLeadingZeros}.txt");
+            string filePath = Path.Join("..", "..", "..", "..", "..", "aoc2021", "puzzleinput", $"day{dayWithLeadingZeros}.txt");
             return filePath;
         }
 
