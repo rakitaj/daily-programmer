@@ -4,6 +4,7 @@ from algos import sliding_window, bits_to_decimal, count_bits, most_common_bit, 
 from seven_segment_search import unscramble_output_pattern, parse_signal_patterns, output_pattern_counts
 from input_helpers import puzzle_input_to_str, puzzle_input_to_ints
 from bingo import puzzle_input_to_bingo, first_winning_board, last_winning_board
+from passagepathing import parse_connections, find_paths
 
 
 def sonar_sweep(logic_func: Callable[[list[int]], float]):
@@ -453,6 +454,13 @@ def syntax_scoring_2():
     return scores[len(scores) // 2]
 
 
+def passage_pathing_1() -> int:
+    puzzle_input = puzzle_input_to_str(12, strip=True)
+    connections = parse_connections(puzzle_input)
+    paths = find_paths(connections)
+    return len(paths)
+
+
 if __name__ == "__main__":
     print(f"Sonar Sweep part 1 {sonar_sweep(sonar_sweep_lookback)}")
     print(f"Sonar Sweep part 2 {sonar_sweep(sonar_sweep_sliding_window)}")
@@ -474,3 +482,4 @@ if __name__ == "__main__":
     print(f"Smoke Basin 2 {smoke_basin_2()}")
     print(f"Syntax Scoring 1 {syntax_scoring_1()}")
     print(f"Syntax Scoring 2 {syntax_scoring_2()}")
+    print(f"Passage Pathing 1 {passage_pathing_1()}")
