@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AdventOfCode2021
 {
-    internal class PuzzleInput
+    public class PuzzleInput
     {
         public static string GetFilePath(int dayNumber)
         {
@@ -15,9 +15,9 @@ namespace AdventOfCode2021
             return filePath;
         }
 
-        public static string[] ToArrayOfStrings(int dayNumber)
+        public static string[] ToArrayOfStrings(Func<string> getFilePathFunc)
         {
-            var filePath = GetFilePath(dayNumber);
+            var filePath = getFilePathFunc.Invoke();
             return File.ReadAllLines(filePath);
         }
     }
