@@ -90,6 +90,14 @@ class Grid:
                 points.append(Point(x_target, y_target))
         return points
 
+    @staticmethod
+    def as_zeros(x_size: int, y_size: int) -> Grid:
+        zeros = [0] * x_size
+        raw_grid: list[list[int]] = list()
+        for _ in range(y_size):
+            raw_grid.append(zeros)
+        return Grid(raw_grid)
+
 
 class GraphNode:
     def __init__(self, name: str, connections: set[tuple[str, str]] | None = None):

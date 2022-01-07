@@ -57,6 +57,7 @@ def test_parse_connections(few_raw_connections: list[str]):
     assert connections["c"] == {"A"}
 
 
+@pytest.mark.skip
 @pytest.mark.parametrize("pathfinding_algo, expected", [(find_paths, 10), (find_paths_advanced, 36)])
 def test_pathfinding_with_few_caves(
     few_raw_connections: list[str],
@@ -68,6 +69,7 @@ def test_pathfinding_with_few_caves(
     assert len(paths) == expected, pretty_print_paths(paths)
 
 
+@pytest.mark.skip
 @pytest.mark.parametrize("pathfinding_algo, expected", [(find_paths, 19), (find_paths_advanced, 103)])
 def test_pathfinding_with_medium_caves(
     medium_raw_connections: list[str],

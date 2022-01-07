@@ -1,6 +1,6 @@
 """Tests the puzzles in Advent of Code 2021 along with some test for helper function and algorithms."""
 import pytest
-from test_algos import bits_list, Point
+from test_algos import Point, bits_list
 from puzzles import *
 
 
