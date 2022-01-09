@@ -47,10 +47,18 @@ def test_bits_to_decimal(bits: list[int], decimal: int):
 
 
 @pytest.mark.parametrize("start, end, expected", [((0, 0), (0, 0), True), ((0, 5), (5, 0), False)])
-def test_point(start: tuple[int, int], end: tuple[int, int], expected: bool):
+def test_point_equality(start: tuple[int, int], end: tuple[int, int], expected: bool):
     point1 = Point(start[0], start[1])
     point2 = Point(end[0], end[1])
     assert (point1 == point2) is expected
+
+
+@pytest.mark.parametrize(
+    "p1, p2, expected",
+    [(Point(0, 0), Point(0, 0), True), (Point(0, 5), Point(5, 0), False), (Point(2, 2), Point(2, 2), True)],
+)
+def test_point_hash(p1: Point, p2: Point, expected: bool):
+    assert (hash(p1) == hash(p2)) is expected
 
 
 def test_diagonal_line():
@@ -102,3 +110,27 @@ def test_grid_get(x: int, y: int, expected: int):
     numbers = [[2, 2, 4], [4, 10, 10], [7, 8, 9]]
     grid = Grid(numbers)
     assert grid.get(x, y) == expected
+
+
+@pytest.mark.parametrize(
+    "main, other, expected", [[[1, 2, 3], [], [1, 2, 3]], [[1, 2, 3], [2, 3], [1]], [[], [5, 8], []]]
+)
+def test_linq_list_diff(main: list[int], other: list[int], expected: list[int]):
+    main_ll = LinqList(main)
+    other_ll = LinqList(other)
+    result = main_ll.difference(other_ll)
+    assert result == LinqList(expected)
+
+
+@pytest.mark.parametrize(
+    "first, second, expected",
+    [
+        [[1, 2, 3], [], [1, 2, 3]],
+        [[1, 2, 3], [2, 3], [1]],
+        [[], [5, 8], []],
+        [[2, 4, 6, 8, -1], [2, 4, 6, 8, -1], []],
+    ],
+)
+def test_difference(first: list[int], second: list[int], expected: list[int]):
+    result = difference(first, second)
+    assert result == expected

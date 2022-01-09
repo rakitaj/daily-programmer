@@ -7,7 +7,8 @@ Solve the Transparent Origami puzzle in Advent Of Code 2021
 
 result = (start - (fold * 2))
 """
-from aoc2021.algos import Point
+from typing import Iterable
+from algos import Point, Grid
 
 
 def parse_points(raw_data: list[str]) -> list[Point]:
@@ -26,14 +27,8 @@ def parse_folds(raw_data: list[str]) -> list[str]:
     return folds
 
 
-class OrigamiData:
-    def __init__(self, points: list[Point], folds: list[str]):
-        self.points = points
-        self.folds = folds
-
-
-def fold_points(points: list[Point], x_fold: int | None, y_fold: int | None) -> list[Point]:
-    folded_points: list[Point] = list()
+def fold_points(points: Iterable[Point], x_fold: int | None, y_fold: int | None) -> set[Point]:
+    folded_points: set[Point] = set()
     if x_fold and y_fold:
         raise ValueError("One of x_fold or y_fold must be none.")
     for point in points:
@@ -44,16 +39,35 @@ def fold_points(points: list[Point], x_fold: int | None, y_fold: int | None) -> 
             continue
         if x_fold and x_fold < point.x:
             x_final = abs(point.x - (x_fold * 2))
-            folded_points.append(Point(x_final, point.y))
+            folded_points.add(Point(x_final, point.y))
         elif y_fold and y_fold < point.y:
             y_final = abs(point.y - (y_fold * 2))
-            folded_points.append(Point(point.x, y_final))
+            folded_points.add(Point(point.x, y_final))
         else:
-            folded_points.append(Point(point.x, point.y))
-        # if x_fold and x_fold != point.x and x_fold < point.x:
-        #     x_final = abs(point.x - (x_fold * 2))
-        #     folded_points.append(Point(x_final, point.y))
-        # if y_fold and y_fold != point.y and y_fold < point.y:
-        #     y_final = abs(point.y - (y_fold * 2))
-        #     folded_points.append(Point(point.x, y_final))
+            folded_points.add(Point(point.x, point.y))
     return folded_points
+
+
+def fold_points_with_fold_list(points: list[Point], folds: list[str], n: int) -> set[Point]:
+    folded_points: set[Point] = set(points)
+    for i in range(n):
+        fold = folds[i]
+        main, num_string = fold.split("=")
+        num = int(num_string)
+        if " x" in main:
+            folded_points = fold_points(folded_points, num, None)
+        if " y" in main:
+            folded_points = fold_points(folded_points, None, num)
+    return folded_points
+
+
+def visualize_origami(points: Iterable[Point]) -> Grid:
+    max_x = 0
+    max_y = 0
+    for p in points:
+        max_x = max(p.x, max_x)
+        max_y = max(p.y, max_y)
+    grid = Grid.as_zeros(max_x + 1, max_y + 1)
+    for p in points:
+        grid.set(p.x, p.y, 8)
+    return grid

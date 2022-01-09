@@ -5,6 +5,7 @@ from seven_segment_search import unscramble_output_pattern, parse_signal_pattern
 from input_helpers import puzzle_input_to_str, puzzle_input_to_ints
 from bingo import puzzle_input_to_bingo, first_winning_board, last_winning_board
 from passagepathing import parse_connections, find_paths
+from origami import parse_folds, parse_points, fold_points_with_fold_list, visualize_origami
 
 
 def sonar_sweep(logic_func: Callable[[list[int]], float]):
@@ -461,6 +462,23 @@ def passage_pathing_1() -> int:
     return len(paths)
 
 
+def transparent_origami_1() -> int:
+    puzzle_input = puzzle_input_to_str(13, strip=True)
+    points = parse_points(puzzle_input)
+    folds = parse_folds(puzzle_input)
+    result = fold_points_with_fold_list(points, folds, 1)
+    return len(result)
+
+
+def transparent_origami_2() -> str:
+    puzzle_input = puzzle_input_to_str(13, strip=True)
+    points = parse_points(puzzle_input)
+    folds = parse_folds(puzzle_input)
+    result = fold_points_with_fold_list(points, folds, len(folds))
+    viz = visualize_origami(result)
+    return str(viz)
+
+
 if __name__ == "__main__":
     print(f"Sonar Sweep part 1 {sonar_sweep(sonar_sweep_lookback)}")
     print(f"Sonar Sweep part 2 {sonar_sweep(sonar_sweep_sliding_window)}")
@@ -483,3 +501,5 @@ if __name__ == "__main__":
     print(f"Syntax Scoring 1 {syntax_scoring_1()}")
     print(f"Syntax Scoring 2 {syntax_scoring_2()}")
     print(f"Passage Pathing 1 {passage_pathing_1()}")
+    print(f"Transparent Origami 1 {transparent_origami_1()}")
+    print(f"Transparent Origami 2 {transparent_origami_2()}")

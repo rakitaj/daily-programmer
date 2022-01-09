@@ -1,6 +1,6 @@
 """Common classes and algorithms for Advent of Code 2021."""
 from __future__ import annotations
-from typing import TypeVar, Callable
+from typing import Iterable, TypeVar, Callable, Generic
 
 
 class Point:
@@ -9,10 +9,14 @@ class Point:
         self.y = y
 
     def __eq__(self, other: object) -> bool:
-        if isinstance(other, Point):
+        # if isinstance(other, self.__class__):
+        if hasattr(other, "x") and hasattr(other, "y"):
             return self.x == other.x and self.y == other.y
         else:
             return False
+
+    def __hash__(self) -> int:
+        return hash((self.x, self.y))
 
     def __str__(self) -> str:
         return f"(x:{self.x}, y:{self.y})"
@@ -24,27 +28,60 @@ class Point:
 T = TypeVar("T")
 
 
-class LinqList(list[T]):
+class LinqList(Generic[T]):
     def __init__(self, initial_list: list[T] | None = None):
+        self.l: list[T] = list()
         if initial_list is not None:
-            self.extend(initial_list)
+            self.l.extend(initial_list)
+
+    def __len__(self) -> int:
+        return len(self.l)
+
+    def __iter__(self):
+        return self.l.__iter__()
+
+    def __getitem__(self, i: int) -> T:
+        return self.l.__getitem__(i)
+
+    def __eq__(self, other: object) -> bool:
+        if isinstance(other, LinqList):
+            return self.l == other.l
+        return False
+
+    def __repr__(self) -> str:
+        return self.l.__repr__()
+
+    def append(self, element: T) -> None:
+        self.l.append(element)
+
+    def remove(self, value: T) -> None:
+        self.l.remove(value)
 
     def first(self) -> T:
-        return self[0]
+        """Return the first element of the list."""
+        return self.l[0]
 
     def where(self, func: Callable[[T], bool]) -> LinqList[T]:
-        results: LinqList[T] = LinqList()
-        for element in self:
+        """Apply a filtering function to the list, returning a new list with the matching elements."""
+        results: list[T] = list()
+        for element in self.l:
             if func(element) is True:
                 results.append(element)
-        return results
+        linq_list = LinqList(results)
+        return linq_list
 
     def single(self, func: Callable[[T], bool]) -> T:
+        """Return the only element of the list or throw an exception if there are none or more than one."""
         results = self.where(func)
         if len(results) == 1:
-            return results[0]
+            return results.l[0]
         else:
             raise Exception("More than 1 element. Single must match exactly one.")
+
+    def difference(self, other: Iterable[T]) -> LinqList[T]:
+        """Return the elements in self that are not in other."""
+        result = difference(self.l, other)
+        return LinqList(result)
 
 
 class Grid:
@@ -92,11 +129,22 @@ class Grid:
 
     @staticmethod
     def as_zeros(x_size: int, y_size: int) -> Grid:
-        zeros = [0] * x_size
-        raw_grid: list[list[int]] = list()
+        result: list[list[int]] = list()
         for _ in range(y_size):
-            raw_grid.append(zeros)
-        return Grid(raw_grid)
+            row: list[int] = list()
+            for _ in range(x_size):
+                row.append(0)
+            result.append(row)
+        grid = Grid(result)
+        return grid
+
+    def __str__(self) -> str:
+        result = "\n"
+        for row in self.numbers:
+            for column in row:
+                result += str(column)
+            result += "\n"
+        return result
 
 
 class GraphNode:
@@ -162,3 +210,13 @@ def diagonal_line(start: Point, end: Point) -> list[tuple[int, int]]:
         point = ((start.x + i), (start.y + i))
         points.append(point)
     return points
+
+
+def difference(first: list[T], second: Iterable[T]) -> list[T]:
+    """Return the elements in the first list that are not in the second list."""
+    diffs: list[T] = list()
+    second_set: set[T] = set(second)
+    for element in first:
+        if element not in second_set:
+            diffs.append(element)
+    return diffs

@@ -1,43 +1,49 @@
-import pytest
-from aoc2021.origami import parse_points, parse_folds, fold_points
+from algos import Point
+from input_helpers import DataType, file_loader
+from origami import parse_points, parse_folds, fold_points, visualize_origami
 
 
-@pytest.fixture
-def test_data() -> list[str]:
-    return """6,10
-0,14
-9,10
-0,3
-10,4
-4,11
-6,0
-6,12
-4,1
-0,13
-10,12
-3,4
-3,0
-8,4
-1,10
-2,14
-8,10
-9,0
-
-fold along y=7
-fold along x=5""".splitlines()
+def origami_to_points(lines: list[str]) -> list[Point]:
+    points: list[Point] = list()
+    for y, line in enumerate(lines):
+        for x, char in enumerate(line):
+            if char == "#":
+                points.append(Point(x, y))
+    return points
 
 
-def test_parse_points(test_data: list[str]):
-    points = parse_points(test_data)
+def test_parse_points():
+    raw_data = file_loader("day13-smallinput.txt", DataType.TEST)
+    points = parse_points(raw_data)
     assert len(points) == 18
 
 
-def test_parse_folds(test_data: list[str]):
-    folds = parse_folds(test_data)
+def test_parse_folds():
+    raw_data = file_loader("day13-smallinput.txt", DataType.TEST)
+    folds = parse_folds(raw_data)
     assert len(folds) == 2
 
 
-def test_one_fold(test_data: list[str]):
-    points = parse_points(test_data)
-    result = fold_points(points, 7, None)
+def test_one_fold():
+    raw_data = file_loader("day13-smallinput.txt", DataType.TEST)
+    points = parse_points(raw_data)
+    result = fold_points(points, None, 7)
     assert len(result) == 17
+
+
+def test_two_folds():
+    raw_data = file_loader("day13-smallinput.txt", DataType.TEST)
+    points = parse_points(raw_data)
+    points = fold_points(points, None, 7)
+    points = fold_points(points, 5, None)
+    assert len(points) == 16
+
+
+def test_visualize():
+    raw_data = file_loader("day13-smallinput.txt", DataType.TEST)
+    points = parse_points(raw_data)
+    points = fold_points(points, None, 7)
+    points = fold_points(points, 5, None)
+    grid = visualize_origami(points)
+    print(grid)
+    assert True is False
