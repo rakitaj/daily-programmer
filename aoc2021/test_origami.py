@@ -45,5 +45,13 @@ def test_visualize():
     points = fold_points(points, None, 7)
     points = fold_points(points, 5, None)
     grid = visualize_origami(points)
-    print(grid)
-    assert True is False
+    assert (
+        str(grid)
+        == """
+88888
+80008
+80008
+80008
+88888
+"""
+    )
