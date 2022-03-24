@@ -1,5 +1,6 @@
 """Puzzle solutions for Advent of Code 2021"""
-from typing import Callable, final
+from typing import Callable
+from collections import Counter
 from algos import sliding_window, bits_to_decimal, count_bits, most_common_bit, Point, diagonal_line, Grid
 from seven_segment_search import unscramble_output_pattern, parse_signal_patterns, output_pattern_counts
 from input_helpers import puzzle_input_to_str, puzzle_input_to_ints
@@ -488,46 +489,52 @@ def parse_polymerization(lines: list[str]) -> tuple[str, dict[str, str]]:
     return (template, patterns)
 
 
-def polymerization2(template: str, patterns: dict[str, str]) -> str:
-    i = 0
-    char_list = [x for x in template]
-    length = len(char_list)
-    while i < length - 1:
-        pair = char_list[i] + char_list[i + 1]
+def polymerization2(template: str, patterns: dict[str, str], n: int) -> dict[str, int]:
+    pairs: dict[str, int] = dict()
+    for i in range(len(template) - 1):
+        pairs.setdefault(template[i : i + 2], 1)
+    for _ in range(n + 1):
+        pairs = polymerization_tick(pairs, patterns)
+    counts: dict[str, int] = dict()
+    for p in pairs:
+        counts.setdefault(p[0], 0)
+        counts[p[0]] += 1
+        counts.setdefault(p[1], 0)
+        counts[p[1]] += 1
+    return counts
+
+
+def polymerization_tick(pairs: dict[str, int], patterns: dict[str, str]) -> dict[str, int]:
+    ticked_pairs: dict[str, int] = dict()
+    for pair in pairs:
         if pair in patterns:
-            char_list.insert(i + 1, patterns[pair])
-            i += 1
-            length += 1
-        i += 1
-    return "".join(char_list)
+            p1 = pair[0] + patterns[pair]
+            ticked_pairs.setdefault(p1, 0)
+            ticked_pairs[p1] += 1
+
+            p2 = patterns[pair] + pair[1]
+            ticked_pairs.setdefault(p2, 0)
+            ticked_pairs[p2] += 1
+    return ticked_pairs
 
 
-def polymerization3(template: str, patterns: dict[str, str]) -> str:
+def polymerization(template: str, patterns: dict[str, str]) -> str:
     i = 0
-    while i < len(template):
+    length = len(template)
+    while i < length:
         pair = template[i : i + 2]
         if pair in patterns:
             template = template[: i + 1] + patterns[pair] + template[i + 1 :]
             i += 1
+            length += 1
         i += 1
     return template
 
 
-polymerization_cache: dict[str, str] = dict()
-
-
-def polymerization(template: str, patterns: dict[str, str]) -> str:
-    result = ""
-
-    for i in range(0, len(template), 2):
-        result += polymerization(template[i : i + 2], patterns)
-    return result
-
-
 def polymerization_loop(template: str, patterns: dict[str, str], n: int) -> str:
-    for i in range(n):
+    for _ in range(n):
+        # print(len(template))
         template = polymerization(template, patterns)
-        print(i)
     return template
 
 
@@ -535,13 +542,10 @@ def extended_polymerization(n: int):
     puzzle_input = puzzle_input_to_str(14)
     template, patterns = parse_polymerization(puzzle_input)
     final_string = polymerization_loop(template, patterns, n)
-    counts: dict[str, int] = dict()
-    for char in final_string:
-        counts.setdefault(char, 0)
-        counts[char] += 1
-    min_char = min(counts.items(), key=lambda x: x[1])
-    max_char = max(counts.items(), key=lambda x: x[1])
-    return max_char[1] - min_char[1]
+
+    counts = Counter(final_string)
+    commonality_list = counts.most_common()
+    return commonality_list[0][1] - commonality_list[-1][1]
 
 
 if __name__ == "__main__":
@@ -569,4 +573,7 @@ if __name__ == "__main__":
     print(f"Transparent Origami 1 {transparent_origami_1()}")
     print(f"Transparent Origami 2 {transparent_origami_2()}")
     print(f"Extended Polymerization 1 {extended_polymerization(10)}")
-    print(f"Extended Polymerization 2 {extended_polymerization(40)}")
+    print(f"Extended Polymerization 2 {extended_polymerization(14)}")
+    # import cProfile
+
+    # cProfile.run("extended_polymerization(14)")

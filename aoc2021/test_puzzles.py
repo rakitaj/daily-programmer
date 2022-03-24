@@ -160,17 +160,3 @@ def test_syntax_parser(line: str, expected: int):
 def test_syntax_autocomplete(line: str, expected: str):
     actual = syntax_autocomplete(line)
     assert actual == list(expected)
-
-
-def test_polymerization():
-    data = file_loader("day14.txt", DataType.TEST)
-    template, patterns = parse_polymerization(data)
-    final_string = polymerization(template, patterns)
-    assert final_string == "NCNBCHB"
-
-
-def test_polymerization_loop():
-    data = file_loader("day14.txt", DataType.TEST)
-    template, patterns = parse_polymerization(data)
-    final_string = polymerization_loop(template, patterns, 4)
-    assert final_string == "NBBNBNBBCCNBCNCCNBBNBBNBBBNBBNBBCBHCBHHNHCBBCBHCB"
