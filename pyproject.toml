@@ -5,3 +5,6 @@ line-length = 110
 markers = [
     "slow: marks tests as slow (deselect with '-m \"not slow\"')",
 ]
+
+[tool.ruff]
+line-length = 110

@@ -1,8 +1,18 @@
-from hackerrank.problemsolving import *
+from hackerrank.problemsolving import (
+    simple_sum_array,
+    compare_the_triplets,
+    plus_minus,
+    diagonal_difference,
+    staircase,
+    mini_max_sum,
+    time_conversion,
+    birthday_cake_candles,
+)
 import pytest
+import time
+
 
 class TestProblemSolving(object):
-
     def test_simple_sum_array(self):
         assert simple_sum_array(6, [1, 2, 3, 4, 10, 11]) == 31
 
@@ -40,13 +50,20 @@ class TestProblemSolving(object):
         assert time_conversion("07:05:45AM") == "07:05:45"
         assert time_conversion("07:05:45PM") == "19:05:45"
 
-    @pytest.mark.slow    
+    @pytest.mark.slow
     def test_time_conversion_thorough(self):
         for half in ["AM", "PM"]:
             for hour in range(1, 13):
                 for minute in range(1, 60):
                     for second in range(1, 60):
-                        stime = str(hour).zfill(2) + ":" + str(minute).zfill(2) + ":" + str(second).zfill(2) + half
+                        stime = (
+                            str(hour).zfill(2)
+                            + ":"
+                            + str(minute).zfill(2)
+                            + ":"
+                            + str(second).zfill(2)
+                            + half
+                        )
                         result = time_conversion(stime)
                         time_tuple = time.strptime(stime, "%I:%M:%S%p")
                         expected = time.strftime("%H:%M:%S", time_tuple)
