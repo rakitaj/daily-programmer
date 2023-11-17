@@ -1,7 +1,4 @@
 {
-    "python.linting.pylintEnabled": true,
-    "python.pythonPath": "${workspaceRoot}\\thevenv\\Scripts\\python.exe",
-    "python.linting.mypyEnabled": true,
     "files.exclude": {
         "**/.git": true,
         "**/.mypy_cache": true,
@@ -11,8 +8,10 @@
         "venv/": true
     },
     "python.testing.pytestEnabled": true,
-    "python.languageServer":"Pylance",
+    "python.languageServer": "Pylance",
     "python.analysis.typeCheckingMode": "strict",
-    "python.formatting.provider": "black",
-    "editor.formatOnSave": true
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter",
+        "editor.formatOnSave": true
+    }
 }

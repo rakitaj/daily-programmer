@@ -1,4 +1,4 @@
 mypy
 pytest
 black
-pylint
+ruff

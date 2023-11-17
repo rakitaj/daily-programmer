@@ -1,8 +1,0 @@
-[BASIC]
-# Minimum line length for functions/classes that require docstrings, shorter
-# ones are exempt.
-docstring-min-length=20
-max-line-length=120
-
-[MESSAGES CONTROL]
-disable=C0200,C0103
