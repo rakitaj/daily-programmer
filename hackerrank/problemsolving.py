@@ -2,7 +2,6 @@ from typing import Sequence, List, Tuple
 import re
 import itertools
 import sys
-import time
 
 def simple_sum_array(count: int, numbers: Sequence[int]) -> int:
     return sum(numbers)

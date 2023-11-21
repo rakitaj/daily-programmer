@@ -1,14 +1,11 @@
 """The functions for the different days of AOC 2018"""
-from typing import Dict, List
+from typing import Dict
 from aoc2018.xmascommon import (
     puzzle_input_to_ints,
     puzzle_input_to_strings,
-    Point,
-    FabricClaim,
     string_to_freq_dict,
     word_diff_chars,
     common_letters,
-    dict_where,
 )
 
 

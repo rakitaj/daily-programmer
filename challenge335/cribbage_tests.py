@@ -1,5 +1,5 @@
 import unittest
-from cribbage import Hand, Card, Suit, Rank
+from cribbage import Hand, Card
 from typing import List
 
 class CribbageTests(unittest.TestCase):

@@ -1,4 +1,4 @@
-from typing import List, Dict
+from typing import Dict
 
 def fibonacci(n: int) -> int:
     if n == 0:

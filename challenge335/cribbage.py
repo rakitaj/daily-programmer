@@ -1,4 +1,3 @@
-from enum import Enum, auto
 from typing import List, Tuple
 import json
 import os
