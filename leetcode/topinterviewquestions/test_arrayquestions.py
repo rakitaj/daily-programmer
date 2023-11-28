@@ -1,4 +1,9 @@
-from leetcode.topinterviewquestions.arrayquestions import ContainsDuplicate, ArrayPlusOne, MoveZeros
+from leetcode.topinterviewquestions.arrayquestions import (
+    ContainsDuplicate,
+    ArrayPlusOne,
+    MoveZeros,
+    RemoveDuplicates,
+)
 import pytest
 
 
@@ -24,6 +29,17 @@ def test_array_plus_one(digits: list[int], expected: list[int]):
 )
 def test_move_zeroes(nums: list[int], expected: list[int]):
     solver = MoveZeros()
-    # solver.moveZeroes(nums)
     solver.move_zeroes_v2(nums)
     assert nums == expected
+
+
+@pytest.mark.parametrize(
+    "nums, expected, k",
+    [([0, 0, 1, 1, 1, 2, 2, 3, 3, 4], [0, 1, 2, 3, 4, -1, -1, -1, -1, -1], 5), ([1, 1, 2], [1, 2, -1], 2)],
+)
+def test_remove_duplicates(nums: list[int], expected: list[int], k: int):
+    solver = RemoveDuplicates()
+    count = solver.remove_dupes(nums)
+    assert count == k
+    for i in range(k):
+        assert nums[i] == expected[i]
