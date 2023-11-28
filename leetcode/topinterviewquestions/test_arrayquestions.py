@@ -24,5 +24,6 @@ def test_array_plus_one(digits: list[int], expected: list[int]):
 )
 def test_move_zeroes(nums: list[int], expected: list[int]):
     solver = MoveZeros()
-    solver.moveZeroes(nums)
+    # solver.moveZeroes(nums)
+    solver.move_zeroes_v2(nums)
     assert nums == expected

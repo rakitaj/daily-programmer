@@ -72,10 +72,19 @@ class MoveZeros:
         """
         Do not return anything, modify nums in-place instead.
         """
-        zero_count = 0
+        # non_zero_array: list[int] = [0] * len(nums)
+        # i = 0
+        # for n in nums:
+        #     if n != 0:
+        #         non_zero_array[i] = n
+        #         i += 1
+        # return non_zero_array
+        # [0,1,0,3,12]
+        # [1,3,12,0,0]
+        move_to = 0
         for num in nums:
-            if num == 0:
-                zero_count += 1
-        for i, e in enumerate(nums):
-            if e == 0:
-                nums[i], nums[i + 1] = nums[i + 1], nums[i]
+            if num != 0:
+                nums[move_to] = num
+                move_to += 1
+        for i in range(move_to, len(nums)):
+            nums[i] = 0
