@@ -3,8 +3,10 @@ import re
 import itertools
 import sys
 
+
 def simple_sum_array(count: int, numbers: Sequence[int]) -> int:
     return sum(numbers)
+
 
 def compare_the_triplets(alice: Tuple[int, int, int], bob: Tuple[int, int, int]) -> Tuple[int, int]:
     alice_score = 0
@@ -18,6 +20,7 @@ def compare_the_triplets(alice: Tuple[int, int, int], bob: Tuple[int, int, int])
             pass
     return (alice_score, bob_score)
 
+
 def diagonal_difference(matrix: List[List[int]]) -> int:
     diagonal_forward = 0
     diagonal_backward = 0
@@ -26,6 +29,7 @@ def diagonal_difference(matrix: List[List[int]]) -> int:
         j = len(matrix) - 1 - i
         diagonal_backward += matrix[j][i]
     return abs(diagonal_forward - diagonal_backward)
+
 
 def plus_minus(numbers: List[int]) -> Tuple[float, float, float]:
     size = len(numbers)
@@ -39,7 +43,8 @@ def plus_minus(numbers: List[int]) -> Tuple[float, float, float]:
             negative_count += 1
         else:
             zero_count += 1
-    return (positive_count/size, negative_count/size, zero_count/size)
+    return (positive_count / size, negative_count / size, zero_count / size)
+
 
 def staircase(count: int) -> str:
     result = ""
@@ -48,6 +53,7 @@ def staircase(count: int) -> str:
         hashes = "#" * i
         result += f"{spaces}{hashes}\n"
     return result
+
 
 def mini_max_sum(numbers: List[int]) -> Tuple[int, int]:
     combinations = itertools.combinations(numbers, 4)
@@ -61,25 +67,28 @@ def mini_max_sum(numbers: List[int]) -> Tuple[int, int]:
             min_sum = total
     return (min_sum, max_sum)
 
+
 def permute(data):
     if len(data) <= 1:
         return [data]
     res = []
     for i, c in enumerate(data):
-        for r in permute(data[:i]+data[i+1:]):
-            res.append([c]+r)
+        for r in permute(data[:i] + data[i + 1 :]):
+            res.append([c] + r)
     return res
+
 
 def birthday_cake_candles(candle_heights: List[int]) -> int:
     max_height = max(candle_heights)
     candles_of_that_height = filter(lambda x: x == max_height, candle_heights)
     return len(list(candles_of_that_height))
 
+
 def time_conversion(time_12h: str) -> str:
     pattern_am_12 = re.compile("12:..:..AM")
     pattern_pm_12 = re.compile("12:..:..PM")
     pattern_am = re.compile("..:..:..AM")
-    pattern_pm = re.compile("..:..:..PM")
+    # pattern_pm = re.compile("..:..:..PM")
     if pattern_am_12.match(time_12h):
         return "00" + time_12h[2:-2]
     elif pattern_am.match(time_12h) or pattern_pm_12.match(time_12h):

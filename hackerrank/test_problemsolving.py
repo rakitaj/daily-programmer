@@ -1,8 +1,9 @@
 from hackerrank.problemsolving import *
+import time
 import pytest
 
-class TestProblemSolving(object):
 
+class TestProblemSolving(object):
     def test_simple_sum_array(self):
         assert simple_sum_array(6, [1, 2, 3, 4, 10, 11]) == 31
 
@@ -40,14 +41,21 @@ class TestProblemSolving(object):
         assert time_conversion("07:05:45AM") == "07:05:45"
         assert time_conversion("07:05:45PM") == "19:05:45"
 
-    @pytest.mark.slow    
+    @pytest.mark.slow
     def test_time_conversion_thorough(self):
         for half in ["AM", "PM"]:
             for hour in range(1, 13):
                 for minute in range(1, 60):
                     for second in range(1, 60):
-                        stime = str(hour).zfill(2) + ":" + str(minute).zfill(2) + ":" + str(second).zfill(2) + half
-                        result = time_conversion(stime)
+                        stime = (
+                            str(hour).zfill(2)
+                            + ":"
+                            + str(minute).zfill(2)
+                            + ":"
+                            + str(second).zfill(2)
+                            + half
+                        )
+                        actual = time_conversion(stime)
                         time_tuple = time.strptime(stime, "%I:%M:%S%p")
                         expected = time.strftime("%H:%M:%S", time_tuple)
-                        assert result == expected, f"Raw: {stime} Expected: {expected} Actual:{result}"
+                        assert actual == expected, f"Raw: {stime} Expected: {expected} Actual:{actual}"

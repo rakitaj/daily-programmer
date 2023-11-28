@@ -1,10 +1,11 @@
-# if (x > 0 && a > INT_MAX - x) // `a + x` would overflow
-# if (x < 0 && a < INT_MIN - x) // `a + x` would underflow
-#  2,147,483,647
-# -2,147,483,648
+class ReverseStringSolution:
+    """
+    if (x > 0 && a > INT_MAX - x) // `a + x` would overflow
+    if (x < 0 && a < INT_MIN - x) // `a + x` would underflow
+    int32 max  2,147,483,647
+    int32 min -2,147,483,648
+    """
 
-
-class Solution:
     int_min = -(2**31)
     int_max = 2**31 - 1
 
