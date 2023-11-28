@@ -35,7 +35,11 @@ def test_move_zeroes(nums: list[int], expected: list[int]):
 
 @pytest.mark.parametrize(
     "nums, expected, k",
-    [([0, 0, 1, 1, 1, 2, 2, 3, 3, 4], [0, 1, 2, 3, 4, -1, -1, -1, -1, -1], 5), ([1, 1, 2], [1, 2, -1], 2)],
+    [
+        ([0, 0, 1, 1, 1, 2, 2, 3, 3, 4], [0, 1, 2, 3, 4, -1, -1, -1, -1, -1], 5),
+        ([1, 1, 2], [1, 2, -1], 2),
+        ([1, 2, 3, 4], [1, 2, 3, 4], 4),
+    ],
 )
 def test_remove_duplicates(nums: list[int], expected: list[int], k: int):
     solver = RemoveDuplicates()
