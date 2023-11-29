@@ -3,6 +3,7 @@ from leetcode.topinterviewquestions.arrayquestions import (
     ArrayPlusOne,
     MoveZeros,
     RemoveDuplicates,
+    StockProfits,
 )
 import pytest
 
@@ -47,3 +48,12 @@ def test_remove_duplicates(nums: list[int], expected: list[int], k: int):
     assert count == k
     for i in range(k):
         assert nums[i] == expected[i]
+
+
+@pytest.mark.parametrize(
+    "prices, expected_profit", [([7, 1, 5, 3, 6, 4], 7), ([7, 6, 4, 3, 1], 0), ([1, 2, 3, 4, 5], 4)]
+)
+def test_maximize_profit(prices: list[int], expected_profit: int):
+    solver = StockProfits()
+    profit = solver.max_profit_simple(prices)
+    assert profit == expected_profit

@@ -8,17 +8,6 @@ class ContainsDuplicate:
         return False
 
 
-class MaxProfit:
-    def maxProfit(self, prices: list[int]) -> int:
-        i = 0
-        total = 0
-        while i < len(prices):
-            for j in range(i, len(prices)):
-                if prices[j] > prices[i]:
-                    pass
-        return total
-
-
 class ArrayPlusOne:
     def plusOne(self, digits: list[int]) -> list[int]:
         for i in range(len(digits) - 1, -1, -1):
@@ -94,3 +83,32 @@ class RemoveDuplicates:
                 nums[k] = nums[i]
                 k += 1
         return k
+
+
+class StockProfits:
+    def max_profit(self, prices: list[int]) -> int:
+        """
+        Input: [7, 1, 5, 3, 6, 4]
+        Max profit: 7
+        """
+        profit = 0
+        prev_i = 0
+        for i in range(1, len(prices)):
+            if prices[i] < prices[i - 1]:
+                profit += prices[i - 1] - prices[prev_i]
+                prev_i = i
+        if (prices[-1] - prices[prev_i]) > 0:
+            profit += prices[-1] - prices[prev_i]
+        return profit
+
+    def max_profit_simple(self, prices: list[int]) -> int:
+        """
+        Input: [7, 1, 5, 3, 6, 4]
+        Max profit: 7
+        """
+        profit = 0
+        for i in range(1, len(prices)):
+            p = prices[i] - prices[i - 1]
+            if p > 0:
+                profit += p
+        return profit
